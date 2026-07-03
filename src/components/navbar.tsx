@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { Cpu, LayoutGrid, Beaker, Home } from "lucide-react";
@@ -30,7 +30,11 @@ export function Navbar() {
     <>
       {/* ── NAVBAR TOP (Desktop + Mobile topo) ── */}
       <nav
-        className={ixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b }
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${
+          scrolled
+            ? "bg-black/90 backdrop-blur-xl border-[#2E2E2E] shadow-[0_4px_24px_rgba(0,0,0,0.5)]"
+            : "bg-transparent border-transparent"
+        }`}
       >
         <div className="fluid-container h-16 md:h-20 flex items-center justify-between">
           {/* Logo */}
@@ -50,19 +54,27 @@ export function Navbar() {
           <div className="hidden md:flex gap-8 items-center">
             <Link
               href="/"
-              className={	ext-sm font-medium transition-all duration-200 hover:-translate-y-[2px] }
+              className={`text-sm font-medium transition-all duration-200 hover:-translate-y-[2px] ${
+                isActive("/") ? "text-[#0099FF]" : "text-zinc-400 hover:text-white"
+              }`}
             >
               Home
             </Link>
             <Link
               href="/iniciacoes"
-              className={	ext-sm font-medium transition-all duration-200 hover:-translate-y-[2px] }
+              className={`text-sm font-medium transition-all duration-200 hover:-translate-y-[2px] ${
+                isActive("/iniciacoes") ? "text-[#0099FF]" : "text-zinc-400 hover:text-white"
+              }`}
             >
               Iniciações & Prototipagem
             </Link>
             <Link
               href="/estoque"
-              className={	ext-xs font-bold tracking-wide text-white px-5 py-2.5 rounded-md transition-all duration-300 hover:-translate-y-[3px] active:scale-95 border }
+              className={`text-xs font-bold tracking-wide text-white px-5 py-2.5 rounded-md transition-all duration-300 hover:-translate-y-[3px] active:scale-95 border ${
+                isActive("/estoque")
+                  ? "bg-[#0066FF] border-[#0066FF] shadow-[0_0_16px_rgba(0,102,255,0.4)]"
+                  : "bg-[#2E2E2E]/50 border-[#2E2E2E] hover:bg-[#0066FF] hover:border-[#0066FF]"
+              }`}
             >
               Kanban Estoque
             </Link>
@@ -81,7 +93,9 @@ export function Navbar() {
           {/* Home */}
           <Link
             href="/"
-            className={lex flex-col items-center justify-center gap-1 text-[11px] font-semibold tracking-wide transition-colors duration-200 }
+            className={`flex flex-col items-center justify-center gap-1 text-[11px] font-semibold tracking-wide transition-colors duration-200 ${
+              isActive("/") ? "text-[#0099FF]" : "text-zinc-500 active:text-white"
+            }`}
           >
             <Home
               className="w-5 h-5"
@@ -93,7 +107,9 @@ export function Navbar() {
           {/* Iniciações */}
           <Link
             href="/iniciacoes"
-            className={lex flex-col items-center justify-center gap-1 text-[11px] font-semibold tracking-wide transition-colors duration-200 }
+            className={`flex flex-col items-center justify-center gap-1 text-[11px] font-semibold tracking-wide transition-colors duration-200 ${
+              isActive("/iniciacoes") ? "text-[#0099FF]" : "text-zinc-500 active:text-white"
+            }`}
           >
             <Beaker
               className="w-5 h-5"
@@ -105,7 +121,9 @@ export function Navbar() {
           {/* Estoque */}
           <Link
             href="/estoque"
-            className={lex flex-col items-center justify-center gap-1 text-[11px] font-semibold tracking-wide transition-colors duration-200 }
+            className={`flex flex-col items-center justify-center gap-1 text-[11px] font-semibold tracking-wide transition-colors duration-200 ${
+              isActive("/estoque") ? "text-[#0066FF]" : "text-zinc-500 active:text-white"
+            }`}
           >
             <LayoutGrid
               className="w-5 h-5"
