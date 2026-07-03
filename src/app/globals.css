@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+:root {
+  --background: #000000;
+  --foreground: #ededed;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-brimajor-primary: #0066FF; /* Increased saturation and brightness */
+  --color-brimajor-neon: #0099FF; /* More vibrant neon */
+  --color-brimajor-deep: #0033CC; /* Deeper for better contrast */
+  --color-brimajor-dark: #002E7A;
+  --color-brimajor-black: #000000;
+  --color-brimajor-graphite: #111111;
+  --color-brimajor-techgray: #2E2E2E;
+  --color-brimajor-white: #FFFFFF;
+}
+
+/* Brand DNA Pattern — global circuit texture */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg stroke='%23005DFF' stroke-width='0.3' stroke-opacity='0.06'%3E%3Cpath d='M30 0v60M0 30h60M15 0v60M45 0v60M0 15h60M0 45h60'/%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3Ccircle cx='15' cy='15' r='1'/%3E%3Ccircle cx='45' cy='45' r='1'/%3E%3Ccircle cx='15' cy='45' r='1'/%3E%3Ccircle cx='45' cy='15' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: -30;
+  opacity: 0.4;
+}
+
+body {
+  background:
+    radial-gradient(ellipse 80% 50% at 10% 20%, rgba(0, 93, 255, 0.07), transparent),
+    radial-gradient(ellipse 60% 40% at 90% 80%, rgba(0, 68, 204, 0.10), transparent),
+    #000000;
+  color: var(--foreground);
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+/* Scroll offset for fixed navbar */
+[id] {
+  scroll-margin-top: 5rem;
+}
+
+/* Animações (para elementos não-scroll como mensagens de feedback) */
+@keyframes fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fade 0.6s ease-in-out forwards;
+  opacity: 0;
+}
+
+/* Utilitários fluidos */
+.fluid-container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding-inline: clamp(1rem, 5vw, 4rem);
+}
+
+/* Focus visible para acessibilidade */
+:focus-visible {
+  outline: 2px solid var(--color-brimajor-neon);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
