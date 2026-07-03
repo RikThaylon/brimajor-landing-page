@@ -75,7 +75,7 @@ export default function EstoquePage() {
       {/* O Desafio Resolvido */}
       <section id="solucao" className="py-20 bg-brimajor-graphite/40" aria-label="Filosofia">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-xs font-semibold uppercase tracking-widest text-brimajor-neon mb-3">Filosofia do Engenharia</h2>
+          <h2 className="text-xs font-semibold uppercase tracking-widest text-brimajor-neon mb-3">Filosofia da Brimajor</h2>
           <blockquote className="text-xl sm:text-2xl font-light text-zinc-200 italic leading-relaxed">
             &quot;O desafio na indústria complexa não é apenas visualizar dados de inventário, mas transformar requisições isoladas em ações preventivas e auditáveis para quem está no chão de fábrica, mitigando riscos fiscais e operacionais sem travar o ritmo de produção.&quot;
           </blockquote>
