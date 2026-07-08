@@ -86,31 +86,27 @@ export default function Home() {
           </AnimateOnScroll>
 
           <AnimateOnScroll delay={200}>
-            <div className="flex flex-col sm:flex-row justify-center gap-6">
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
+              {/* PRIMARY — produto pronto */}
               <Link
-                href="/iniciacoes"
+                href="/estoque"
                 className="group relative inline-flex items-center justify-center gap-2 bg-brimajor-primary text-brimajor-white px-8 py-4 rounded-lg font-semibold transition-all duration-300 ease-in-out hover:-translate-y-1 hover:bg-brimajor-neon overflow-hidden animate-glow shadow-[0_0_20px_rgba(0,102,255,0.4)] hover:shadow-[0_10px_40px_rgba(0,153,255,0.7)] active:scale-95"
               >
                 <span className="relative z-10 flex items-center gap-2">
-                  Explorar Conceitos Iniciais
+                  Ver Kanban Estoque
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
                 </span>
-                {/* Shimmer effect */}
                 <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-700 ease-in-out" />
               </Link>
 
-              <a
-                href="https://wa.me/5592985224523"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group inline-flex items-center justify-center gap-2 border border-brimajor-techgray text-zinc-300 px-8 py-4 rounded-lg font-semibold transition-all duration-300 hover:-translate-y-1 hover:border-[#25D366] hover:text-[#25D366] hover:shadow-[0_0_20px_rgba(37,211,102,0.3)] active:scale-95"
+              {/* SECONDARY — conceitos */}
+              <Link
+                href="/iniciacoes"
+                className="group inline-flex items-center justify-center gap-2 border border-brimajor-techgray text-zinc-300 px-8 py-4 rounded-lg font-semibold transition-all duration-300 hover:-translate-y-1 hover:border-brimajor-primary/60 hover:text-white active:scale-95"
               >
-                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
-                  <path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.549 4.107 1.51 5.84L0 24l6.335-1.46A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.882a9.87 9.87 0 01-5.03-1.375l-.36-.214-3.742.862.93-3.648-.235-.374A9.868 9.868 0 012.118 12C2.118 6.532 6.532 2.118 12 2.118c5.468 0 9.882 4.414 9.882 9.882 0 5.468-4.414 9.882-9.882 9.882z"/>
-                </svg>
-                Falar no WhatsApp
-              </a>
+                Ver Outras Iniciações
+                <ArrowRight className="w-4 h-4 opacity-40 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" />
+              </Link>
             </div>
           </AnimateOnScroll>
         </div>
