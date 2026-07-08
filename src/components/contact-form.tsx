@@ -4,8 +4,8 @@ import { useState } from "react";
 import { iniciacoes } from "@/lib/data";
 import { Loader2, MessageCircle } from "lucide-react";
 
-export function ContactForm() {
-  const [selected, setSelected] = useState("");
+export function ContactForm({ initialInterest = "" }: { initialInterest?: string }) {
+  const [selected, setSelected] = useState(initialInterest);
   const [name, setName] = useState("");
   const [details, setDetails] = useState("");
 

@@ -1,8 +1,14 @@
+import { Metadata } from "next";
 import { iniciacoes } from "@/lib/data";
 import { ContactForm } from "@/components/contact-form";
 import { BrandWatermark } from "@/components/brand-watermark";
 import { AnimateOnScroll } from "@/components/animate-on-scroll";
 import { Beaker, ChevronRight } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "Iniciações & Prototipagem | Brimajor",
+  description: "Conheça nossas Iniciações em IoT, Web e Sistemas Embarcados em Manaus. Soluções customizadas sob demanda.",
+};
 
 export default function Iniciacoes() {
   return (
@@ -31,8 +37,13 @@ export default function Iniciacoes() {
             {iniciacoes.map((item, index) => (
               <AnimateOnScroll key={item.id} delay={index * 100}>
                 <div className="bg-brimajor-black border border-brimajor-techgray rounded-xl overflow-hidden flex flex-col h-full group hover:border-brimajor-primary/40 transition-colors duration-300">
-                  <div className="bg-brimajor-graphite/50 p-6 border-b border-brimajor-techgray">
-                    <h2 className="text-xl font-bold text-zinc-100 group-hover:text-brimajor-neon transition-colors">
+                  <div className="bg-brimajor-graphite/50 p-6 border-b border-brimajor-techgray relative">
+                    {item.id === "gestao-estoque" ? (
+                      <span className="absolute top-4 right-4 text-[10px] uppercase font-bold tracking-wider px-2 py-1 rounded bg-brimajor-primary/20 text-brimajor-neon border border-brimajor-primary/30">Produto em Produção</span>
+                    ) : (
+                      <span className="absolute top-4 right-4 text-[10px] uppercase font-bold tracking-wider px-2 py-1 rounded bg-zinc-800/80 text-zinc-400 border border-zinc-700">Conceito em Validação</span>
+                    )}
+                    <h2 className="text-xl font-bold text-zinc-100 group-hover:text-brimajor-neon transition-colors pr-32">
                       {item.title}
                     </h2>
                   </div>
