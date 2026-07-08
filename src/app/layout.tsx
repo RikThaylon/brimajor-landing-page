@@ -25,7 +25,7 @@ export default function RootLayout({
         
         <footer className="border-t border-brimajor-techgray bg-brimajor-black py-8 mt-12">
           <div className="container mx-auto px-4 text-center text-sm text-zinc-400">
-            <p>Email: brimajor.ia@gmail.com | Telefone/WhatsApp: (92) 98522-4523 | Origem Operacional: Manaus - Amazonas</p>
+            <p>WhatsApp: <a href="https://wa.me/5592985224523" className="hover:text-brimajor-neon transition-colors" target="_blank" rel="noopener noreferrer">(92) 98522-4523</a> | Manaus - Amazonas</p>
             <p className="mt-4 text-xs text-zinc-500 max-w-2xl mx-auto">
               Nota: Abstrações matemáticas e inteligência de software resguardadas sob sigilo industrial de propriedade intelectual. Soluções apresentadas configuram Iniciações Tecnológicas e Conceitos Funcionais de Engenharia em fase de validação inicial.
             </p>

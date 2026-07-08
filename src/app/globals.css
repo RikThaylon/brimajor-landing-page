@@ -9,9 +9,9 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
-  --color-brimajor-primary: #0066FF; /* Increased saturation and brightness */
-  --color-brimajor-neon: #0099FF; /* More vibrant neon */
-  --color-brimajor-deep: #0033CC; /* Deeper for better contrast */
+  --color-brimajor-primary: #0066FF;
+  --color-brimajor-neon: #0099FF;
+  --color-brimajor-deep: #0033CC;
   --color-brimajor-dark: #002E7A;
   --color-brimajor-black: #000000;
   --color-brimajor-graphite: #111111;
@@ -19,7 +19,7 @@
   --color-brimajor-white: #FFFFFF;
 }
 
-/* Brand DNA Pattern — global circuit texture */
+/* Circuit texture background */
 body::before {
   content: '';
   position: fixed;
@@ -42,23 +42,73 @@ body {
   scroll-behavior: smooth;
 }
 
-/* Scroll offset for fixed navbar */
-[id] {
-  scroll-margin-top: 5rem;
+[id] { scroll-margin-top: 5rem; }
+
+/* ── 3D Animations (GPU-composited only: transform + opacity) ── */
+
+/* Floating orbs in hero */
+@keyframes float3d {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.6; }
+  33%       { transform: translate3d(12px, -18px, 0) scale(1.05); opacity: 0.8; }
+  66%       { transform: translate3d(-8px, 8px, 0) scale(0.95); opacity: 0.5; }
 }
 
-/* Animações (para elementos não-scroll como mensagens de feedback) */
-@keyframes fade {
-  from { opacity: 0; }
-  to { opacity: 1; }
+/* Slow rotation for logo glow ring */
+@keyframes spin3d {
+  from { transform: rotate3d(0.5, 1, 0.2, 0deg); }
+  to   { transform: rotate3d(0.5, 1, 0.2, 360deg); }
 }
 
-.animate-fade-in {
-  animation: fade 0.6s ease-in-out forwards;
-  opacity: 0;
+/* Pulse glow */
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 30px rgba(0, 102, 255, 0.3), 0 0 60px rgba(0, 153, 255, 0.1); }
+  50%       { box-shadow: 0 0 50px rgba(0, 102, 255, 0.6), 0 0 100px rgba(0, 153, 255, 0.3); }
 }
 
-/* Utilitários fluidos */
+/* Beam sweep */
+@keyframes beamSweep {
+  0%   { transform: translateX(-100%) rotate(-15deg); opacity: 0; }
+  15%  { opacity: 1; }
+  85%  { opacity: 1; }
+  100% { transform: translateX(200%) rotate(-15deg); opacity: 0; }
+}
+
+/* Fade+slide up */
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translate3d(0, 24px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+/* Stars/particles drift */
+@keyframes drift {
+  0%   { transform: translate3d(0, 0, 0); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translate3d(var(--dx, 20px), var(--dy, -60px), 0); opacity: 0; }
+}
+
+.animate-fade-in   { animation: fade 0.6s ease-in-out forwards; opacity: 0; }
+.animate-float     { animation: float3d 6s ease-in-out infinite; will-change: transform; }
+.animate-float-slow{ animation: float3d 9s ease-in-out infinite; will-change: transform; }
+.animate-glow      { animation: glowPulse 3s ease-in-out infinite; will-change: box-shadow; }
+.animate-beam      { animation: beamSweep 4s ease-in-out infinite; will-change: transform; }
+.animate-spin3d    { animation: spin3d 20s linear infinite; will-change: transform; }
+.animate-slide-up  { animation: slideUp 0.7s ease-out forwards; opacity: 0; }
+
+/* Particles */
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: #0099FF;
+  animation: drift 8s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* Fluid container */
 .fluid-container {
   width: 100%;
   max-width: 1440px;
@@ -66,7 +116,6 @@ body {
   padding-inline: clamp(1rem, 5vw, 4rem);
 }
 
-/* Focus visible para acessibilidade */
 :focus-visible {
   outline: 2px solid var(--color-brimajor-neon);
   outline-offset: 2px;
