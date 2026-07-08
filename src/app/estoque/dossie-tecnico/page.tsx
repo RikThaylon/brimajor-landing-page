@@ -1,51 +1,43 @@
 import { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Dossiê Técnico Reservado | Brimajor",
-  description: "Material restrito sob Acordo de Sigilo (NDA).",
-  robots: "noindex, nofollow"
+  title: "Dossiê Técnico | Brimajor",
+  description: "Material técnico detalhado disponível mediante contato qualificado.",
+  robots: "noindex, nofollow",
 };
 
+/**
+ * Esta página contém especificações técnicas de alto nível do Kanban Estoque.
+ * O conteúdo detalhado (parâmetros de segurança, algoritmos) é compartilhado
+ * individualmente após contato via WhatsApp, dentro do processo:
+ * Alinhamento Inicial → Acordo de Sigilo (NDA) → Material Técnico.
+ */
 export default function DossieTecnico() {
   return (
     <div className="bg-brimajor-black text-zinc-100 min-h-screen pt-24 pb-32">
-      <div className="max-w-3xl mx-auto px-4">
-        <div className="border border-red-500/30 bg-red-500/10 p-4 rounded-xl mb-8 flex items-start gap-4">
-          <span className="text-2xl">⚠️</span>
-          <div>
-            <h3 className="font-bold text-red-400 mb-1">PROPRIEDADE INTELECTUAL PROTEGIDA</h3>
-            <p className="text-sm text-zinc-400">Este documento detalha parâmetros estritos de segurança e a árvore de decisão matemática do algoritmo de forecasting. A cópia, reprodução ou compartilhamento sem autorização constitui quebra do Acordo de Sigilo (NDA).</p>
+      <div className="max-w-2xl mx-auto px-4 text-center">
+        <div className="border border-brimajor-techgray bg-brimajor-graphite p-10 rounded-xl">
+          <div className="text-5xl mb-6">🔒</div>
+          <h1 className="text-2xl font-bold text-white mb-4">Material Técnico Detalhado</h1>
+          <p className="text-zinc-400 mb-6 leading-relaxed">
+            As especificações aprofundadas de arquitetura, algoritmos e parâmetros de segurança do Kanban Estoque
+            são compartilhadas individualmente após um breve alinhamento inicial.
+          </p>
+          <p className="text-zinc-500 text-sm mb-8">
+            Processo: Alinhamento → Acordo de Sigilo (se aplicável) → Envio do Material Técnico
+          </p>
+          <a
+            href="https://wa.me/5592985224523?text=Olá,%20tenho%20interesse%20no%20dossiê%20técnico%20do%20Kanban%20Estoque."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#1ebe59] text-white font-semibold px-6 py-3 rounded-lg transition-all"
+          >
+            Solicitar via WhatsApp
+          </a>
+          <div className="mt-6">
+            <Link href="/estoque" className="text-sm text-brimajor-neon hover:underline">← Voltar para o Kanban Estoque</Link>
           </div>
-        </div>
-
-        <h1 className="text-4xl font-extrabold mb-8">Kanban Estoque: Especificações de Arquitetura</h1>
-
-        <div className="space-y-12 text-zinc-300">
-          <section>
-            <h2 className="text-2xl font-bold text-white mb-4 border-b border-brimajor-techgray pb-2">1. Algoritmo de Previsão de Demanda (Forecasting)</h2>
-            <p className="mb-4">O motor estocástico avalia o consumo histórico para adequar a curva ABC dinamicamente:</p>
-            <div className="bg-brimajor-graphite p-4 rounded-lg font-mono text-sm border border-brimajor-techgray text-zinc-400">
-              <p className="text-purple-400">const<span className="text-zinc-300"> engine = </span>async<span className="text-zinc-300"> (sku) =&gt; {"{"}</span></p>
-              <p className="pl-4">const history = await db.getHistory(sku.id);</p>
-              <p className="pl-4 text-emerald-400">if (history.isIntermittent) {"{"}</p>
-              <p className="pl-8 text-zinc-500">// Aplica modelagem para demandas esparsas (Croston modificado)</p>
-              <p className="pl-8">return applySparseModel(sku, history);</p>
-              <p className="pl-4 text-emerald-400">{"}"} else {"{"}</p>
-              <p className="pl-8 text-zinc-500">// Demanda contínua sazonal</p>
-              <p className="pl-8">return applyDoubleExponentialSmoothing(sku, history);</p>
-              <p className="pl-4 text-emerald-400">{"}"}</p>
-              <p className="text-zinc-300">{"};"}</p>
-            </div>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold text-white mb-4 border-b border-brimajor-techgray pb-2">2. Parâmetros Estritos de Segurança</h2>
-            <ul className="list-disc pl-5 space-y-4">
-              <li><strong>Proteção de Força Bruta:</strong> Bloqueio temporário rígido de 15 minutos após 5 tentativas falhas de login usando Redis Rate Limiting.</li>
-              <li><strong>Criptografia:</strong> Validação Estrita HMAC (HS256) com payload de expiração curta (15 minutos).</li>
-              <li><strong>Sessões:</strong> Rotação de Refresh Tokens via Family ID; qualquer tentativa de reuso indevido invalida toda a árvore de sessão daquele usuário instantaneamente.</li>
-            </ul>
-          </section>
         </div>
       </div>
     </div>

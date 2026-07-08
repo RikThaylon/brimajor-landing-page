@@ -4,6 +4,7 @@ import { estoqueModules } from "@/lib/data";
 import { BrandWatermark } from "@/components/brand-watermark";
 import { AnimateOnScroll } from "@/components/animate-on-scroll";
 import { ContactForm } from "@/components/contact-form";
+import { KanbanPreview } from "@/components/kanban-preview";
 
 export const metadata: Metadata = {
   title: "Kanban Estoque | Brimajor",
@@ -40,13 +41,13 @@ export default function EstoquePage() {
               
               <div className="pt-4 flex flex-wrap gap-4 justify-center lg:justify-start">
                 <div className="flex flex-col items-center lg:items-start">
-                  <span className="text-2xl font-bold text-white">100%</span>
-                  <span className="text-xs text-zinc-500 uppercase tracking-wide">Auditável</span>
+                  <span className="text-2xl font-bold text-white">Auditável</span>
+                  <span className="text-xs text-zinc-500 uppercase tracking-wide">Log imutável</span>
                 </div>
                 <div className="w-px h-10 bg-brimajor-techgray hidden sm:block" />
                 <div className="flex flex-col items-center lg:items-start">
-                  <span className="text-2xl font-bold text-white">Zero</span>
-                  <span className="text-xs text-zinc-500 uppercase tracking-wide">Ruptura Oculta</span>
+                  <span className="text-2xl font-bold text-white">Anti-fraude</span>
+                  <span className="text-xs text-zinc-500 uppercase tracking-wide">Alçadas duplas</span>
                 </div>
                 <div className="w-px h-10 bg-brimajor-techgray hidden sm:block" />
                 <div className="flex flex-col items-center lg:items-start">
@@ -56,20 +57,8 @@ export default function EstoquePage() {
               </div>
             </div>
 
-            {/* 3D Kanban Board Simulation (CSS Only) */}
-            <div className="relative h-[300px] perspective-[1000px] w-full max-w-lg mx-auto">
-              <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent z-10 pointer-events-none" />
-              <div className="w-full h-full border border-brimajor-techgray bg-brimajor-graphite rounded-xl shadow-2xl p-4 flex gap-4 transform rotate-x-[15deg] rotate-y-[-15deg] hover:rotate-x-0 hover:rotate-y-0 transition-transform duration-700 ease-out preserve-3d">
-                {/* Colunas do Kanban */}
-                {['Verde (Seguro)', 'Amarelo (Atenção)', 'Vermelho (Crítico)'].map((col, i) => (
-                  <div key={col} className="flex-1 flex flex-col gap-2 bg-brimajor-black/50 p-2 rounded-lg border border-brimajor-techgray/50">
-                    <span className="text-[10px] font-bold text-zinc-500 uppercase">{col}</span>
-                    <div className={`h-12 rounded border ${i===0 ? 'bg-emerald-500/10 border-emerald-500/30' : i===1 ? 'bg-amber-500/10 border-amber-500/30' : 'bg-red-500/10 border-red-500/30'} animate-slide-up`} style={{animationDelay: `${i*0.2}s`}} />
-                    {i !== 0 && <div className={`h-12 rounded border ${i===1 ? 'bg-amber-500/10 border-amber-500/30' : 'bg-red-500/10 border-red-500/30'} animate-slide-up`} style={{animationDelay: `${i*0.3 + 0.2}s`}} />}
-                  </div>
-                ))}
-              </div>
-            </div>
+            {/* Kanban Preview interativo */}
+            <KanbanPreview />
           </div>
         </div>
       </header>
