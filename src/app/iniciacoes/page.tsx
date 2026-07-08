@@ -39,7 +39,7 @@ export default function Iniciacoes() {
                 <div className="bg-brimajor-black border border-brimajor-techgray rounded-xl overflow-hidden flex flex-col h-full group hover:border-brimajor-primary/40 transition-colors duration-300">
                   <div className="bg-brimajor-graphite/50 p-6 border-b border-brimajor-techgray relative">
                     {item.id === "gestao-estoque" ? (
-                      <span className="absolute top-4 right-4 text-[10px] uppercase font-bold tracking-wider px-2 py-1 rounded bg-brimajor-primary/20 text-brimajor-neon border border-brimajor-primary/30">Produto em Produção</span>
+                      <span className="absolute top-4 right-4 text-[10px] uppercase font-bold tracking-wider px-2 py-1 rounded bg-brimajor-primary/20 text-brimajor-neon border border-brimajor-primary/30">Fase Final de Dev.</span>
                     ) : (
                       <span className="absolute top-4 right-4 text-[10px] uppercase font-bold tracking-wider px-2 py-1 rounded bg-zinc-800/80 text-zinc-400 border border-zinc-700">Conceito em Validação</span>
                     )}

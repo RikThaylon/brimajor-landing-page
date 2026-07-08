@@ -29,7 +29,7 @@ export default function EstoquePage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6 text-center lg:text-left">
               <div className="inline-flex items-center space-x-2 bg-brimajor-primary/10 border border-brimajor-primary/20 rounded-full px-3 py-1 text-[10px] uppercase tracking-wider text-brimajor-neon font-bold">
-                <span>Produto em Produção</span>
+                <span>Fase Final de Desenvolvimento</span>
               </div>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-none">
                 Gestão industrial baseada em <span className="bg-gradient-to-r from-brimajor-neon to-brimajor-primary bg-clip-text text-transparent">realidade</span>
