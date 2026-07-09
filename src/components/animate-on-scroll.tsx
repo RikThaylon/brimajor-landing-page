@@ -1,5 +1,7 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
+import { gsap } from "@/lib/gsap";
+import { useGsapContext } from "@/hooks/use-gsap-context";
 
 export function AnimateOnScroll({
   children,
@@ -11,34 +13,28 @@ export function AnimateOnScroll({
   delay?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-  const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) {
-          setVisible(true);
-          obs.disconnect();
-        }
+  useGsapContext(() => {
+    if (!ref.current) return;
+
+    gsap.set(ref.current, { opacity: 0, y: 32 });
+
+    gsap.to(ref.current, {
+      opacity: 1,
+      y: 0,
+      duration: 0.7,
+      delay: delay / 1000,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: ref.current,
+        start: "top 85%",
+        toggleActions: "play none none none", // roda uma vez, não reverte no scroll-up
       },
-      { threshold: 0 }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
+    });
+  }, [delay], ref);
 
   return (
-    <div
-      ref={ref}
-      className={`${className} transition-all duration-700 ease-out ${
-        !mounted || visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-      }`}
-      style={{ transitionDelay: `${delay}ms` }}
-    >
+    <div ref={ref} className={className}>
       {children}
     </div>
   );

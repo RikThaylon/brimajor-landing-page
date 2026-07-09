@@ -45,6 +45,7 @@ export function KanbanPreview() {
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const isTouchOnly = typeof window !== "undefined" && !window.matchMedia("(hover: hover)").matches;
 
+  // tilt via state puro: sem scroll envolvido, GSAP não traria benefício aqui
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (isTouchOnly || !boardRef.current) return;
     const rect = boardRef.current.getBoundingClientRect();
