@@ -100,17 +100,21 @@ export function StickyScrollShowcase({
           <div
             key={step.id}
             data-step-id={step.id}
-            className="showcase-step min-h-[40vh] md:min-h-[50vh] flex flex-col justify-center"
+            className="showcase-step min-h-[30vh] md:min-h-[50vh] flex flex-col justify-center gap-6"
           >
             {step.content}
+            {/* Inline visual for mobile only (avoids empty scroll/hidden state) */}
+            <div className="md:hidden w-full max-w-lg mx-auto py-4">
+              {renderVisual(step.id)}
+            </div>
           </div>
         ))}
       </div>
 
-      {/* Visual Column */}
+      {/* Visual Column (hidden on mobile, pinned on desktop) */}
       <div
         ref={visualContainerRef}
-        className="w-full md:w-1/2 flex flex-col items-center justify-start relative min-h-[300px] md:min-h-[500px]"
+        className="hidden md:flex w-full md:w-1/2 flex-col items-center justify-start relative min-h-[300px] md:min-h-[500px]"
       >
         <div
           ref={visualRef}

@@ -142,8 +142,8 @@ export default function Home() {
         ))}
 
         {/* Floating orbs — GPU composited only */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-brimajor-primary/5 blur-3xl animate-float pointer-events-none" />
-        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 rounded-full bg-brimajor-neon/8 blur-2xl animate-float-slow pointer-events-none" />
+        <div className="hidden sm:block absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-brimajor-primary/5 blur-3xl animate-float pointer-events-none" />
+        <div className="hidden sm:block absolute bottom-1/4 right-1/4 w-64 h-64 rounded-full bg-brimajor-neon/8 blur-2xl animate-float-slow pointer-events-none" />
 
         {/* 3D Glow Ring behind logo */}
         <div className="absolute inset-0 flex items-center justify-center -z-20 perspective-[800px]">
@@ -204,8 +204,11 @@ export default function Home() {
         </HeroTimeline>
       </section>
 
+      {/* Divider */}
+      <div className="section-divider" />
+
       {/* Unificação: Capacidades + Modelo de Trabalho Seguro via StickyScrollShowcase */}
-      <section className="py-24 border-t border-brimajor-techgray/50 relative overflow-hidden" aria-label="Como Trabalhamos">
+      <section className="py-24 relative overflow-hidden" aria-label="Como Trabalhamos">
         <div className="fluid-container relative z-10">
           <div className="text-center mb-16">
             <h2 className="text-[clamp(2rem,4vw,2.5rem)] font-bold text-zinc-100 mb-4 tracking-tight">Como Estruturamos Soluções</h2>

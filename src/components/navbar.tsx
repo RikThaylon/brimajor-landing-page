@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -15,6 +16,9 @@ export function Navbar() {
       if (!ticking) {
         requestAnimationFrame(() => {
           setScrolled(window.scrollY > 20);
+          // Calculate scroll progress
+          const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+          setScrollProgress(docHeight > 0 ? (window.scrollY / docHeight) * 100 : 0);
           ticking = false;
         });
         ticking = true;
@@ -32,48 +36,64 @@ export function Navbar() {
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${
           scrolled
-            ? "bg-black/90 backdrop-blur-xl border-[#2E2E2E] shadow-[0_4px_24px_rgba(0,0,0,0.5)]"
+            ? "bg-black/90 backdrop-blur-xl border-brimajor-techgray/80 shadow-[0_4px_24px_rgba(0,0,0,0.5)]"
             : "bg-transparent border-transparent"
         }`}
       >
+        {/* Scroll progress bar */}
+        <div className="absolute bottom-0 left-0 h-[2px] w-full overflow-hidden">
+          <div
+            className="h-full bg-gradient-to-r from-brimajor-primary via-brimajor-neon to-brimajor-primary shadow-[0_0_8px_rgba(0,153,255,0.5)] transition-transform duration-150 ease-out origin-left"
+            style={{ transform: `scaleX(${scrollProgress / 100})` }}
+          />
+        </div>
+
         <div className="fluid-container h-16 md:h-20 flex items-center justify-between">
           {/* Logo */}
           <Link
             href="/"
             aria-label="Brimajor - Página Inicial"
-            className="group flex items-center gap-2 text-white hover:text-[#0099FF] transition-colors duration-300"
+            className="group flex items-center gap-2.5 text-white hover:text-brimajor-neon transition-colors duration-300"
           >
-            <Cpu
-              className="w-6 h-6 md:w-7 md:h-7 text-[#0066FF] group-hover:scale-110 transition-transform duration-300"
-              style={{ filter: "drop-shadow(0 0 8px rgba(0,102,255,0.7))" }}
-            />
-            <span className="font-bold text-lg md:text-xl tracking-tight">Brimajor</span>
+            <div className="relative">
+              <Cpu
+                className="w-7 h-7 md:w-8 md:h-8 text-brimajor-primary group-hover:scale-110 transition-transform duration-300"
+                style={{ filter: "drop-shadow(0 0 8px rgba(0,102,255,0.7))" }}
+              />
+              {/* Subtle glow ring behind logo */}
+              <div className="absolute inset-0 w-7 h-7 md:w-8 md:h-8 rounded-full bg-brimajor-primary/10 blur-md group-hover:bg-brimajor-neon/20 transition-colors duration-300" />
+            </div>
+            <span className="font-bold text-lg md:text-xl tracking-tight">
+              Bri<span className="text-brimajor-neon">major</span>
+            </span>
           </Link>
 
           {/* Desktop Links */}
           <div className="hidden md:flex gap-8 items-center">
             <Link
               href="/"
-              className={`text-sm font-medium transition-all duration-200 hover:-translate-y-[2px] ${
-                isActive("/") ? "text-[#0099FF]" : "text-zinc-400 hover:text-white"
+              className={`text-sm font-medium transition-all duration-200 hover:-translate-y-[2px] relative ${
+                isActive("/") ? "text-brimajor-neon" : "text-zinc-400 hover:text-white"
               }`}
             >
               Home
+              {isActive("/") && <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-brimajor-neon rounded-full" />}
             </Link>
             <Link
               href="/iniciacoes"
-              className={`text-sm font-medium transition-all duration-200 hover:-translate-y-[2px] ${
-                isActive("/iniciacoes") ? "text-[#0099FF]" : "text-zinc-400 hover:text-white"
+              className={`text-sm font-medium transition-all duration-200 hover:-translate-y-[2px] relative ${
+                isActive("/iniciacoes") ? "text-brimajor-neon" : "text-zinc-400 hover:text-white"
               }`}
             >
               Iniciações & Prototipagem
+              {isActive("/iniciacoes") && <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-brimajor-neon rounded-full" />}
             </Link>
             <Link
               href="/estoque"
-              className={`text-xs font-bold tracking-wide text-white px-5 py-2.5 rounded-md transition-all duration-300 hover:-translate-y-[3px] active:scale-95 border ${
+              className={`text-xs font-bold tracking-wide text-white px-5 py-2.5 rounded-lg transition-all duration-300 hover:-translate-y-[3px] active:scale-95 border ${
                 isActive("/estoque")
-                  ? "bg-[#0066FF] border-[#0066FF] shadow-[0_0_16px_rgba(0,102,255,0.4)]"
-                  : "bg-[#2E2E2E]/50 border-[#2E2E2E] hover:bg-[#0066FF] hover:border-[#0066FF]"
+                  ? "bg-brimajor-primary border-brimajor-primary shadow-[0_0_20px_rgba(0,102,255,0.4)]"
+                  : "bg-brimajor-graphite/80 border-brimajor-techgray hover:bg-brimajor-primary hover:border-brimajor-primary hover:shadow-[0_0_16px_rgba(0,102,255,0.3)]"
               }`}
             >
               Kanban Estoque
@@ -83,59 +103,41 @@ export function Navbar() {
       </nav>
 
       {/* ── BOTTOM NAV BAR (Mobile apenas) ── */}
-      {/* Barra de navegação inferior fixa — padrão mobile nativo (como apps iOS/Android) */}
       <nav
         aria-label="Navegação mobile"
-        className="md:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-[#2E2E2E]"
-        style={{ backgroundColor: "rgba(0,0,0,0.97)", backdropFilter: "blur(20px)" }}
+        className="md:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-brimajor-techgray/80 safe-bottom"
+        style={{ backgroundColor: "rgba(0,0,0,0.95)", backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)" }}
       >
         <div className="grid grid-cols-3 h-16">
-          {/* Home */}
-          <Link
-            href="/"
-            className={`flex flex-col items-center justify-center gap-1 text-[11px] font-semibold tracking-wide transition-colors duration-200 ${
-              isActive("/") ? "text-[#0099FF]" : "text-zinc-500 active:text-white"
-            }`}
-          >
-            <Home
-              className="w-5 h-5"
-              style={isActive("/") ? { filter: "drop-shadow(0 0 6px rgba(0,153,255,0.7))" } : {}}
-            />
-            Home
-          </Link>
-
-          {/* Iniciações */}
-          <Link
-            href="/iniciacoes"
-            className={`flex flex-col items-center justify-center gap-1 text-[11px] font-semibold tracking-wide transition-colors duration-200 ${
-              isActive("/iniciacoes") ? "text-[#0099FF]" : "text-zinc-500 active:text-white"
-            }`}
-          >
-            <Beaker
-              className="w-5 h-5"
-              style={isActive("/iniciacoes") ? { filter: "drop-shadow(0 0 6px rgba(0,153,255,0.7))" } : {}}
-            />
-            Iniciações
-          </Link>
-
-          {/* Estoque */}
-          <Link
-            href="/estoque"
-            className={`flex flex-col items-center justify-center gap-1 text-[11px] font-semibold tracking-wide transition-colors duration-200 ${
-              isActive("/estoque") ? "text-[#0066FF]" : "text-zinc-500 active:text-white"
-            }`}
-          >
-            <LayoutGrid
-              className="w-5 h-5"
-              style={isActive("/estoque") ? { filter: "drop-shadow(0 0 6px rgba(0,102,255,0.7))" } : {}}
-            />
-            Estoque
-          </Link>
+          {[
+            { href: "/", icon: Home, label: "Home" },
+            { href: "/iniciacoes", icon: Beaker, label: "Iniciações" },
+            { href: "/estoque", icon: LayoutGrid, label: "Estoque" },
+          ].map(({ href, icon: Icon, label }) => {
+            const active = isActive(href);
+            return (
+              <Link
+                key={href}
+                href={href}
+                className={`flex flex-col items-center justify-center gap-1 text-[11px] font-semibold tracking-wide transition-colors duration-200 ${
+                  active ? "text-brimajor-neon" : "text-zinc-500 active:text-white"
+                }`}
+              >
+                <div className="relative">
+                  <Icon
+                    className="w-5 h-5"
+                    style={active ? { filter: "drop-shadow(0 0 6px rgba(0,153,255,0.7))" } : {}}
+                  />
+                  {active && (
+                    <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-brimajor-neon shadow-[0_0_6px_rgba(0,153,255,0.8)]" />
+                  )}
+                </div>
+                {label}
+              </Link>
+            );
+          })}
         </div>
       </nav>
-
-      {/* Espaçador para o bottom nav não cobrir o conteúdo no mobile */}
-      <div className="md:hidden h-16 fixed bottom-0 left-0 right-0 pointer-events-none" aria-hidden="true" />
     </>
   );
 }

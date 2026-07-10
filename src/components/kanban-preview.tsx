@@ -39,9 +39,9 @@ const columns: { label: string; color: string; cards: Card[] }[] = [
 ];
 
 const colStyles: Record<string, { border: string; bg: string; badge: string; dot: string }> = {
-  emerald: { border: "border-emerald-500/30", bg: "bg-emerald-500/8", badge: "bg-emerald-900/60 text-emerald-300", dot: "bg-emerald-400" },
-  amber:   { border: "border-amber-500/30",   bg: "bg-amber-500/8",   badge: "bg-amber-900/60 text-amber-300",   dot: "bg-amber-400" },
-  red:     { border: "border-red-500/30",      bg: "bg-red-500/8",     badge: "bg-red-900/60 text-red-300",       dot: "bg-red-400" },
+  emerald: { border: "border-emerald-500/20", bg: "bg-emerald-500/5", badge: "bg-emerald-950/60 text-emerald-300", dot: "bg-emerald-400" },
+  amber:   { border: "border-amber-500/20",   bg: "bg-amber-500/5",   badge: "bg-amber-950/60 text-amber-300",   dot: "bg-amber-400" },
+  red:     { border: "border-red-500/20",      bg: "bg-red-500/5",     badge: "bg-red-950/60 text-red-300",       dot: "bg-red-400" },
 };
 
 export function KanbanPreview({ activeModuleId }: KanbanPreviewProps) {
@@ -76,10 +76,10 @@ export function KanbanPreview({ activeModuleId }: KanbanPreviewProps) {
       style={{ perspective: "900px" }}
     >
       <div
-        className={`border rounded-xl shadow-2xl p-4 flex gap-3 transition-all duration-500 ease-out will-change-transform ${
+        className={`border rounded-xl shadow-2xl p-2.5 sm:p-4 flex gap-1.5 sm:gap-3 transition-all duration-500 ease-out will-change-transform ${
           isKanbanActive
-            ? "border-brimajor-neon ring-2 ring-brimajor-neon/30 shadow-[0_0_30px_rgba(0,242,254,0.3)] bg-brimajor-graphite/90"
-            : "border-brimajor-techgray bg-brimajor-graphite"
+            ? "border-brimajor-neon ring-2 ring-brimajor-neon/30 shadow-[0_0_30px_rgba(0,242,254,0.3)] bg-brimajor-graphite/95"
+            : "border-brimajor-techgray bg-brimajor-graphite/90"
         }`}
         style={{ transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` }}
       >
@@ -89,49 +89,50 @@ export function KanbanPreview({ activeModuleId }: KanbanPreviewProps) {
           // Determine special highlights based on active module
           let highlightClass = "";
           if (isAntifraudeActive && col.color === "red") {
-            highlightClass = "ring-2 ring-red-500/50 shadow-[0_0_20px_rgba(239,68,68,0.3)] scale-[1.02] border-red-500/50";
+            highlightClass = "ring-2 ring-red-500/50 shadow-[0_0_20px_rgba(239,68,68,0.3)] scale-[1.02] border-red-500/50 bg-red-500/10";
           } else if (isQaActive && col.color === "amber") {
-            highlightClass = "ring-2 ring-amber-500/50 shadow-[0_0_20px_rgba(245,158,11,0.3)] scale-[1.02] border-amber-500/50";
+            highlightClass = "ring-2 ring-amber-500/50 shadow-[0_0_20px_rgba(245,158,11,0.3)] scale-[1.02] border-amber-500/50 bg-amber-500/10";
           }
 
           return (
             <div
               key={col.label}
-              className={`flex-1 flex flex-col gap-2 ${s.bg} p-2 rounded-lg border transition-all duration-500 ${
+              className={`flex-1 flex flex-col gap-1.5 sm:gap-2 ${s.bg} p-1.5 sm:p-2 rounded-lg border transition-all duration-500 ${
                 highlightClass || s.border
               }`}
             >
-              <div className="flex items-center justify-between mb-1">
-                <div className="flex items-center gap-1.5">
-                  <span className={`w-2 h-2 rounded-full ${s.dot} shrink-0`} />
-                  <span className="text-[9px] font-bold text-zinc-400 uppercase leading-tight">{col.label.split(" — ")[0]}</span>
+              <div className="flex items-center justify-between mb-0.5 sm:mb-1">
+                <div className="flex items-center gap-1 sm:gap-1.5">
+                  <span className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full ${s.dot} shrink-0`} />
+                  <span className="text-[7.5px] sm:text-[9px] font-bold text-zinc-400 uppercase leading-none">{col.label.split(" — ")[0]}</span>
                 </div>
                 {isAntifraudeActive && col.color === "red" && (
-                  <span className="text-[8px] text-red-400 font-bold animate-pulse">🔒 Alçada</span>
+                  <span className="text-[7px] sm:text-[8px] text-red-400 font-bold animate-pulse leading-none shrink-0">🔒 Alçada</span>
                 )}
                 {isQaActive && col.color === "amber" && (
-                  <span className="text-[8px] text-amber-400 font-bold animate-pulse">⏳ QA</span>
+                  <span className="text-[7px] sm:text-[8px] text-amber-400 font-bold animate-pulse leading-none shrink-0">⏳ QA</span>
                 )}
               </div>
+              
               {col.cards.map((card) => (
                 <div
                   key={card.sku}
-                  className={`border rounded p-2 transition-all duration-500 ${
+                  className={`border rounded p-1.5 sm:p-2 transition-all duration-500 ${
                     isGovernancaActive
-                      ? "bg-zinc-900/90 border-brimajor-neon/30 shadow-[0_0_10px_rgba(0,242,254,0.15)]"
-                      : "bg-brimajor-black/70 border-brimajor-techgray/50"
+                      ? "bg-zinc-950/95 border-brimajor-neon/30 shadow-[0_0_10px_rgba(0,242,254,0.15)]"
+                      : "bg-brimajor-black/85 border-brimajor-techgray/50"
                   }`}
                 >
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-[10px] font-mono font-bold text-zinc-200 flex items-center gap-1">
-                      {isGovernancaActive && <span className="text-[9px] text-brimajor-neon">🔒</span>}
+                    <span className="text-[8px] sm:text-[10px] font-mono font-bold text-zinc-200 flex items-center gap-0.5 sm:gap-1 leading-none">
+                      {isGovernancaActive && <span className="text-[8px] sm:text-[9px] text-brimajor-neon">🔒</span>}
                       {card.sku}
                     </span>
-                    <span className={`text-[9px] px-1 rounded ${s.badge}`}>
+                    <span className={`text-[7px] sm:text-[9px] px-1 rounded font-bold leading-none ${s.badge}`}>
                       {card.status === "ok" ? "OK" : card.status === "warning" ? "⚠" : "!"}
                     </span>
                   </div>
-                  <div className="h-1.5 bg-zinc-800 rounded-full overflow-hidden">
+                  <div className="h-1 sm:h-1.5 bg-zinc-800 rounded-full overflow-hidden">
                     <div
                       className={`h-full rounded-full transition-all duration-500 ${s.dot} ${
                         isKanbanActive ? "animate-pulse" : ""
@@ -139,7 +140,7 @@ export function KanbanPreview({ activeModuleId }: KanbanPreviewProps) {
                       style={{ width: card.status === "ok" ? "75%" : card.status === "warning" ? "30%" : "8%" }}
                     />
                   </div>
-                  <span className="text-[9px] text-zinc-500 mt-1 block">{card.qty}</span>
+                  <span className="text-[7.5px] sm:text-[9px] text-zinc-500 mt-1 block leading-none">{card.qty}</span>
                 </div>
               ))}
             </div>

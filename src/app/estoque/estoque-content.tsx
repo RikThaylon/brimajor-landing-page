@@ -58,30 +58,30 @@ export function EstoqueContent() {
       <header className="relative overflow-hidden py-24 lg:py-32 border-b border-brimajor-techgray" aria-label="Kanban de Estoque">
         <BrandWatermark />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6 text-center lg:text-left">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div className="space-y-6 text-center md:text-left">
               <div className="inline-flex items-center space-x-2 bg-brimajor-primary/10 border border-brimajor-primary/20 rounded-full px-3 py-1 text-[10px] uppercase tracking-wider text-brimajor-neon font-bold">
                 <span>Fase Final de Desenvolvimento</span>
               </div>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-none">
                 Gestão industrial baseada em <span className="bg-gradient-to-r from-brimajor-neon to-brimajor-primary bg-clip-text text-transparent">realidade</span>
               </h1>
-              <p className="text-zinc-300 text-lg sm:text-xl max-w-2xl mx-auto lg:mx-0 font-light leading-relaxed">
+              <p className="text-zinc-300 text-lg sm:text-xl max-w-2xl mx-auto md:mx-0 font-light leading-relaxed">
                 Elimine rupturas imprevistas e tenha auditoria pronta para fiscalização. Um sistema feito para plantas industriais que não podem parar.
               </p>
               
-              <div className="pt-4 flex flex-wrap gap-4 justify-center lg:justify-start">
-                <div className="flex flex-col items-center lg:items-start">
+              <div className="pt-4 flex flex-wrap gap-4 justify-center md:justify-start">
+                <div className="flex flex-col items-center md:items-start">
                   <span className="text-2xl font-bold text-white">Auditável</span>
                   <span className="text-xs text-zinc-500 uppercase tracking-wide">Log imutável</span>
                 </div>
                 <div className="w-px h-10 bg-brimajor-techgray hidden sm:block" />
-                <div className="flex flex-col items-center lg:items-start">
+                <div className="flex flex-col items-center md:items-start">
                   <span className="text-2xl font-bold text-white">Anti-fraude</span>
                   <span className="text-xs text-zinc-500 uppercase tracking-wide">Alçadas duplas</span>
                 </div>
                 <div className="w-px h-10 bg-brimajor-techgray hidden sm:block" />
-                <div className="flex flex-col items-center lg:items-start">
+                <div className="flex flex-col items-center md:items-start">
                   <span className="text-2xl font-bold text-white">Real-time</span>
                   <span className="text-xs text-zinc-500 uppercase tracking-wide">Visibilidade</span>
                 </div>
@@ -122,7 +122,7 @@ export function EstoqueContent() {
           <h2 className="text-3xl font-bold text-zinc-100 mb-12">Jornada de Implantação</h2>
           
           <div className="grid md:grid-cols-3 gap-8 relative">
-            <div className="hidden md:block absolute top-8 left-10 right-10 h-[1px] bg-brimajor-techgray" />
+            <div className="hidden md:block absolute top-8 left-10 right-10 h-[1px] bg-gradient-to-r from-brimajor-primary/10 via-brimajor-neon/40 to-brimajor-primary/10" />
             
             <AnimateOnScroll delay={0}>
               <div className="relative z-10 flex flex-col items-center">

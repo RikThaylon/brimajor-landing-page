@@ -89,6 +89,24 @@ body {
   100% { transform: translate3d(var(--dx, 20px), var(--dy, -60px), 0); opacity: 0; }
 }
 
+/* Fade out up for loading screen exit */
+@keyframes fadeOutUp {
+  from { opacity: 1; transform: translate3d(0, 0, 0); }
+  to   { opacity: 0; transform: translate3d(0, -20px, 0); }
+}
+
+/* Scroll progress bar fill */
+@keyframes scrollProgress {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+/* Gentle border glow pulse */
+@keyframes borderGlow {
+  0%, 100% { border-color: rgba(0, 102, 255, 0.15); }
+  50%       { border-color: rgba(0, 153, 255, 0.35); }
+}
+
 .animate-fade-in   { animation: fade 0.6s ease-in-out forwards; opacity: 0; }
 .animate-float     { animation: float3d 6s ease-in-out infinite; will-change: transform; }
 .animate-float-slow{ animation: float3d 9s ease-in-out infinite; will-change: transform; }
@@ -96,6 +114,7 @@ body {
 .animate-beam      { animation: beamSweep 4s ease-in-out infinite; will-change: transform; }
 .animate-spin3d    { animation: spin3d 20s linear infinite; will-change: transform; }
 .animate-slide-up  { animation: slideUp 0.7s ease-out forwards; opacity: 0; }
+.animate-border-glow { animation: borderGlow 3s ease-in-out infinite; }
 
 /* Particles */
 .particle {
@@ -106,6 +125,39 @@ body {
   background: #0099FF;
   animation: drift 8s ease-in-out infinite;
   will-change: transform, opacity;
+}
+
+/* Glass card effect */
+.glass-card {
+  background: rgba(17, 17, 17, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(46, 46, 46, 0.8);
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* Glow border on hover */
+.glow-border {
+  position: relative;
+  overflow: hidden;
+}
+.glow-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(0, 102, 255, 0.3), transparent 40%, transparent 60%, rgba(0, 153, 255, 0.3));
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: -1;
+}
+.glow-border:hover::before { opacity: 1; }
+
+/* Section divider — gradient line */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0, 102, 255, 0.25) 20%, rgba(0, 153, 255, 0.4) 50%, rgba(0, 102, 255, 0.25) 80%, transparent);
 }
 
 /* Fluid container */
@@ -120,4 +172,30 @@ body {
   outline: 2px solid var(--color-brimajor-neon);
   outline-offset: 2px;
   border-radius: 2px;
+}
+
+/* ── Mobile optimizations ── */
+@media (max-width: 640px) {
+  .particle { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .particle,
+  .animate-float,
+  .animate-float-slow,
+  .animate-beam,
+  .animate-spin3d {
+    animation: none !important;
+  }
+  .animate-glow {
+    animation: none !important;
+    box-shadow: 0 0 20px rgba(0, 102, 255, 0.3);
+  }
+}
+
+/* Safe area for iPhones with notch */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
 }
