@@ -4,6 +4,10 @@ import { useState, useRef, useCallback } from "react";
 
 interface Card { sku: string; qty: string; status: "ok" | "warning" | "critical" }
 
+interface KanbanPreviewProps {
+  activeModuleId?: string;
+}
+
 const columns: { label: string; color: string; cards: Card[] }[] = [
   {
     label: "Verde — Seguro",
@@ -40,7 +44,7 @@ const colStyles: Record<string, { border: string; bg: string; badge: string; dot
   red:     { border: "border-red-500/30",      bg: "bg-red-500/8",     badge: "bg-red-900/60 text-red-300",       dot: "bg-red-400" },
 };
 
-export function KanbanPreview() {
+export function KanbanPreview({ activeModuleId }: KanbanPreviewProps) {
   const boardRef = useRef<HTMLDivElement>(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const isTouchOnly = typeof window !== "undefined" && !window.matchMedia("(hover: hover)").matches;
@@ -58,35 +62,80 @@ export function KanbanPreview() {
 
   const handleMouseLeave = useCallback(() => setTilt({ x: 0, y: 0 }), []);
 
+  const isKanbanActive = activeModuleId === "kanban";
+  const isAntifraudeActive = activeModuleId === "antifraude";
+  const isQaActive = activeModuleId === "qa";
+  const isGovernancaActive = activeModuleId === "governanca";
+
   return (
     <div
       ref={boardRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="w-full max-w-lg mx-auto"
+      className="w-full max-w-lg mx-auto transition-all duration-500"
       style={{ perspective: "900px" }}
     >
       <div
-        className="border border-brimajor-techgray bg-brimajor-graphite rounded-xl shadow-2xl p-4 flex gap-3 transition-transform duration-150 ease-out will-change-transform"
+        className={`border rounded-xl shadow-2xl p-4 flex gap-3 transition-all duration-500 ease-out will-change-transform ${
+          isKanbanActive
+            ? "border-brimajor-neon ring-2 ring-brimajor-neon/30 shadow-[0_0_30px_rgba(0,242,254,0.3)] bg-brimajor-graphite/90"
+            : "border-brimajor-techgray bg-brimajor-graphite"
+        }`}
         style={{ transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` }}
       >
         {columns.map((col) => {
           const s = colStyles[col.color];
+          
+          // Determine special highlights based on active module
+          let highlightClass = "";
+          if (isAntifraudeActive && col.color === "red") {
+            highlightClass = "ring-2 ring-red-500/50 shadow-[0_0_20px_rgba(239,68,68,0.3)] scale-[1.02] border-red-500/50";
+          } else if (isQaActive && col.color === "amber") {
+            highlightClass = "ring-2 ring-amber-500/50 shadow-[0_0_20px_rgba(245,158,11,0.3)] scale-[1.02] border-amber-500/50";
+          }
+
           return (
-            <div key={col.label} className={`flex-1 flex flex-col gap-2 ${s.bg} p-2 rounded-lg border ${s.border}`}>
-              <div className="flex items-center gap-1.5 mb-1">
-                <span className={`w-2 h-2 rounded-full ${s.dot} shrink-0`} />
-                <span className="text-[9px] font-bold text-zinc-400 uppercase leading-tight">{col.label}</span>
+            <div
+              key={col.label}
+              className={`flex-1 flex flex-col gap-2 ${s.bg} p-2 rounded-lg border transition-all duration-500 ${
+                highlightClass || s.border
+              }`}
+            >
+              <div className="flex items-center justify-between mb-1">
+                <div className="flex items-center gap-1.5">
+                  <span className={`w-2 h-2 rounded-full ${s.dot} shrink-0`} />
+                  <span className="text-[9px] font-bold text-zinc-400 uppercase leading-tight">{col.label.split(" — ")[0]}</span>
+                </div>
+                {isAntifraudeActive && col.color === "red" && (
+                  <span className="text-[8px] text-red-400 font-bold animate-pulse">🔒 Alçada</span>
+                )}
+                {isQaActive && col.color === "amber" && (
+                  <span className="text-[8px] text-amber-400 font-bold animate-pulse">⏳ QA</span>
+                )}
               </div>
               {col.cards.map((card) => (
-                <div key={card.sku} className="bg-brimajor-black/70 border border-brimajor-techgray/50 rounded p-2">
+                <div
+                  key={card.sku}
+                  className={`border rounded p-2 transition-all duration-500 ${
+                    isGovernancaActive
+                      ? "bg-zinc-900/90 border-brimajor-neon/30 shadow-[0_0_10px_rgba(0,242,254,0.15)]"
+                      : "bg-brimajor-black/70 border-brimajor-techgray/50"
+                  }`}
+                >
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-[10px] font-mono font-bold text-zinc-200">{card.sku}</span>
-                    <span className={`text-[9px] px-1 rounded ${s.badge}`}>{card.status === "ok" ? "OK" : card.status === "warning" ? "⚠" : "!"}</span>
+                    <span className="text-[10px] font-mono font-bold text-zinc-200 flex items-center gap-1">
+                      {isGovernancaActive && <span className="text-[9px] text-brimajor-neon">🔒</span>}
+                      {card.sku}
+                    </span>
+                    <span className={`text-[9px] px-1 rounded ${s.badge}`}>
+                      {card.status === "ok" ? "OK" : card.status === "warning" ? "⚠" : "!"}
+                    </span>
                   </div>
                   <div className="h-1.5 bg-zinc-800 rounded-full overflow-hidden">
                     <div
-                      className={`h-full rounded-full ${s.dot}`}
+                      className={`h-full rounded-full transition-all duration-500 ${s.dot} ${
+                        isKanbanActive ? "animate-pulse" : ""
+                      }`}
                       style={{ width: card.status === "ok" ? "75%" : card.status === "warning" ? "30%" : "8%" }}
                     />
                   </div>

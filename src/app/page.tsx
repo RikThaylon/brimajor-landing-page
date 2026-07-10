@@ -1,11 +1,11 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Cpu, MonitorSmartphone, Network, Workflow } from "lucide-react";
 import { heroContent, capacities, timelineSteps } from "@/lib/data";
-import { AnimateOnScroll } from "@/components/animate-on-scroll";
 import { HeroTimeline } from "@/components/hero-timeline";
-import { CapacitiesParallax } from "@/components/capacities-parallax";
-import { TimelinePin } from "@/components/timeline-pin";
+import { StickyScrollShowcase } from "@/components/sticky-scroll-showcase";
 
 const iconMap: Record<string, React.ReactNode> = {
   MonitorSmartphone: <MonitorSmartphone className="w-8 h-8 text-brimajor-neon" />,
@@ -25,11 +25,107 @@ const PARTICLES = [
 ];
 
 export default function Home() {
+  const showcaseSteps = [
+    // Capabilities
+    ...capacities.map((cap) => ({
+      id: cap.id,
+      content: (
+        <div className="space-y-4">
+          <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-1 rounded bg-brimajor-primary/20 text-brimajor-neon border border-brimajor-primary/30">
+            Capacidade de Engenharia
+          </span>
+          <h3 className="text-2xl font-bold text-white transition-colors duration-300 group-hover:text-brimajor-neon">
+            {cap.title}
+          </h3>
+          <p className="text-zinc-400 leading-relaxed font-light text-base">
+            {cap.description}
+          </p>
+        </div>
+      ),
+    })),
+    // Model steps
+    ...timelineSteps.map((step) => ({
+      id: `model-step${step.step}`,
+      content: (
+        <div className="space-y-4">
+          <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-1 rounded bg-zinc-800 text-zinc-400 border border-zinc-700">
+            Modelo de Trabalho Seguro
+          </span>
+          <h3 className="text-2xl font-bold text-white">
+            {step.step}. {step.title}
+          </h3>
+          <p className="text-zinc-400 leading-relaxed font-light text-base">
+            {step.description}
+          </p>
+        </div>
+      ),
+    })),
+  ];
+
+  const renderHomeVisual = (activeId: string) => {
+    const isCapability = ["web-mobile", "embarcados-iot", "digitalizacao", "apis"].includes(activeId);
+
+    if (isCapability) {
+      const currentCap = capacities.find((c) => c.id === activeId);
+      if (!currentCap) return null;
+      return (
+        <div className="bg-brimajor-graphite border border-brimajor-techgray rounded-xl p-8 w-full max-w-sm space-y-6 shadow-2xl relative overflow-hidden flex flex-col items-center text-center transition-all duration-500">
+          <div className="absolute -inset-px bg-gradient-to-r from-brimajor-primary/10 to-brimajor-neon/10 opacity-50 rounded-xl" />
+          <div className="relative p-6 inline-block bg-brimajor-black border border-brimajor-primary/30 rounded-2xl shadow-[0_0_20px_rgba(0,102,255,0.2)] text-brimajor-neon scale-110">
+            {iconMap[currentCap.icon]}
+          </div>
+          <div className="relative space-y-2">
+            <h4 className="text-xl font-bold text-white">{currentCap.title}</h4>
+            <p className="text-sm text-zinc-400 font-light leading-relaxed">{currentCap.description}</p>
+          </div>
+          <div className="relative pt-4">
+            <span className="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded bg-brimajor-primary/20 text-brimajor-neon border border-brimajor-primary/30 animate-pulse">
+              Foco Técnico
+            </span>
+          </div>
+        </div>
+      );
+    } else {
+      const currentStepNum = activeId.replace("model-step", "");
+      return (
+        <div className="bg-brimajor-graphite border border-brimajor-techgray rounded-xl p-8 w-full max-w-sm space-y-6 shadow-2xl relative overflow-hidden flex flex-col items-center justify-center transition-all duration-500">
+          <h3 className="text-zinc-100 font-bold text-lg border-b border-brimajor-techgray pb-3 w-full text-center">Modelo de Trabalho</h3>
+          <div className="flex gap-2 items-center justify-center py-6 w-full">
+            {["01", "02", "03", "04"].map((num, idx) => {
+              const stepVal = parseInt(currentStepNum);
+              const curVal = idx + 1;
+              const isCurrent = currentStepNum === num;
+              const isPassed = stepVal >= curVal;
+              return (
+                <div key={num} className="flex items-center">
+                  <div className={`w-8 h-8 rounded-full border flex items-center justify-center text-xs font-bold transition-all duration-500 ${
+                    isCurrent
+                      ? "bg-brimajor-primary text-white border-brimajor-neon shadow-[0_0_15px_rgba(0,242,254,0.5)] scale-110"
+                      : isPassed
+                      ? "bg-brimajor-primary/40 text-zinc-200 border-brimajor-primary/60"
+                      : "bg-brimajor-black text-zinc-600 border-brimajor-techgray"
+                  }`}>
+                    {num}
+                  </div>
+                  {idx < 3 && (
+                    <div className={`w-4 h-[2px] mx-1 transition-all duration-500 ${
+                      stepVal > curVal ? "bg-brimajor-primary" : "bg-zinc-800"
+                    }`} />
+                  )}
+                </div>
+              );
+            })}
+          </div>
+          <p className="text-xs text-zinc-500 font-mono text-center">Etapa {currentStepNum} de 4: Mitigação de Riscos</p>
+        </div>
+      );
+    }
+  };
+
   return (
     <div className="flex flex-col w-full relative">
       {/* Hero Section */}
       <section className="relative min-h-dvh flex items-center justify-center overflow-hidden">
-
         {/* Particles */}
         {PARTICLES.map((p, i) => (
           <span
@@ -108,69 +204,20 @@ export default function Home() {
         </HeroTimeline>
       </section>
 
-      {/* Capacidades de Engenharia */}
-      <section className="py-[clamp(5rem,10vw,10rem)] border-t border-brimajor-techgray/50 relative" aria-label="Capacidades de Engenharia">
-        <CapacitiesParallax>
-          <div className="fluid-container relative z-10">
-            <AnimateOnScroll>
-              <div className="text-center mb-[clamp(3rem,5vw,5rem)]">
-                <h2 className="text-[clamp(2rem,4vw,2.5rem)] font-bold text-zinc-100 mb-4 tracking-tight">Capacidades de Engenharia</h2>
-                <p className="text-zinc-400 max-w-2xl mx-auto text-lg font-light">Nossas frentes de pesquisa e prototipagem abrangem desde a nuvem até o hardware no ambiente físico.</p>
-              </div>
-            </AnimateOnScroll>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-6xl mx-auto">
-              {capacities.map((item, index) => (
-                <AnimateOnScroll key={item.id} delay={(index % 4) * 100}>
-                  <div className="capability-card group relative rounded-2xl bg-brimajor-graphite/40 border border-brimajor-techgray p-[clamp(1.5rem,3vw,2.5rem)] overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:border-brimajor-primary/50 hover:bg-brimajor-graphite/80 hover:shadow-[0_8px_30px_rgba(0,102,255,0.15)]">
-                    {/* Glow interno */}
-                    <div className="absolute -inset-px bg-gradient-to-r from-brimajor-primary/0 via-brimajor-primary/20 to-brimajor-neon/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
-                    {/* Shimmer line top */}
-                    <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-brimajor-neon/40 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
-
-                    <div className="relative z-10">
-                      <div className="mb-6 p-4 inline-block bg-brimajor-black border border-brimajor-techgray rounded-xl group-hover:scale-110 group-hover:bg-brimajor-dark/30 group-hover:border-brimajor-primary/30 transition-all duration-500 shadow-inner">
-                        {iconMap[item.icon]}
-                      </div>
-                      <h3 className="text-2xl font-semibold text-zinc-100 mb-3 group-hover:text-brimajor-neon transition-colors duration-300">{item.title}</h3>
-                      <p className="text-zinc-400 font-light leading-relaxed text-base">{item.description}</p>
-                    </div>
-                  </div>
-                </AnimateOnScroll>
-              ))}
-            </div>
+      {/* Unificação: Capacidades + Modelo de Trabalho Seguro via StickyScrollShowcase */}
+      <section className="py-24 border-t border-brimajor-techgray/50 relative overflow-hidden" aria-label="Como Trabalhamos">
+        <div className="fluid-container relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-[clamp(2rem,4vw,2.5rem)] font-bold text-zinc-100 mb-4 tracking-tight">Como Estruturamos Soluções</h2>
+            <p className="text-zinc-400 max-w-2xl mx-auto text-lg font-light">Nossas frentes tecnológicas combinadas com a jornada de validação e redução contínua de risco.</p>
           </div>
-        </CapacitiesParallax>
-      </section>
 
-      {/* Modelo de Trabalho */}
-      <section className="relative overflow-hidden border-t border-brimajor-techgray/50" aria-label="Modelo de Trabalho">
-        <TimelinePin>
-          <div className="fluid-container relative z-10 py-[clamp(5rem,10vw,10rem)]">
-            <AnimateOnScroll>
-              <div className="text-center mb-[clamp(4rem,6vw,6rem)]">
-                <h2 className="text-[clamp(2rem,4vw,2.5rem)] font-bold text-zinc-100 mb-4 tracking-tight">Nosso Modelo de Trabalho Seguro</h2>
-                <p className="text-zinc-400 max-w-2xl mx-auto text-lg font-light">Mitigação de riscos em quatro passos essenciais antes de investimentos estruturais.</p>
-              </div>
-            </AnimateOnScroll>
-
-            <div className="max-w-6xl mx-auto">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-4 relative">
-                <div className="hidden md:block absolute top-10 left-10 right-10 h-[1px] bg-gradient-to-r from-transparent via-brimajor-primary/30 to-transparent z-0" />
-
-                {timelineSteps.map((step) => (
-                  <div key={step.step} className="timeline-step relative z-10 flex flex-col items-center text-center group">
-                    <div className="w-20 h-20 rounded-full bg-brimajor-black border border-brimajor-techgray group-hover:border-brimajor-neon flex items-center justify-center text-2xl font-bold text-brimajor-primary mb-6 shadow-lg transition-all duration-500 group-hover:scale-110 group-hover:shadow-[0_0_30px_rgba(0,136,255,0.4)] group-hover:text-brimajor-neon">
-                      {step.step}
-                    </div>
-                    <h4 className="text-xl font-semibold text-zinc-100 mb-3 tracking-tight">{step.title}</h4>
-                    <p className="text-sm md:text-base text-zinc-400 font-light leading-relaxed max-w-[250px]">{step.description}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </TimelinePin>
+          <StickyScrollShowcase
+            steps={showcaseSteps}
+            renderVisual={renderHomeVisual}
+            side="right"
+          />
+        </div>
       </section>
     </div>
   );
