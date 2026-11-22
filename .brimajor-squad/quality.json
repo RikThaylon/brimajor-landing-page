@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "exclude": [
+    "public/modelos/*",
+    "public/marca/*",
+    "public/fotos/*",
+    "src/app/opengraph-image.jpg",
+    "src/app/favicon.ico"
+  ],
+  "fail_on": {
+    "secrets": "medium",
+    "security": "high",
+    "clean_code": "high",
+    "accessibility": "high",
+    "test_quality": "high"
+  },
+  "thresholds": {
+    "clean_code": {}
+  },
+  "checks": [
+    {
+      "id": "tests",
+      "command": "npm test",
+      "cwd": ".",
+      "stage": "build",
+      "required": true
+    },
+    {
+      "id": "lint",
+      "command": "npm run lint",
+      "cwd": ".",
+      "stage": "build",
+      "required": true
+    },
+    {
+      "id": "typecheck",
+      "command": "npm run typecheck",
+      "cwd": ".",
+      "stage": "build",
+      "required": true
+    },
+    {
+      "id": "build",
+      "command": "npm run build",
+      "cwd": ".",
+      "stage": "release",
+      "required": true
+    },
+    {
+      "id": "dependency_audit",
+      "command": "npm audit --audit-level=high",
+      "cwd": ".",
+      "stage": "release",
+      "required": false
+    }
+  ],
+  "coverage": {
+    "report": null,
+    "min_line_percent": 80,
+    "required": false
+  },
+  "rtm": {
+    "enabled": "auto",
+    "rtm": "docs/domain/RTM.md",
+    "bdd_dir": "docs/domain"
+  },
+  "mutation": {
+    "enabled": false,
+    "targets": [],
+    "test_cmd": "",
+    "threshold": 85,
+    "max_mutations": 15
+  },
+  "waivers": {}
+}

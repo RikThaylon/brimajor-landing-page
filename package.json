@@ -1,31 +1,40 @@
 {
-  "name": "brimajor-institucional",
-  "version": "0.1.0",
+  "name": "brimajor-site",
+  "version": "1.0.0",
   "private": true,
+  "description": "Site institucional da Brimajor Sistemas Embarcados & IA, com mapa de cursos e treinamentos de IA.",
+  "engines": {
+    "node": ">=20.9"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "models:export": "node --no-warnings scripts/export-models.mjs"
   },
   "dependencies": {
-    "gsap": "^3.15.0",
-    "lucide-react": "^1.23.0",
-    "next": "16.2.10",
-    "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "@gsap/react": "^2.1.2",
+    "@neondatabase/serverless": "^1.2.1",
+    "gsap": "^3.15.1",
+    "lucide-react": "^1.77.0",
+    "next": "^16.4.6",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "three": "^0.187.0"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.3.2",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "16.2.10",
-    "tailwindcss": "^4.3.2",
-    "typescript": "^5"
-  },
-  "overrides": {
-    "postcss": "^8.5.10"
+    "@tailwindcss/postcss": "^4.3.5",
+    "@types/node": "^22.20.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/three": "^0.187.0",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.4.6",
+    "tailwindcss": "^4.3.5",
+    "typescript": "^5.9.3",
+    "vitest": "^5.1.1"
   }
 }

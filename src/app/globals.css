@@ -1,201 +1,169 @@
 @import "tailwindcss";
 
-:root {
-  --background: #000000;
-  --foreground: #ededed;
+/* ───────────── Identidade Brimajor: noite de circuito, azul elétrico ─────────────
+   Contraste conferido sobre o fundo #02050c: texto 16,9:1 · suave 9,1:1 · apagado 4,8:1 · neon 8,2:1 */
+@theme {
+  --color-fundo: #02050c;
+  --color-superficie: #070d1a;
+  --color-superficie-2: #0b1426;
+  --color-linha: #17253f;
+  --color-linha-forte: #24375c;
+  --color-primaria: #0066ff;
+  --color-neon: #33aaff;
+  --color-ciano: #7fe3ff;
+  --color-texto: #e6edf7;
+  --color-suave: #9fb0c8;
+  --color-apagado: #7889a3;
+  --color-whatsapp: #25d366;
+
+  /* tokens do site anterior (usados pelo preview do Kanban Estoque) */
+  --color-brimajor-primary: #0066ff;
+  --color-brimajor-neon: #33aaff;
+  --color-brimajor-black: #02050c;
+  --color-brimajor-graphite: #0b1426;
+  --color-brimajor-techgray: #24375c;
+
+  --font-sans: var(--fonte-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--fonte-grotesk), var(--fonte-inter), ui-sans-serif, sans-serif;
+  --font-mono: var(--fonte-mono), ui-monospace, monospace;
+
+  --ease-cinema: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-saida: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-
-  --color-brimajor-primary: #0066FF;
-  --color-brimajor-neon: #0099FF;
-  --color-brimajor-deep: #0033CC;
-  --color-brimajor-dark: #002E7A;
-  --color-brimajor-black: #000000;
-  --color-brimajor-graphite: #111111;
-  --color-brimajor-techgray: #2E2E2E;
-  --color-brimajor-white: #FFFFFF;
-}
-
-/* Circuit texture background */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg stroke='%23005DFF' stroke-width='0.3' stroke-opacity='0.06'%3E%3Cpath d='M30 0v60M0 30h60M15 0v60M45 0v60M0 15h60M0 45h60'/%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3Ccircle cx='15' cy='15' r='1'/%3E%3Ccircle cx='45' cy='45' r='1'/%3E%3Ccircle cx='15' cy='45' r='1'/%3E%3Ccircle cx='45' cy='15' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 60px 60px;
-  pointer-events: none;
-  z-index: -30;
-  opacity: 0.4;
+html {
+  background: var(--color-fundo);
+  color-scheme: dark;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   background:
-    radial-gradient(ellipse 80% 50% at 10% 20%, rgba(0, 93, 255, 0.07), transparent),
-    radial-gradient(ellipse 60% 40% at 90% 80%, rgba(0, 68, 204, 0.10), transparent),
-    #000000;
-  color: var(--foreground);
-  overflow-x: hidden;
-  scroll-behavior: smooth;
+    radial-gradient(60rem 40rem at 85% -10%, rgb(0 102 255 / 0.10), transparent 60%),
+    radial-gradient(50rem 40rem at -10% 30%, rgb(51 170 255 / 0.06), transparent 60%),
+    var(--color-fundo);
+  color: var(--color-texto);
+  overflow-x: clip;
+  min-height: 100dvh;
 }
 
-[id] { scroll-margin-top: 5rem; }
-
-/* ── 3D Animations (GPU-composited only: transform + opacity) ── */
-
-/* Floating orbs in hero */
-@keyframes float3d {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.6; }
-  33%       { transform: translate3d(12px, -18px, 0) scale(1.05); opacity: 0.8; }
-  66%       { transform: translate3d(-8px, 8px, 0) scale(0.95); opacity: 0.5; }
+/* malha de circuito discreta no fundo */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image: url("data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%2333AAFF' stroke-opacity='0.05' stroke-width='0.5'%3E%3Cpath d='M0 32h20l6-6h12M44 26h20M32 0v14M32 50v14'/%3E%3Ccircle cx='41' cy='26' r='2'/%3E%3Ccircle cx='32' cy='16' r='1.5'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 64px 64px;
+  mask-image: linear-gradient(to bottom, black, transparent 90%);
 }
 
-/* Slow rotation for logo glow ring */
-@keyframes spin3d {
-  from { transform: rotate3d(0.5, 1, 0.2, 0deg); }
-  to   { transform: rotate3d(0.5, 1, 0.2, 360deg); }
+/* grão de filme (textura de pós-produção) */
+body::after {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grao 1s steps(4) infinite;
 }
 
-/* Pulse glow */
-@keyframes glowPulse {
-  0%, 100% { box-shadow: 0 0 30px rgba(0, 102, 255, 0.3), 0 0 60px rgba(0, 153, 255, 0.1); }
-  50%       { box-shadow: 0 0 50px rgba(0, 102, 255, 0.6), 0 0 100px rgba(0, 153, 255, 0.3); }
+@keyframes grao {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-3%, 2%); }
+  50% { transform: translate(2%, -3%); }
+  75% { transform: translate(-2%, -1%); }
+  100% { transform: translate(0, 0); }
 }
 
-/* Beam sweep */
-@keyframes beamSweep {
-  0%   { transform: translateX(-100%) rotate(-15deg); opacity: 0; }
-  15%  { opacity: 1; }
-  85%  { opacity: 1; }
-  100% { transform: translateX(200%) rotate(-15deg); opacity: 0; }
-}
-
-/* Fade+slide up */
-@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
-
-@keyframes slideUp {
-  from { opacity: 0; transform: translate3d(0, 24px, 0); }
-  to   { opacity: 1; transform: translate3d(0, 0, 0); }
-}
-
-/* Stars/particles drift */
-@keyframes drift {
-  0%   { transform: translate3d(0, 0, 0); opacity: 0; }
-  10%  { opacity: 1; }
-  90%  { opacity: 1; }
-  100% { transform: translate3d(var(--dx, 20px), var(--dy, -60px), 0); opacity: 0; }
-}
-
-/* Fade out up for loading screen exit */
-@keyframes fadeOutUp {
-  from { opacity: 1; transform: translate3d(0, 0, 0); }
-  to   { opacity: 0; transform: translate3d(0, -20px, 0); }
-}
-
-/* Scroll progress bar fill */
-@keyframes scrollProgress {
-  from { transform: scaleX(0); }
-  to   { transform: scaleX(1); }
-}
-
-/* Gentle border glow pulse */
-@keyframes borderGlow {
-  0%, 100% { border-color: rgba(0, 102, 255, 0.15); }
-  50%       { border-color: rgba(0, 153, 255, 0.35); }
-}
-
-.animate-fade-in   { animation: fade 0.6s ease-in-out forwards; opacity: 0; }
-.animate-float     { animation: float3d 6s ease-in-out infinite; will-change: transform; }
-.animate-float-slow{ animation: float3d 9s ease-in-out infinite; will-change: transform; }
-.animate-glow      { animation: glowPulse 3s ease-in-out infinite; will-change: box-shadow; }
-.animate-beam      { animation: beamSweep 4s ease-in-out infinite; will-change: transform; }
-.animate-spin3d    { animation: spin3d 20s linear infinite; will-change: transform; }
-.animate-slide-up  { animation: slideUp 0.7s ease-out forwards; opacity: 0; }
-.animate-border-glow { animation: borderGlow 3s ease-in-out infinite; }
-
-/* Particles */
-.particle {
-  position: absolute;
-  width: 2px;
-  height: 2px;
-  border-radius: 50%;
-  background: #0099FF;
-  animation: drift 8s ease-in-out infinite;
-  will-change: transform, opacity;
-}
-
-/* Glass card effect */
-.glass-card {
-  background: rgba(17, 17, 17, 0.6);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(46, 46, 46, 0.8);
-  border-radius: 1rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.04);
-}
-
-/* Glow border on hover */
-.glow-border {
-  position: relative;
-  overflow: hidden;
-}
-.glow-border::before {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  background: linear-gradient(135deg, rgba(0, 102, 255, 0.3), transparent 40%, transparent 60%, rgba(0, 153, 255, 0.3));
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  z-index: -1;
-}
-.glow-border:hover::before { opacity: 1; }
-
-/* Section divider — gradient line */
-.section-divider {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(0, 102, 255, 0.25) 20%, rgba(0, 153, 255, 0.4) 50%, rgba(0, 102, 255, 0.25) 80%, transparent);
-}
-
-/* Fluid container */
-.fluid-container {
-  width: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
-  padding-inline: clamp(1rem, 5vw, 4rem);
-}
+::selection { background: var(--color-primaria); color: #fff; }
 
 :focus-visible {
-  outline: 2px solid var(--color-brimajor-neon);
-  outline-offset: 2px;
-  border-radius: 2px;
+  outline: 2px solid var(--color-neon);
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
-/* ── Mobile optimizations ── */
-@media (max-width: 640px) {
-  .particle { display: none; }
+[id] { scroll-margin-top: 6rem; }
+
+/* ───────────── utilitários ───────────── */
+@utility container-site {
+  width: 100%;
+  max-width: 1360px;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 3rem);
 }
+
+@utility rotulo-secao {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-neon);
+}
+
+@utility texto-gradiente {
+  background: linear-gradient(100deg, #ffffff 0%, #9fd3ff 45%, var(--color-neon) 70%, var(--color-primaria) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility cartao {
+  position: relative;
+  border: 1px solid var(--color-linha);
+  background: linear-gradient(180deg, rgb(11 20 38 / 0.85), rgb(7 13 26 / 0.85));
+  border-radius: 1.25rem;
+  box-shadow: 0 1px 0 rgb(255 255 255 / 0.04) inset, 0 30px 60px -30px rgb(0 0 0 / 0.8);
+}
+
+@utility linha-divisoria {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgb(51 170 255 / 0.35), transparent);
+}
+
+/* pad de solda usado como marcador nos rótulos */
+.pad {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 999px;
+  border: 1.5px solid currentColor;
+  box-shadow: 0 0 10px currentColor;
+  flex: none;
+}
+
+/* ───────────── movimento ─────────────
+   O script do <head> marca html[data-movimento="ok"] antes da pintura; só então o conteúdo
+   que será revelado começa invisível. Sem JS, com movimento reduzido ou se algo falhar, tudo aparece. */
+html[data-movimento="ok"] [data-revelar] { opacity: 0; }
+html[data-movimento="ok"] [data-revelar="mascara"] { clip-path: inset(0 0 100% 0); opacity: 1; }
+
+/* abertura (preloader): só existe quando o script do <head> pede */
+#abertura { display: none; }
+html[data-abertura="mostrar"] #abertura { display: flex; }
+html[data-abertura="mostrar"] body { overflow: hidden; }
+
+@keyframes pulso-trilha {
+  from { stroke-dashoffset: 248; }
+  to { stroke-dashoffset: 0; }
+}
+
+/* linhas do SplitText */
+.linha-mascara { overflow: clip; padding-bottom: 0.08em; margin-bottom: -0.08em; }
 
 @media (prefers-reduced-motion: reduce) {
-  .particle,
-  .animate-float,
-  .animate-float-slow,
-  .animate-beam,
-  .animate-spin3d {
-    animation: none !important;
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
-  .animate-glow {
-    animation: none !important;
-    box-shadow: 0 0 20px rgba(0, 102, 255, 0.3);
-  }
-}
-
-/* Safe area for iPhones with notch */
-@supports (padding-bottom: env(safe-area-inset-bottom)) {
-  .safe-bottom {
-    padding-bottom: env(safe-area-inset-bottom);
-  }
+  body::after { display: none; }
 }

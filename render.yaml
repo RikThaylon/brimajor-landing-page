@@ -1,0 +1,17 @@
+# Serviço da landing page, publicada a partir da raiz do repositório.
+services:
+  - type: web
+    name: brimajor
+    runtime: node
+    plan: free
+    buildCommand: npm ci && npm run build
+    startCommand: npm run start
+    healthCheckPath: /
+    autoDeployTrigger: commit
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: NEXT_TELEMETRY_DISABLED
+        value: "1"
+      - key: DATABASE_URL
+        sync: false # cole a connection string da Neon (usuário site_leitura) no painel da Render
