@@ -71,12 +71,17 @@ export function MapaCursos({ catalogo }: { catalogo: Catalogo }) {
 
   return (
     <div ref={raiz}>
-      {/* Desktop e tablet: metrô horizontal */}
-      <div className="hidden overflow-x-auto pb-4 md:block">
+      {/* Desktop: metrô horizontal. Em telas menores, o mapa vertical evita rótulos comprimidos. */}
+      <div
+        className="hidden overflow-x-auto pb-4 lg:block"
+        role="region"
+        aria-label="Mapa horizontal das trilhas de cursos. Use as setas para rolar quando necessário."
+        tabIndex={0}
+      >
         <MapaHorizontal layout={horizontal} abrir={abrir} />
       </div>
-      {/* Celular: ramais verticais */}
-      <div className="md:hidden">
+      {/* Celular e tablet: ramais verticais legíveis. */}
+      <div className="lg:hidden">
         <MapaVertical layout={vertical} abrir={abrir} />
       </div>
 
@@ -111,7 +116,11 @@ function Estacao({ curso, cor, abrir, className, style, rotulo }: { curso: Curso
 function MapaHorizontal({ layout, abrir }: { layout: MapaLayout; abrir: (c: Curso) => void }) {
   const pct = (v: number, total: number) => `${(v / total) * 100}%`;
   return (
-    <div data-mapa className="relative min-w-[980px]" style={{ aspectRatio: `${layout.largura} / ${layout.altura}` }}>
+    <div
+      data-mapa
+      className="relative mx-auto w-full"
+      style={{ minWidth: Math.max(1100, Math.ceil(layout.largura * 0.92)), aspectRatio: `${layout.largura} / ${layout.altura}` }}
+    >
       <svg viewBox={`0 0 ${layout.largura} ${layout.altura}`} className="absolute inset-0 h-full w-full" role="img" aria-labelledby="mapa-titulo mapa-desc">
         <title id="mapa-titulo">Mapa de cursos em linhas de metrô</title>
         <desc id="mapa-desc">Cada linha colorida é uma trilha; as estações são os cursos, do nível iniciante, à esquerda, ao avançado, à direita. A lista abaixo traz os mesmos cursos em texto.</desc>
@@ -138,7 +147,7 @@ function MapaHorizontal({ layout, abrir }: { layout: MapaLayout; abrir: (c: Curs
         <circle cx={layout.hub.x} cy={layout.hub.y} r={20} fill="#02050c" stroke="#e6edf7" strokeWidth={4} />
         <circle cx={layout.hub.x} cy={layout.hub.y} r={7} fill="#e6edf7" />
       </svg>
-      <p data-rotulo-mapa className="absolute -translate-x-full -translate-y-1/2 whitespace-nowrap font-mono text-[0.7rem] uppercase tracking-[0.15em] text-texto" style={{ left: pct(layout.hub.x - 32, layout.largura), top: pct(layout.hub.y, layout.altura) }}>
+      <p data-rotulo-mapa className="absolute -translate-y-1/2 whitespace-nowrap font-mono text-[0.7rem] uppercase tracking-[0.15em] text-texto" style={{ left: pct(Math.max(12, layout.hub.x - 104), layout.largura), top: pct(layout.hub.y, layout.altura) }}>
         Comece aqui
       </p>
       {layout.rotulosTrilha.map((r) => (
@@ -155,7 +164,7 @@ function MapaHorizontal({ layout, abrir }: { layout: MapaLayout; abrir: (c: Curs
           className="h-0 w-0 focus-visible:outline-offset-[14px]"
           style={{ left: pct(e.x, layout.largura), top: pct(e.y, layout.altura) }}
           rotulo={
-            <span data-rotulo-mapa className="absolute left-0 top-5 w-[9.5rem] -translate-x-1/2 text-center text-[0.8rem] font-medium leading-snug text-texto transition-colors group-hover:text-white">
+            <span data-rotulo-mapa className="absolute left-0 top-5 w-[6.75rem] -translate-x-1/2 text-center text-[0.72rem] font-medium leading-[1.3] text-texto transition-colors group-hover:text-white">
               {e.curso.titulo}
             </span>
           }

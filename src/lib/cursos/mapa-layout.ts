@@ -40,7 +40,9 @@ export interface MapaLayout {
   tronco: string | null; // só no vertical
 }
 
-export const MEDIDAS_HORIZONTAL = { hubX: 150, curva: 130, slot: 172, vaoNivel: 48, linha: 132, topo: 96, margem: 48 } as const;
+// O desenho horizontal cabe no conteúdo útil de um desktop de 1280 px sem achatar a altura.
+// Cada estação conserva 120 px de largura e cada trilha, 152 px de altura para os rótulos.
+export const MEDIDAS_HORIZONTAL = { hubX: 120, curva: 100, slot: 120, vaoNivel: 32, linha: 152, topo: 112, margem: 40 } as const;
 export const MEDIDAS_VERTICAL = { troncoX: 22, linhaX: 54, topo: 28, cabecalho: 84, passo: 76, vaoTrilha: 40 } as const;
 
 const r = (n: number) => Math.round(n * 10) / 10;

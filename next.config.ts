@@ -28,6 +28,10 @@ const cabecalhosDeSeguranca = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // Evita a falha de captura do `tsc --showConfig` do Next em ambientes Node 24.
+  experimental: {
+    useTypeScriptCli: false,
+  },
   async headers() {
     return [{ source: "/:path*", headers: cabecalhosDeSeguranca }];
   },
