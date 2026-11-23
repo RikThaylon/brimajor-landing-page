@@ -5,7 +5,7 @@ Site institucional da **Brimajor Sistemas Embarcados & IA** (Manaus/AM), com mod
 | Página | O que tem |
 |---|---|
 | `/` | Abertura animada, chip 3D que reage ao mouse e mergulha com o scroll, manifesto, frentes, produtos e serviços, modelo de trabalho, iniciações, chamada dos cursos e contato |
-| `/cursos` | Mapa de cursos em linhas de metrô (lido da Neon), painel do curso, lista filtrável, formatos e inscrição pelo WhatsApp |
+| `/cursos` | Mapa de cinco módulos em linhas de metrô (lido da Neon), painel, filtros e acesso à Brimajor Academy |
 | `/squad` | Serviço de montagem de squads de agentes de IA sob medida para outras equipes |
 | `/estoque`, `/estoque/dossie-tecnico`, `/iniciacoes` | Conteúdo do site anterior, no visual novo (links antigos continuam valendo) |
 
@@ -44,13 +44,11 @@ O [Blueprint](render.yaml) fica na raiz do repositório.
 
 ## Cursos e materiais de capacitação
 
-O catálogo tem **9 capacitações empresariais em 4 trilhas de maturidade**: Começar com IA, Engenharia de Contexto, IA nos Processos e Agentes e Squads. O foco é aplicação prática sem exigir programação; os cursos avançados tratam de agentes supervisionados e montagem de squads para equipes.
+O catálogo tem **5 módulos empresariais em 4 trilhas de maturidade**: Começar com IA, Engenharia de Contexto, IA nos Processos e Agentes e Squads. O foco é aplicação prática sem exigir programação; cada módulo adquirido inclui apostila em PDF, apresentação em PPTX, acesso permanente e três meses de mentoria.
 
-- Apostila curta: [`materiais/capacitacao-ia-empresas/apostila-ia-na-pratica.pdf`](materiais/capacitacao-ia-empresas/apostila-ia-na-pratica.pdf)
-- Apresentação: [`materiais/capacitacao-ia-empresas/apresentacao-ia-na-pratica.pptx`](materiais/capacitacao-ia-empresas/apresentacao-ia-na-pratica.pptx)
-- Fontes e instruções de regeneração: [`materiais/capacitacao-ia-empresas/README.md`](materiais/capacitacao-ia-empresas/README.md)
+Os materiais não são publicados como amostra gratuita. Os arquivos finais ficam no bucket privado da Neon e são liberados somente na área autenticada da **Brimajor Academy**, após matrícula válida.
 
-O catálogo publicado vem do projeto **`brimajor-site`** na Neon, tabelas `trilhas` e `cursos` ([`db/schema.sql`](db/schema.sql)). O conteúdo inicial está em [`db/seed.sql`](db/seed.sql), com status `em_breve`. Para administrar as turmas, use o **SQL Editor** da Neon:
+O catálogo publicado vem do projeto **`brimajor-site`** na Neon, tabelas `trilhas` e `cursos` ([`db/schema.sql`](db/schema.sql)). O conteúdo inicial está em [`db/seed.sql`](db/seed.sql), com os cinco módulos em `inscricoes_abertas`. Para administrar as ofertas, use o **SQL Editor** da Neon:
 
 ```sql
 -- abrir inscrições de um curso e definir a carga horária
@@ -65,11 +63,11 @@ values ('ia-para-vendas', 'dev', 'IA para Vendas', 'Aplicação supervisionada d
 update cursos set status = 'encerrado' where id = 'uso-seguro-ia';
 ```
 
-- `nivel`: `iniciante`, `intermediario` ou `avancado` · `status`: `em_breve` (botão "Quero ser avisado"), `inscricoes_abertas` ("Quero me inscrever") ou `encerrado` (some do site) · `modalidades`: `presencial`, `online`, `in_company`.
+- `nivel`: `iniciante`, `intermediario` ou `avancado` · `status`: `em_breve`, `inscricoes_abertas` (exibido como "Disponível") ou `encerrado` (some do site) · `modalidades`: `presencial`, `online`, `in_company`.
 - O site atualiza sozinho em até **5 minutos**. Linha inválida é ignorada e aparece no log da Render.
 - Sem banco ou com o banco fora do ar, o site mostra o catálogo local ([`src/lib/cursos/catalogo-local.ts`](src/lib/cursos/catalogo-local.ts)) — mantenha os dois em sincronia quando os cursos forem definitivos.
 
-**Pagamento:** o site não cobra nem guarda dados. Os botões abrem o WhatsApp (92) 98522-4523 com a mensagem pronta; turma, formato e pagamento são combinados na conversa.
+**Compra e acesso:** os botões dos cinco módulos levam ao portal `brimajor-academy.onrender.com`. O login usa Google, o material permanece privado e o checkout hospedado pelo Mercado Pago só é habilitado quando as credenciais próprias de produção estão validadas.
 
 ## Fotos autorais
 

@@ -1,9 +1,10 @@
 "use client";
 
-import { ArrowRight, RotateCcw } from "lucide-react";
+import { GraduationCap, RotateCcw } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { IconeWhatsApp } from "@/components/ui/icone";
 import { filtrarCursos } from "@/lib/cursos/filtro";
+import { linkCompraAcademy } from "@/lib/cursos/academy";
 import { layoutMapa, type MapaLayout } from "@/lib/cursos/mapa-layout";
 import { NIVEIS, ROTULO_NIVEL, ROTULO_STATUS, type Catalogo, type Curso, type Nivel, type Trilha } from "@/lib/cursos/tipos";
 import { COM_MOVIMENTO, gsap, useGSAP } from "@/lib/gsap";
@@ -263,6 +264,7 @@ function ListaCursos({ catalogo, porTrilha, abrir }: { catalogo: Catalogo; porTr
         <ul className="mt-10 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
           {resultado.map((curso) => {
             const t = porTrilha.get(curso.trilhaId);
+            const academyHref = curso.status === "inscricoes_abertas" ? linkCompraAcademy(curso.id) : null;
             return (
               <li key={curso.id} className="cartao flex flex-col overflow-clip">
                 <span className="h-1 w-full" style={{ background: t?.cor }} aria-hidden="true" />
@@ -276,12 +278,19 @@ function ListaCursos({ catalogo, porTrilha, abrir }: { catalogo: Catalogo; porTr
                   </p>
                   <div className="mt-6 flex flex-wrap items-center gap-3">
                     <button type="button" onClick={() => abrir(curso)} className="inline-flex items-center gap-1.5 rounded-full border border-linha-forte px-4 py-2.5 text-sm hover:border-neon">
-                      Ver detalhes <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                      Ver detalhes
                     </button>
-                    <a href={linkWhatsApp(mensagemCurso(curso, t))} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 rounded-full px-2 py-2.5 text-sm font-medium text-whatsapp hover:underline">
-                      <IconeWhatsApp className="h-4 w-4" /> {rotuloAcaoCurso(curso)}
-                      <span className="sr-only"> — {curso.titulo}</span>
-                    </a>
+                    {academyHref ? (
+                      <a href={academyHref} className="inline-flex items-center gap-1.5 rounded-full px-2 py-2.5 text-sm font-medium text-neon hover:underline">
+                        <GraduationCap className="h-4 w-4" /> Conhecer módulo
+                        <span className="sr-only"> — {curso.titulo}</span>
+                      </a>
+                    ) : (
+                      <a href={linkWhatsApp(mensagemCurso(curso, t))} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 rounded-full px-2 py-2.5 text-sm font-medium text-whatsapp hover:underline">
+                        <IconeWhatsApp className="h-4 w-4" /> {rotuloAcaoCurso(curso)}
+                        <span className="sr-only"> — {curso.titulo}</span>
+                      </a>
+                    )}
                   </div>
                 </div>
               </li>

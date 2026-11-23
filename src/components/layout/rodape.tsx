@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ArrowUpRight, MapPin } from "lucide-react";
+import { ArrowUpRight, GraduationCap, MapPin } from "lucide-react";
 import { IconeInstagram, IconeWhatsApp } from "@/components/ui/icone";
 import { empresa, navegacao } from "@/lib/conteudo";
 import { linkWhatsApp, WHATSAPP_EXIBICAO } from "@/lib/whatsapp";
@@ -32,6 +32,12 @@ export function Rodape() {
         <div>
           <h2 className="rotulo-secao mb-5"><span className="pad" />Contato</h2>
           <ul className="space-y-3 text-sm">
+            <li>
+              <a href={empresa.academy.url} className="inline-flex items-center gap-2 text-neon hover:text-white">
+                <GraduationCap className="h-4 w-4" aria-hidden="true" />
+                {empresa.academy.rotulo}
+              </a>
+            </li>
             <li>
               <a href={linkWhatsApp("Olá, Brimajor! Vim pelo site.")} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-whatsapp hover:underline">
                 <IconeWhatsApp className="h-4 w-4" />

@@ -6,6 +6,7 @@ export const empresa = {
   cnpj: "67.072.659/0001-24",
   cidade: "Manaus — Amazonas",
   instagram: { usuario: "@brimajor_ia", url: "https://instagram.com/brimajor_ia" },
+  academy: { rotulo: "Área do aluno", url: "https://brimajor-academy.onrender.com/auth/sign-in" },
   url: "https://brimajor.onrender.com",
   descricao:
     "Prototipagem ágil, sistemas embarcados e inteligência artificial em Manaus/AM. Protótipos que provam viabilidade antes do grande investimento — e cursos de IA para pessoas e equipes.",

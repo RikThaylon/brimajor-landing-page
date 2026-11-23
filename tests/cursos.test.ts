@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { codigoProdutoAcademy, linkCompraAcademy } from "@/lib/cursos/academy";
 import { catalogoLocal } from "@/lib/cursos/catalogo-local";
 import { filtrarCursos } from "@/lib/cursos/filtro";
 import { normalizarCursos, normalizarTrilhas } from "@/lib/cursos/normalizar";
@@ -13,7 +14,9 @@ describe("catálogo", () => {
     const ids = new Set(catalogoLocal.trilhas.map((t) => t.id));
     expect(catalogoLocal.cursos.every((c) => ids.has(c.trilhaId))).toBe(true);
     expect(new Set(catalogoLocal.cursos.map((c) => c.id)).size).toBe(catalogoLocal.cursos.length);
-    expect(catalogoLocal.cursos.every((c) => c.status === "em_breve")).toBe(true);
+    expect(catalogoLocal.cursos).toHaveLength(5);
+    expect(catalogoLocal.cursos.every((c) => c.status === "inscricoes_abertas")).toBe(true);
+    expect(catalogoLocal.cursos.every((c) => codigoProdutoAcademy(c.id))).toBe(true);
   });
 
   it("normaliza uma linha válida do banco", () => {
@@ -61,8 +64,16 @@ describe("catálogo", () => {
 
   it("filtra por trilha e nível — covers: CEN-006", () => {
     const r = filtrarCursos(catalogoLocal.cursos, { trilha: "embarcada", nivel: "avancado" });
-    expect(r.map((c) => c.id)).toEqual(["agentes-supervisionados", "squads-agentes-equipes"]);
+    expect(r.map((c) => c.id)).toEqual(["agentes-supervisionados"]);
     expect(filtrarCursos(catalogoLocal.cursos, {})).toHaveLength(catalogoLocal.cursos.length);
+  });
+
+  it("liga cada módulo disponível ao produto correspondente da Academy", () => {
+    expect(codigoProdutoAcademy("ia-na-pratica-empresas")).toBe("MOD-01");
+    expect(linkCompraAcademy("agentes-supervisionados")).toBe(
+      "https://brimajor-academy.onrender.com/comprar/MOD-05",
+    );
+    expect(linkCompraAcademy("curso-inexistente")).toBeNull();
   });
 
   it("filtro sem resultado devolve lista vazia — covers: CEN-006", () => {

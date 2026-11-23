@@ -50,6 +50,6 @@ export const ROTULO_MODALIDADE: Record<Modalidade, string> = {
 
 export const ROTULO_STATUS: Record<StatusCurso, string> = {
   em_breve: "Em breve",
-  inscricoes_abertas: "Inscrições abertas",
+  inscricoes_abertas: "Disponível",
   encerrado: "Encerrado",
 };

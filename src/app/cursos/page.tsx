@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Info } from "lucide-react";
+import { GraduationCap, Info } from "lucide-react";
 import { Revelar } from "@/components/animacao/revelar";
 import { TituloRevelado } from "@/components/animacao/titulo-revelado";
 import { MapaCursos } from "@/components/cursos/mapa-cursos";
@@ -7,6 +7,7 @@ import { Foto } from "@/components/foto";
 import { Cena3D } from "@/components/tres/cena-3d";
 import { Icone, IconeWhatsApp } from "@/components/ui/icone";
 import { formatosTreinamento } from "@/lib/conteudo";
+import { ACADEMY_URL } from "@/lib/cursos/academy";
 import type { Catalogo } from "@/lib/cursos/tipos";
 import { getCatalogo } from "@/lib/cursos/repositorio";
 import { linkWhatsApp } from "@/lib/whatsapp";
@@ -19,9 +20,9 @@ export const metadata: Metadata = {
 };
 
 const passos = [
-  { n: "01", titulo: "Escolha no mapa", texto: "Siga a trilha que combina com você e toque no curso para ver nível, formato e conteúdo." },
-  { n: "02", titulo: "Chame no WhatsApp", texto: "O botão já abre a conversa com o nome do curso escrito. É só enviar." },
-  { n: "03", titulo: "Combine turma e pagamento", texto: "A nossa equipe passa datas, formato e forma de pagamento direto com você." },
+  { n: "01", titulo: "Escolha o módulo", texto: "Compare nível, carga horária, conteúdo e a entrega prática de cada um dos cinco módulos." },
+  { n: "02", titulo: "Acesse a Academy", texto: "Entre com Google usando o mesmo e-mail da compra para manter o acesso individual protegido." },
+  { n: "03", titulo: "Receba o material", texto: "Após a confirmação do pagamento, a apostila e a apresentação aparecem na sua área do aluno." },
 ];
 
 export default async function PaginaCursos() {
@@ -73,11 +74,16 @@ function SecaoMapa({ catalogo }: { catalogo: Catalogo }) {
   return (
     <section aria-labelledby="titulo-mapa" className="py-16 md:py-24">
       <div className="container-site">
-        <div className="mb-10 flex items-start gap-3 rounded-2xl border border-neon/25 bg-neon/5 p-5 text-sm leading-relaxed text-suave">
-          <Info className="mt-0.5 h-5 w-5 flex-none text-neon" aria-hidden="true" />
-          <p>
-            <strong className="font-semibold text-texto">Catálogo em construção.</strong> Esta é a grade que estamos preparando — os cursos estão marcados como <em>Em breve</em>. Toque num curso e peça para ser avisado quando a turma abrir.
-          </p>
+        <div className="mb-10 flex flex-col gap-5 rounded-2xl border border-neon/25 bg-neon/5 p-5 text-sm leading-relaxed text-suave md:flex-row md:items-center md:justify-between">
+          <div className="flex items-start gap-3">
+            <Info className="mt-0.5 h-5 w-5 flex-none text-neon" aria-hidden="true" />
+            <p>
+              <strong className="font-semibold text-texto">Cinco módulos disponíveis.</strong> Cada compra inclui apostila em PDF, apresentação em PPTX, acesso permanente e três meses de mentoria. Preço de lançamento: <strong className="font-semibold text-texto">R$ 297,90 por pessoa, por módulo</strong>.
+            </p>
+          </div>
+          <a href={`${ACADEMY_URL}/auth/sign-in`} className="inline-flex flex-none items-center justify-center gap-2 rounded-full bg-neon px-5 py-3 font-semibold text-black transition-transform hover:-translate-y-0.5">
+            <GraduationCap className="h-5 w-5" aria-hidden="true" /> Área do aluno
+          </a>
         </div>
         <h2 id="titulo-mapa" className="sr-only">Mapa das trilhas</h2>
         <MapaCursos catalogo={catalogo} />

@@ -1,10 +1,11 @@
 "use client";
 
-import { Clock, Layers, MapPin, X } from "lucide-react";
+import { Clock, GraduationCap, Layers, MapPin, X } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { IconeWhatsApp } from "@/components/ui/icone";
 import { usePrenderFoco } from "@/lib/foco";
 import { gsap, movimentoPermitido } from "@/lib/gsap";
+import { linkCompraAcademy } from "@/lib/cursos/academy";
 import { ROTULO_MODALIDADE, ROTULO_NIVEL, ROTULO_STATUS, type Curso, type Trilha } from "@/lib/cursos/tipos";
 import { linkWhatsApp, mensagemCurso, rotuloAcaoCurso } from "@/lib/whatsapp";
 
@@ -25,6 +26,7 @@ export function PainelCurso({ curso, trilha, aoFechar }: { curso: Curso; trilha?
 
   const cor = trilha?.cor ?? "#33aaff";
   const aberto = curso.status === "inscricoes_abertas";
+  const academyHref = aberto ? linkCompraAcademy(curso.id) : null;
 
   return (
     <div className="fixed inset-0 z-[70]">
@@ -70,17 +72,25 @@ export function PainelCurso({ curso, trilha, aoFechar }: { curso: Curso; trilha?
             </div>
           )}
           <div data-anima className="space-y-3 border-t border-linha pt-7">
-            <a
-              href={linkWhatsApp(mensagemCurso(curso, trilha))}
-              target="_blank" rel="noopener noreferrer"
-              className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-whatsapp px-6 py-4 font-semibold text-black transition-transform hover:-translate-y-0.5"
-            >
-              <IconeWhatsApp className="h-5 w-5" />
-              {rotuloAcaoCurso(curso)}
-            </a>
-            <p className="text-center text-xs leading-relaxed text-apagado">
-              Turma, formato e pagamento são combinados direto com a nossa equipe pelo WhatsApp.
-            </p>
+            {academyHref ? (
+              <>
+                <a href={academyHref} className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-neon px-6 py-4 font-semibold text-black transition-transform hover:-translate-y-0.5">
+                  <GraduationCap className="h-5 w-5" /> Conhecer na Academy
+                </a>
+                <p className="text-center text-xs leading-relaxed text-apagado">
+                  R$ 297,90 por pessoa. Inclui apostila, apresentação, acesso permanente e três meses de mentoria.
+                </p>
+              </>
+            ) : (
+              <>
+                <a href={linkWhatsApp(mensagemCurso(curso, trilha))} target="_blank" rel="noopener noreferrer" className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-whatsapp px-6 py-4 font-semibold text-black transition-transform hover:-translate-y-0.5">
+                  <IconeWhatsApp className="h-5 w-5" /> {rotuloAcaoCurso(curso)}
+                </a>
+                <p className="text-center text-xs leading-relaxed text-apagado">
+                  Fale com a equipe para receber informações sobre abertura e formato.
+                </p>
+              </>
+            )}
           </div>
         </div>
       </div>
