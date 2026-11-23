@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, type ElementType, type ReactNode } from "react";
-import { aguardarAbertura, COM_MOVIMENTO, gsap, useGSAP } from "@/lib/gsap";
+import { aguardarAbertura, COM_MOVIMENTO, gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
 
 type Efeito = "subir" | "mascara" | "desfoque";
 
@@ -37,7 +37,7 @@ export function Revelar({ children, como: Tag = "div", efeito = "subir", emSeque
         const para =
           efeito === "mascara"
             ? { clipPath: "inset(0% 0% 0% 0%)", duration: 1.3, ease: "expo.inOut" }
-            : { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: 1.1, ease: "expo.out" };
+            : { autoAlpha: 1, y: 0, ...(efeito === "desfoque" && { filter: "blur(0px)", clearProps: "filter" }), duration: 1.1, ease: "expo.out" };
         gsap.set(alvos, de);
         const tl = gsap.timeline({ paused: true, delay: atraso });
         tl.to(alvos, { ...para, stagger: emSequencia ? 0.09 : 0 });
@@ -45,11 +45,15 @@ export function Revelar({ children, como: Tag = "div", efeito = "subir", emSeque
           const midia = el.querySelector("img, [data-midia]");
           if (midia) tl.fromTo(midia, { scale: 1.3 }, { scale: 1, duration: 1.6, ease: "expo.out" }, 0);
         }
+        let ativo = true;
+        let gatilho: ScrollTrigger | undefined;
         aguardarAbertura().then(() => {
-          gsap.timeline({
-            scrollTrigger: { trigger: el, start: "top 88%", once: true, onEnter: () => tl.play() },
-          });
+          if (ativo) gatilho = ScrollTrigger.create({ trigger: el, start: "top 88%", once: true, animation: tl });
         });
+        return () => {
+          ativo = false;
+          gatilho?.kill();
+        };
       });
       return () => mm.revert();
     },

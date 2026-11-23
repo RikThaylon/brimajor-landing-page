@@ -60,24 +60,15 @@ body::before {
   mask-image: linear-gradient(to bottom, black, transparent 90%);
 }
 
-/* grão de filme (textura de pós-produção) */
+/* Textura estática: uma camada do tamanho da janela. */
 body::after {
   content: "";
   position: fixed;
-  inset: -50%;
+  inset: 0;
   z-index: 90;
   pointer-events: none;
   opacity: 0.06;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  animation: grao 1s steps(4) infinite;
-}
-
-@keyframes grao {
-  0% { transform: translate(0, 0); }
-  25% { transform: translate(-3%, 2%); }
-  50% { transform: translate(2%, -3%); }
-  75% { transform: translate(-2%, -1%); }
-  100% { transform: translate(0, 0); }
 }
 
 ::selection { background: var(--color-primaria); color: #fff; }
@@ -142,8 +133,10 @@ body::after {
 /* ───────────── movimento ─────────────
    O script do <head> marca html[data-movimento="ok"] antes da pintura; só então o conteúdo
    que será revelado começa invisível. Sem JS, com movimento reduzido ou se algo falhar, tudo aparece. */
-html[data-movimento="ok"] [data-revelar] { opacity: 0; }
-html[data-movimento="ok"] [data-revelar="mascara"] { clip-path: inset(0 0 100% 0); opacity: 1; }
+@media (prefers-reduced-motion: no-preference) {
+  html[data-movimento="ok"] [data-revelar] { opacity: 0; }
+  html[data-movimento="ok"] [data-revelar="mascara"] { clip-path: inset(0 0 100% 0); opacity: 1; }
+}
 
 /* abertura (preloader): só existe quando o script do <head> pede */
 #abertura { display: none; }

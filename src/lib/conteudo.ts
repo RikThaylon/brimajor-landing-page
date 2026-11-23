@@ -14,7 +14,7 @@ export const empresa = {
 export const navegacao = [
   { href: "/", rotulo: "Início" },
   { href: "/cursos", rotulo: "Cursos de IA" },
-  { href: "/squad", rotulo: "Squad SDD" },
+  { href: "/squad", rotulo: "Squads sob medida" },
   { href: "/estoque", rotulo: "Kanban Estoque" },
   { href: "/iniciacoes", rotulo: "Iniciações" },
 ] as const;
@@ -116,45 +116,6 @@ export const estoqueModulos = [
   { id: "analytics", titulo: "Analytics e topologia de nós", descricao: "Curva ABC pelo giro real e um grafo Fornecedores → Produtos → Máquinas que antecipa o impacto de uma parada de linha.", icone: "FileBarChart" },
   { id: "governanca", titulo: "Governança e auditoria", descricao: "RBAC com papéis industriais (Plant Manager, Engenharia, Comprador, Facilitador) e log inalterável de toda mutação: quem, quando, IP e estado anterior.", icone: "Fingerprint" },
 ] as const;
-
-/** Números do README da Brimajor Squad SDD (v1.0.0-rc.5). */
-export const squad = {
-  versao: "1.0.0-rc.5",
-  lema: "Um pedido. Uma squad inteira. Qualidade verificada antes de avançar.",
-  descricao:
-    "Framework agêntico de desenvolvimento orientado a especificação: transforma um agente de código numa squad de produto, com régua de qualidade conferida por ferramenta — não só prometida em texto.",
-  numeros: [
-    { valor: 11, rotulo: "IDEs suportadas" },
-    { valor: 10, rotulo: "roles de produto" },
-    { valor: 79, rotulo: "especialistas" },
-    { valor: 11, rotulo: "subagentes sênior" },
-  ],
-  passos: [
-    { titulo: "Planeja", texto: "O roteador Laya classifica o pedido, detecta o que ele envolve (interface, login, dados pessoais, pagamento) e monta o plano com os especialistas e guardiões certos." },
-    { titulo: "Especifica antes de construir", texto: "Contrato, cenários de comportamento, plano de testes e — quando o pedido pede — UX, modelo de ameaças e avaliação de privacidade." },
-    { titulo: "Para e pergunta", texto: "Só nas decisões que importam: o que será construído e se pode liberar. A decisão é sua, com código de aprovação." },
-    { titulo: "Constrói e verifica", texto: "Quem escreve o código não é quem valida; sensores e testes rodam a cada etapa, e um gate não avança sem evidência." },
-  ],
-  gates: [
-    { id: "0", nome: "Enquadramento", texto: "Objetivo, escopo, o que fica de fora e como saberemos que acabou." },
-    { id: "1", nome: "Definição", texto: "Requisitos, regras e solução candidata." },
-    { id: "2", nome: "Especificação", texto: "Contrato, cenários e plano de testes — decisão humana.", humano: true },
-    { id: "3", nome: "Construção", texto: "Código e testes; revisão de clean code; quality gate." },
-    { id: "4", nome: "Validação", texto: "Validação independente e guardiões de segurança, UX e testes." },
-    { id: "5A", nome: "Liberação", texto: "Versão, notas e plano de reversão — decisão humana.", humano: true },
-    { id: "5B", nome: "Entrega", texto: "Entrega conferida no destino." },
-    { id: "5C", nome: "Encerramento", texto: "Handoff e pendências com dono." },
-  ],
-  principios: [
-    { titulo: "Especificação antes de código", texto: "A guarda bloqueia a edição de código até a especificação ser aprovada." },
-    { titulo: "Evidência, não afirmação", texto: "Cada gate exige artefatos; construção e validação exigem o quality gate aprovado sobre o código exato." },
-    { titulo: "Segurança", texto: "Sensor de segredos, padrões inseguros (OWASP/CWE), auditoria de dependências e modelo de ameaças." },
-    { titulo: "UX e acessibilidade", texto: "Especificação de interface antes da tela, sensor WCAG 2.2 e guardião dedicado." },
-    { titulo: "Testes de verdade", texto: "Qualidade da suíte, cobertura, mutação e rastreabilidade requisito → cenário → teste." },
-    { titulo: "Pessoa no comando", texto: "Aprovação com código aleatório que expira e recibos numa cadeia HMAC." },
-  ],
-  ides: ["Claude Code", "GitHub Copilot", "Cursor", "Codex", "Gemini CLI", "Kiro", "Antigravity", "Windsurf", "JetBrains", "Cline", "OpenClaw"],
-};
 
 export const formatosTreinamento = [
   { titulo: "Turmas abertas", texto: "Presencial em Manaus ou online ao vivo, com prática do começo ao fim e material próprio.", icone: "Users" },

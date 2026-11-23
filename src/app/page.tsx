@@ -5,7 +5,7 @@ import { FormularioContato } from "@/components/formulario-contato";
 import { Frentes } from "@/components/home/frentes";
 import { Hero } from "@/components/home/hero";
 import { ModeloTrabalho } from "@/components/home/modelo-trabalho";
-import { ChamadaCursos, FaixaLetreiro, Iniciacoes, Manifesto, Produtos } from "@/components/home/secoes";
+import { ChamadaCursos, FaixaLetreiro, Iniciacoes, Manifesto, Solucoes } from "@/components/home/secoes";
 import { IconeInstagram, IconeWhatsApp } from "@/components/ui/icone";
 import { empresa } from "@/lib/conteudo";
 import { getCatalogo } from "@/lib/cursos/repositorio";
@@ -21,7 +21,7 @@ export default async function Inicio() {
       <Manifesto totalCursos={catalogo.cursos.length} />
       <FaixaLetreiro />
       <Frentes />
-      <Produtos />
+      <Solucoes />
       <ModeloTrabalho foto={<Foto nome="bancada" className="h-full w-full" sizes="(max-width: 1024px) 100vw, 38vw" />} />
       <Iniciacoes />
       <ChamadaCursos catalogo={catalogo} />

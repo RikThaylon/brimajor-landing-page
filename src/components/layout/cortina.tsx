@@ -4,15 +4,8 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { gsap } from "@/lib/gsap";
+import { navegacao } from "@/lib/conteudo";
 import { registrarCortina } from "@/lib/transicao";
-
-const NOMES: Record<string, string> = {
-  "/": "Início",
-  "/cursos": "Cursos de IA",
-  "/squad": "Squad SDD",
-  "/estoque": "Kanban Estoque",
-  "/iniciacoes": "Iniciações",
-};
 
 /** Cortina em camadas da troca de página: cobre (de baixo para cima), navega e revela (para cima). */
 export function Cortina() {
@@ -30,7 +23,7 @@ export function Cortina() {
       (destino) =>
         new Promise<void>((resolver) => {
           coberta.current = true;
-          if (rotulo) rotulo.textContent = NOMES[destino.split(/[?#]/)[0]] ?? "Brimajor";
+          if (rotulo) rotulo.textContent = navegacao.find((item) => item.href === destino.split(/[?#]/)[0])?.rotulo ?? "Brimajor";
           gsap.set(el, { visibility: "visible" });
           gsap
             .timeline({ onComplete: () => resolver() })

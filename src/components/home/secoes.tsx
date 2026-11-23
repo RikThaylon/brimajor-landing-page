@@ -6,14 +6,13 @@ import { Foto } from "@/components/foto";
 import { LinkTransicao } from "@/components/layout/link-transicao";
 import { Cena3D } from "@/components/tres/cena-3d";
 import { CartaoHolofote } from "@/components/ui/cartao-holofote";
-import { iniciacoes, manifesto, squad } from "@/lib/conteudo";
+import { iniciacoes, manifesto } from "@/lib/conteudo";
 import type { Catalogo } from "@/lib/cursos/tipos";
 
 export function Manifesto({ totalCursos }: { totalCursos: number }) {
   const numeros = [
     { valor: 4, rotulo: "frentes de engenharia" },
     { valor: totalCursos, rotulo: "cursos de IA no mapa" },
-    { valor: 11, rotulo: "IDEs com a Squad SDD" },
   ];
   return (
     <section aria-labelledby="titulo-manifesto" className="relative py-28 md:py-40">
@@ -21,7 +20,7 @@ export function Manifesto({ totalCursos }: { totalCursos: number }) {
         <div>
           <h2 id="titulo-manifesto" className="rotulo-secao"><span className="pad" />01 — Quem somos</h2>
           <TextoAceso texto={manifesto} className="mt-8 font-display text-[clamp(1.55rem,3.3vw,2.85rem)] font-medium leading-[1.2] tracking-tight" />
-          <dl className="mt-14 grid grid-cols-3 gap-4 border-t border-linha pt-8 sm:gap-8">
+          <dl className="mt-14 grid grid-cols-2 gap-4 border-t border-linha pt-8 sm:gap-8">
             {numeros.map((n) => (
               <div key={n.rotulo} className="flex flex-col-reverse gap-2">
                 <dt className="text-xs leading-snug text-apagado sm:text-sm">{n.rotulo}</dt>
@@ -51,13 +50,13 @@ export function FaixaLetreiro() {
   );
 }
 
-export function Produtos() {
+export function Solucoes() {
   return (
-    <section aria-labelledby="titulo-produtos" className="py-28 md:py-36">
+    <section aria-labelledby="titulo-solucoes" className="py-28 md:py-36">
       <div className="container-site">
-        <h2 className="rotulo-secao"><span className="pad" />03 — Produtos</h2>
-        <TituloRevelado id="titulo-produtos" className="mt-6 max-w-3xl font-display text-[clamp(2rem,4.6vw,3.8rem)] font-semibold leading-[1.02] tracking-tight">
-          Do protótipo ao produto que roda na operação.
+        <h2 className="rotulo-secao"><span className="pad" />03 — Produtos e serviços</h2>
+        <TituloRevelado id="titulo-solucoes" className="mt-6 max-w-3xl font-display text-[clamp(2rem,4.6vw,3.8rem)] font-semibold leading-[1.02] tracking-tight">
+          Software para a operação e squads para a sua equipe.
         </TituloRevelado>
         <Revelar emSequencia className="mt-14 grid gap-6 lg:grid-cols-2">
           <CartaoHolofote className="p-8 md:p-10" >
@@ -79,19 +78,11 @@ export function Produtos() {
           </CartaoHolofote>
           <CartaoHolofote className="p-8 md:p-10">
             <div data-item className="relative flex h-full flex-col">
-              <span className="w-fit rounded-full border border-ciano/40 bg-ciano/10 px-3 py-1 font-mono text-[0.7rem] uppercase tracking-[0.15em] text-ciano">Release candidate v{squad.versao}</span>
-              <h3 className="mt-6 font-display text-3xl font-semibold tracking-tight md:text-4xl">Brimajor Squad SDD</h3>
-              <p className="mt-4 max-w-md leading-relaxed text-suave">{squad.lema} Um framework que transforma o agente de código numa squad de produto com especificação antes de código e qualidade verificada por ferramenta.</p>
-              <dl className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
-                {squad.numeros.map((n) => (
-                  <div key={n.rotulo} className="flex flex-col-reverse rounded-xl border border-linha bg-fundo/50 px-3 py-4">
-                    <dt className="text-xs text-apagado">{n.rotulo}</dt>
-                    <dd className="font-display text-3xl font-semibold"><Contador valor={n.valor} /></dd>
-                  </div>
-                ))}
-              </dl>
+              <span className="w-fit rounded-full border border-ciano/40 bg-ciano/10 px-3 py-1 font-mono text-[0.7rem] uppercase tracking-[0.15em] text-ciano">Serviço sob medida</span>
+              <h3 className="mt-6 font-display text-3xl font-semibold tracking-tight md:text-4xl">Squads de agentes de IA</h3>
+              <p className="mt-4 max-w-md leading-relaxed text-suave">Montamos squads para outras equipes. Você traz um fluxo de trabalho e desenhamos juntos os papéis dos agentes, as ferramentas e os momentos de revisão humana.</p>
               <LinkTransicao href="/squad" className="mt-10 inline-flex w-fit items-center gap-2 text-sm font-semibold text-neon hover:text-white">
-                Conhecer a Squad SDD <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                Ver como montamos a sua squad <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </LinkTransicao>
             </div>
           </CartaoHolofote>

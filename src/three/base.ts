@@ -22,7 +22,7 @@ export function criarRenderizador(canvas: HTMLCanvasElement, opcoes: { alpha: bo
     powerPreference: "high-performance",
     preserveDrawingBuffer: false,
   });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, opcoes.qualidade === "alta" ? 2 : 1.5));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, opcoes.qualidade === "alta" ? 1.5 : 1));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.05;
@@ -63,8 +63,6 @@ export function observarTamanho(elemento: HTMLElement, aoMudar: (largura: number
     if (width > 0 && height > 0) aoMudar(width, height);
   });
   ro.observe(elemento);
-  const r = elemento.getBoundingClientRect();
-  if (r.width > 0 && r.height > 0) aoMudar(r.width, r.height);
   return () => ro.disconnect();
 }
 

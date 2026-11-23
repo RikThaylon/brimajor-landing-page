@@ -5,7 +5,10 @@
 import { chromium } from 'playwright';
 const DIR = process.env.DIR || '.';
 const B = process.env.SITE_URL || 'http://localhost:3100';
-const ok = (c, msg) => console.log(`${c ? 'PASSOU' : 'FALHOU'} · ${msg}`);
+const ok = (c, msg) => {
+  console.log(`${c ? 'PASSOU' : 'FALHOU'} · ${msg}`);
+  if (!c) process.exitCode = 1;
+};
 (async () => {
   const browser = await chromium.launch({ args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
   const erros = [];
@@ -103,6 +106,23 @@ const ok = (c, msg) => console.log(`${c ? 'PASSOU' : 'FALHOU'} · ${msg}`);
   ok((await p.locator('canvas').count()) === 0, 'CEN-012 sem canvas 3D com movimento reduzido');
   ok(await p.locator('h1').isVisible(), 'CEN-012 conteúdo visível sem animação');
   await p.screenshot({ path: `${DIR}/reduzido.png` });
+
+  // O menu continua ocupando a janela depois de rolar e libera a página no desktop.
+  p = await nova({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+  await p.goto(B + '/?sem-abertura', { waitUntil: 'load' });
+  await p.evaluate(() => window.scrollTo(0, 1000));
+  const menu = p.getByRole('button', { name: 'Menu', exact: true });
+  await menu.click();
+  const menuAberto = p.getByRole('dialog', { name: 'Menu', exact: true });
+  await menuAberto.waitFor();
+  ok(await menuAberto.evaluate(el => el.getBoundingClientRect().height >= window.innerHeight - 1), 'menu ocupa a altura da janela depois de rolar');
+  await p.keyboard.press('Escape');
+  await menuAberto.waitFor({ state: 'detached' });
+  ok(await menu.evaluate(el => el === document.activeElement), 'fechar o menu devolve o foco');
+  await menu.click();
+  await p.setViewportSize({ width: 1280, height: 800 });
+  await menuAberto.waitFor({ state: 'detached' });
+  ok(await p.evaluate(() => getComputedStyle(document.body).overflowY !== 'hidden'), 'trocar para desktop libera a rolagem');
 
   // sem JavaScript: conteúdo legível
   p = await nova({ javaScriptEnabled: false });

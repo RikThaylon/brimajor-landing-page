@@ -24,7 +24,7 @@ function criarSinais(modelo: ModeloRede, brilho: THREE.Texture) {
   }));
   const posicoes = new Float32Array(TOTAL_SINAIS * 3);
   const geometria = new THREE.BufferGeometry();
-  geometria.setAttribute("position", new THREE.BufferAttribute(posicoes, 3));
+  geometria.setAttribute("position", new THREE.BufferAttribute(posicoes, 3).setUsage(THREE.DynamicDrawUsage));
   const material = new THREE.PointsMaterial({ map: brilho, size: 0.24, color: 0xbfe6ff, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
   const a = new THREE.Vector3();
   const b = new THREE.Vector3();
@@ -48,7 +48,7 @@ function criarSinais(modelo: ModeloRede, brilho: THREE.Texture) {
         ponto(s.deA ? x : y, a);
         ponto(s.deA ? y : x, b);
         a.lerp(b, s.t);
-        posicoes.set([a.x, a.y, a.z], i * 3);
+        a.toArray(posicoes, i * 3);
       });
       geometria.attributes.position.needsUpdate = true;
       material.opacity = opacidade;
@@ -106,6 +106,7 @@ export function montarCena(canvas: HTMLCanvasElement, opcoes: OpcoesCena): Contr
   return criarControle(laco, alvo, () => {
     pararTamanho();
     modelo.descartar();
-    [brilho, halo.material, renderer, ...sinais.descartaveis].forEach((d) => d.dispose());
+    [brilho, halo.material, ...sinais.descartaveis, renderer].forEach((d) => d.dispose());
+    if (!canvas.isConnected) renderer.forceContextLoss();
   });
 }

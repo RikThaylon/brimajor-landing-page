@@ -6,6 +6,7 @@ import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer
 import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
+import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import {
   comprimentosAcumulados,
   criarLaco,
@@ -33,8 +34,11 @@ type Descartavel = { dispose(): void };
 /** Ambiente de estúdio (reflexos nos metais) e as luzes: chave, contraluz azul e a luz que pulsa sobre o chip. */
 function montarIluminacao(renderer: THREE.WebGLRenderer, cena: THREE.Scene) {
   const pmrem = new THREE.PMREMGenerator(renderer);
-  const mapa = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-  cena.environment = mapa;
+  const estudio = new RoomEnvironment();
+  const mapa = pmrem.fromScene(estudio, 0.04);
+  estudio.dispose();
+  pmrem.dispose();
+  cena.environment = mapa.texture;
   cena.environmentIntensity = 0.55;
   const chave = new THREE.DirectionalLight(0xffffff, 1.5);
   chave.position.set(6, 10, 6);
@@ -43,17 +47,19 @@ function montarIluminacao(renderer: THREE.WebGLRenderer, cena: THREE.Scene) {
   const luzChip = new THREE.PointLight(0x2f8cff, 8, 7, 1.6);
   luzChip.position.set(0, 1.6, 0);
   cena.add(new THREE.AmbientLight(0x2a4a99, 0.35), chave, contra, luzChip);
-  return { luzChip, descartaveis: [mapa, pmrem] as Descartavel[] };
+  return { luzChip, mapa };
 }
 
 /** Aplica a serigrafia na placa e a marca da Brimajor no topo do chip. */
 function vestirModelo(modelo: ModeloChip, renderer: THREE.WebGLRenderer) {
+  let descartado = false;
   const placa = modelo.placa.material as THREE.MeshStandardMaterial;
   placa.map = texturaSerigrafia(modelo.rotulos, modelo.contornos, renderer);
   placa.color.set(0xffffff);
   placa.needsUpdate = true;
   const topo = modelo.topoChip.material as THREE.MeshStandardMaterial;
   carregarImagem("/marca/brimajor-icone.png").then((icone) => {
+    if (descartado) return;
     const textura = texturaTopoChip(icone, renderer);
     topo.map = textura;
     topo.emissiveMap = textura;
@@ -61,7 +67,11 @@ function vestirModelo(modelo: ModeloChip, renderer: THREE.WebGLRenderer) {
     topo.emissive.set(0xffffff);
     topo.needsUpdate = true;
   });
-  return { placa, topo };
+  return { topo, descartar() {
+    descartado = true;
+    placa.map?.dispose();
+    topo.map?.dispose();
+  } };
 }
 
 /** Pontos de luz que percorrem as trilhas de cobre (dados saindo e chegando no chip). */
@@ -69,7 +79,7 @@ function criarPulsos(modelo: ModeloChip, brilho: THREE.Texture) {
   const caminhos = modelo.caminhos.map((pontos) => ({ pontos, acc: comprimentosAcumulados(pontos) }));
   const posicoes = new Float32Array(TOTAL_PULSOS * 3);
   const geometria = new THREE.BufferGeometry();
-  geometria.setAttribute("position", new THREE.BufferAttribute(posicoes, 3));
+  geometria.setAttribute("position", new THREE.BufferAttribute(posicoes, 3).setUsage(THREE.DynamicDrawUsage));
   const material = new THREE.PointsMaterial({ map: brilho, size: 0.42, color: 0x9fd8ff, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
   const pulsos = Array.from({ length: TOTAL_PULSOS }, (_, i) => ({
     caminho: i % caminhos.length,
@@ -89,7 +99,8 @@ function criarPulsos(modelo: ModeloChip, brilho: THREE.Texture) {
         }
         const c = caminhos[pulso.caminho];
         pontoNaPolilinha(c.pontos, c.acc, pulso.saindo ? pulso.t : 1 - pulso.t, aux);
-        posicoes.set([aux.x, aux.y + 0.03, aux.z], i * 3);
+        aux.y += 0.03;
+        aux.toArray(posicoes, i * 3);
       });
       geometria.attributes.position.needsUpdate = true;
       material.opacity = limitar((tempo - 1.4) / 0.8);
@@ -102,16 +113,28 @@ function criarPulsos(modelo: ModeloChip, brilho: THREE.Texture) {
 function criarMontagem(modelo: ModeloChip) {
   const baseY = modelo.componentes.map((c) => c.position.y);
   const ordem = modelo.trilhas.map((_, i) => i).sort((a, b) => ((a * 37) % 48) - ((b * 37) % 48));
-  modelo.trilhas.forEach((t) => (t.visible = false));
-  return (tempo: number) => {
-    modelo.componentes.forEach((c, i) => {
-      const k = suavizar(limitar((tempo - 0.15 - i * 0.07) / 0.6));
-      c.position.y = baseY[i] + (1 - k) * 2.2;
-      c.visible = k > 0.001;
-    });
-    ordem.forEach((idx, posicao) => {
-      modelo.trilhas[idx].visible = tempo > 0.5 + posicao * 0.025;
-    });
+  // As 48 trilhas usam o mesmo cobre. Revelamos um único buffer na ordem original.
+  const partes = ordem.map((i) => modelo.trilhas[i].geometry);
+  const geometria = mergeGeometries(partes);
+  const limites = [0];
+  for (const parte of partes) limites.push(limites[limites.length - 1] + parte.getIndex()!.count);
+  modelo.grupo.remove(...modelo.trilhas);
+  modelo.grupo.add(new THREE.Mesh(geometria, modelo.trilhas[0].material));
+  geometria.setDrawRange(0, 0);
+  let concluida = false;
+  return {
+    atualizar(tempo: number) {
+      if (concluida) return;
+      modelo.componentes.forEach((c, i) => {
+        const k = suavizar(limitar((tempo - 0.15 - i * 0.07) / 0.6));
+        c.position.y = baseY[i] + (1 - k) * 2.2;
+        c.visible = k > 0.001;
+      });
+      const quantidade = limitar(Math.ceil((tempo - 0.5) / 0.025), 0, partes.length);
+      geometria.setDrawRange(0, limites[quantidade]);
+      concluida = quantidade === partes.length && tempo >= 0.75 + (modelo.componentes.length - 1) * 0.07;
+    },
+    descartar: () => geometria.dispose(),
   };
 }
 
@@ -143,10 +166,10 @@ export function montarCena(canvas: HTMLCanvasElement, opcoes: OpcoesCena): Contr
   cena.background = COR_FUNDO;
   cena.fog = new THREE.Fog(COR_FUNDO, 14, 30);
   const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 80);
-  const { luzChip, descartaveis } = montarIluminacao(renderer, cena);
+  const { luzChip, mapa } = montarIluminacao(renderer, cena);
 
   const modelo = construirChip();
-  const { placa, topo } = vestirModelo(modelo, renderer);
+  const acabamento = vestirModelo(modelo, renderer);
   const brilho = texturaBrilho();
   const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: brilho, color: 0x1f7bff, transparent: true, opacity: 0.55, depthWrite: false, blending: THREE.AdditiveBlending }));
   halo.scale.set(9, 9, 1);
@@ -155,7 +178,7 @@ export function montarCena(canvas: HTMLCanvasElement, opcoes: OpcoesCena): Contr
   const palco = new THREE.Group();
   palco.add(modelo.grupo, halo, pulsos.objeto);
   cena.add(palco);
-  const montar = criarMontagem(modelo);
+  const montagem = criarMontagem(modelo);
   const composer = opcoes.qualidade === "alta" ? criarPosProcessamento(renderer, cena, camera) : null;
 
   const tela = { largura: 1, altura: 1 };
@@ -175,10 +198,10 @@ export function montarCena(canvas: HTMLCanvasElement, opcoes: OpcoesCena): Contr
 
   const laco = criarLaco((tempo, delta) => {
     const p = suavizar(limitar(opcoes.obterProgresso?.() ?? 0));
-    montar(tempo);
+    montagem.atualizar(tempo);
     pulsos.atualizar(tempo, delta);
     (modelo.led.material as THREE.MeshStandardMaterial).emissiveIntensity = Math.sin(tempo * 5) > 0.55 ? 3.2 : 0.6;
-    topo.emissiveIntensity = 0.75 + Math.sin(tempo * 1.6) * 0.12 + p * 0.9;
+    acabamento.topo.emissiveIntensity = 0.75 + Math.sin(tempo * 1.6) * 0.12 + p * 0.9;
     luzChip.intensity = 6 + Math.sin(tempo * 1.6) * 1.5 + p * 10;
 
     seguir(atual, alvo, delta, 3);
@@ -197,7 +220,11 @@ export function montarCena(canvas: HTMLCanvasElement, opcoes: OpcoesCena): Contr
 
   return criarControle(laco, alvo, () => {
     pararTamanho();
+    acabamento.descartar();
+    montagem.descartar();
     modelo.descartar();
-    [placa.map, topo.map, brilho, halo.material, composer, renderer, ...pulsos.descartaveis, ...descartaveis].forEach((d) => d?.dispose());
+    composer?.passes.forEach((pass) => pass.dispose());
+    [brilho, halo.material, composer, mapa, ...pulsos.descartaveis, renderer].forEach((d) => d?.dispose());
+    if (!canvas.isConnected) renderer.forceContextLoss();
   });
 }

@@ -30,7 +30,7 @@ export const ASSUNTOS_CONTATO = [
   "Cursos e treinamentos de IA",
   "Treinamento in-company",
   "Kanban Estoque",
-  "Brimajor Squad SDD",
+  "Montagem de squad de IA",
   "Outro assunto",
 ] as const;
 

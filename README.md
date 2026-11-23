@@ -1,12 +1,12 @@
 # Site da Brimajor
 
-Site institucional da **Brimajor Sistemas Embarcados & IA** (Manaus/AM), com modelos 3D, transições cinematográficas e o **Mapa de Cursos e Treinamentos de IA**. Especificado e verificado com a **Brimajor Squad SDD** (recorte `OBJ-001`, documentos em [`docs/squad/OBJ-001/`](docs/squad/OBJ-001/)).
+Site institucional da **Brimajor Sistemas Embarcados & IA** (Manaus/AM), com modelos 3D, transições cinematográficas e o **Mapa de Cursos e Treinamentos de IA**. Especificado e verificado com a **Brimajor Squad SDD**, ferramenta de uso interno (recorte `OBJ-001`, documentos em [`docs/squad/OBJ-001/`](docs/squad/OBJ-001/)).
 
 | Página | O que tem |
 |---|---|
-| `/` | Abertura animada, chip 3D que reage ao mouse e mergulha com o scroll, manifesto, frentes, produtos, modelo de trabalho, iniciações, chamada dos cursos e contato |
+| `/` | Abertura animada, chip 3D que reage ao mouse e mergulha com o scroll, manifesto, frentes, produtos e serviços, modelo de trabalho, iniciações, chamada dos cursos e contato |
 | `/cursos` | Mapa de cursos em linhas de metrô (lido da Neon), painel do curso, lista filtrável, formatos e inscrição pelo WhatsApp |
-| `/squad` | Produto Brimajor Squad SDD |
+| `/squad` | Serviço de montagem de squads de agentes de IA sob medida para outras equipes |
 | `/estoque`, `/estoque/dossie-tecnico`, `/iniciacoes` | Conteúdo do site anterior, no visual novo (links antigos continuam valendo) |
 
 **Stack:** Next.js 16 · React 19 · Tailwind CSS 4 · GSAP (ScrollTrigger + SplitText) · three.js · Postgres na Neon (`@neondatabase/serverless`).
@@ -87,7 +87,7 @@ Os modelos são **feitos em código** (three.js), sem arquivos de terceiros:
 
 Os dois também estão em `public/modelos/*.glb` (abrem no Blender, PowerPoint, Visualizador 3D do Windows). Com "reduzir movimento" ligado ou sem WebGL, o site mostra imagens estáticas renderizadas desses mesmos modelos.
 
-## Usar a Squad neste projeto
+## Verificação interna com a Squad
 
 A Squad foi usada para especificar e verificar o site, mas a instalação dela (`.claude/`) não vai para o Git porque é regenerável:
 

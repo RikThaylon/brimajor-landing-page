@@ -2,12 +2,10 @@
 
 import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useRef, useState, type RefObject } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, type RefObject } from "react";
 import { IconeInstagram, IconeWhatsApp } from "@/components/ui/icone";
 import { Logotipo } from "@/components/ui/marca";
 import { empresa, navegacao } from "@/lib/conteudo";
-import { usePrenderFoco } from "@/lib/foco";
-import { gsap, movimentoPermitido } from "@/lib/gsap";
 import { linkWhatsApp, WHATSAPP_EXIBICAO } from "@/lib/whatsapp";
 import { LinkTransicao } from "./link-transicao";
 
@@ -23,8 +21,8 @@ export function Navegacao() {
   const fechar = useCallback(() => setAberto(false), []);
 
   return (
-    <header className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-500 ${rolou ? "border-b border-linha/80 bg-fundo/75 backdrop-blur-xl" : "border-b border-transparent"}`}>
-      <div className="container-site flex h-16 items-center justify-between gap-6 md:h-20">
+    <header className={`fixed inset-x-0 top-0 z-50 border-b transition-colors duration-200 ${rolou ? "border-linha/80 bg-fundo/95" : "border-transparent"}`}>
+      <div className="container-site flex h-16 items-center justify-between gap-4 md:h-20 xl:gap-6">
         <LinkTransicao href="/" aria-label="Brimajor — página inicial" className="shrink-0 rounded-lg">
           <Logotipo />
         </LinkTransicao>
@@ -32,7 +30,7 @@ export function Navegacao() {
           <ul className="flex items-center gap-1">
             {navegacao.map((item) => (
               <li key={item.href}>
-                <LinkTransicao href={item.href} aria-current={ativo(rota, item.href) ? "page" : undefined} className="group relative block rounded-full px-4 py-2 text-sm text-suave transition-colors hover:text-white aria-[current=page]:text-white">
+                <LinkTransicao href={item.href} aria-current={ativo(rota, item.href) ? "page" : undefined} className="group relative block whitespace-nowrap rounded-full px-3 py-2 text-sm text-suave transition-colors hover:text-white aria-[current=page]:text-white xl:px-4">
                   {item.rotulo}
                   <span className="absolute inset-x-4 -bottom-0.5 h-px origin-left scale-x-0 bg-neon transition-transform duration-500 ease-[var(--ease-saida)] group-hover:scale-x-100 group-aria-[current=page]:scale-x-100" />
                 </LinkTransicao>
@@ -41,7 +39,7 @@ export function Navegacao() {
           </ul>
         </nav>
         <div className="flex items-center gap-2">
-          <a href={linkWhatsApp(MENSAGEM)} target="_blank" rel="noopener noreferrer" className="hidden items-center gap-2 rounded-full border border-whatsapp/40 bg-whatsapp/10 px-4 py-2 text-sm font-medium text-whatsapp transition-colors hover:bg-whatsapp/20 sm:inline-flex">
+          <a href={linkWhatsApp(MENSAGEM)} target="_blank" rel="noopener noreferrer" className="hidden items-center gap-2 whitespace-nowrap rounded-full border border-whatsapp/40 bg-whatsapp/10 px-4 py-2 text-sm font-medium text-whatsapp transition-colors hover:bg-whatsapp/20 sm:inline-flex">
             <IconeWhatsApp className="h-4 w-4" />
             Falar no WhatsApp
           </a>
@@ -51,7 +49,7 @@ export function Navegacao() {
           </button>
         </div>
       </div>
-      <span ref={barra} aria-hidden="true" className="absolute bottom-0 left-0 h-[2px] w-full origin-left scale-x-0 bg-gradient-to-r from-primaria via-neon to-ciano" />
+      <span ref={barra} aria-hidden="true" style={{ transform: "scaleX(0)" }} className="absolute bottom-0 left-0 h-[2px] w-full origin-left bg-gradient-to-r from-primaria via-neon to-ciano" />
       {aberto && <MenuCelular rota={rota} aoFechar={fechar} />}
     </header>
   );
@@ -61,12 +59,11 @@ export function Navegacao() {
 function useRolagem(barra: RefObject<HTMLSpanElement | null>) {
   const [rolou, setRolou] = useState(false);
   useEffect(() => {
-    let pendente = false;
+    let quadro = 0;
     const aoRolar = () => {
-      if (pendente) return;
-      pendente = true;
-      requestAnimationFrame(() => {
-        pendente = false;
+      if (quadro) return;
+      quadro = requestAnimationFrame(() => {
+        quadro = 0;
         setRolou(window.scrollY > 24);
         const total = document.documentElement.scrollHeight - window.innerHeight;
         if (barra.current) barra.current.style.transform = `scaleX(${total > 0 ? window.scrollY / total : 0})`;
@@ -74,24 +71,37 @@ function useRolagem(barra: RefObject<HTMLSpanElement | null>) {
     };
     aoRolar();
     window.addEventListener("scroll", aoRolar, { passive: true });
-    return () => window.removeEventListener("scroll", aoRolar);
+    return () => {
+      cancelAnimationFrame(quadro);
+      window.removeEventListener("scroll", aoRolar);
+    };
   }, [barra]);
   return rolou;
 }
 
 function MenuCelular({ rota, aoFechar }: { rota: string; aoFechar: () => void }) {
-  const painel = useRef<HTMLDivElement>(null);
-  usePrenderFoco(painel, true, aoFechar);
-  useEffect(() => {
+  const painel = useRef<HTMLDialogElement>(null);
+  useLayoutEffect(() => {
     const el = painel.current;
-    if (!el || !movimentoPermitido()) return;
-    gsap.fromTo(el, { clipPath: "circle(0% at 100% 0%)" }, { clipPath: "circle(150% at 100% 0%)", duration: 0.7, ease: "expo.inOut" });
-    gsap.fromTo(el.querySelectorAll("[data-item]"), { yPercent: 120, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.6, ease: "expo.out", stagger: 0.05, delay: 0.25 });
-  }, []);
+    if (!el) return;
+    const desktop = window.matchMedia("(min-width: 64rem)");
+    const fecharNoDesktop = () => { if (desktop.matches) aoFechar(); };
+    const overflowAnterior = document.body.style.overflow;
+    el.showModal();
+    document.body.style.overflow = "hidden";
+    desktop.addEventListener("change", fecharNoDesktop);
+    window.addEventListener("popstate", aoFechar);
+    return () => {
+      desktop.removeEventListener("change", fecharNoDesktop);
+      window.removeEventListener("popstate", aoFechar);
+      document.body.style.overflow = overflowAnterior;
+      el.close();
+    };
+  }, [aoFechar]);
 
   return (
-    <div ref={painel} id="menu-celular" role="dialog" aria-modal="true" aria-label="Menu" className="fixed inset-0 z-[60] flex flex-col bg-fundo/98 backdrop-blur-2xl lg:hidden">
-      <div className="container-site flex h-16 items-center justify-between">
+    <dialog ref={painel} id="menu-celular" aria-label="Menu" onCancel={(evento) => { evento.preventDefault(); aoFechar(); }} className="fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none flex-col overflow-y-auto overscroll-contain border-0 bg-fundo p-0 text-texto open:flex">
+      <div className="container-site sticky top-0 z-10 flex h-16 shrink-0 items-center justify-between bg-fundo">
         <Logotipo />
         <button type="button" onClick={aoFechar} className="inline-flex h-11 items-center gap-2 rounded-full border border-linha-forte px-4 text-sm">
           <X className="h-4 w-4" aria-hidden="true" />
@@ -102,7 +112,7 @@ function MenuCelular({ rota, aoFechar }: { rota: string; aoFechar: () => void })
         <ul className="space-y-2">
           {navegacao.map((item, i) => (
             <li key={item.href} className="overflow-clip">
-              <LinkTransicao data-item href={item.href} onClick={aoFechar} aria-current={ativo(rota, item.href) ? "page" : undefined} className="flex items-baseline gap-4 py-2 font-display text-4xl font-semibold tracking-tight text-texto aria-[current=page]:text-neon">
+              <LinkTransicao href={item.href} onClick={aoFechar} aria-current={ativo(rota, item.href) ? "page" : undefined} className="flex items-baseline gap-4 py-2 font-display text-4xl font-semibold tracking-tight text-texto aria-[current=page]:text-neon">
                 <span className="font-mono text-xs text-apagado">0{i + 1}</span>
                 {item.rotulo}
               </LinkTransicao>
@@ -111,15 +121,15 @@ function MenuCelular({ rota, aoFechar }: { rota: string; aoFechar: () => void })
         </ul>
       </nav>
       <div className="container-site flex flex-wrap gap-3 pb-10">
-        <a data-item href={linkWhatsApp(MENSAGEM)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-whatsapp px-5 py-3 text-sm font-semibold text-black">
+        <a href={linkWhatsApp(MENSAGEM)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-whatsapp px-5 py-3 text-sm font-semibold text-black">
           <IconeWhatsApp className="h-4 w-4" />
           {WHATSAPP_EXIBICAO}
         </a>
-        <a data-item href={empresa.instagram.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full border border-linha-forte px-5 py-3 text-sm">
+        <a href={empresa.instagram.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full border border-linha-forte px-5 py-3 text-sm">
           <IconeInstagram className="h-4 w-4" />
           {empresa.instagram.usuario}
         </a>
       </div>
-    </div>
+    </dialog>
   );
 }

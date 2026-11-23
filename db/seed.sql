@@ -50,9 +50,9 @@ insert into cursos (id, trilha_id, titulo, resumo, nivel, carga_horaria, modalid
    'intermediario', null, '{online,in_company}',
    '{"Como os LLMs funcionam","RAG: busca nos seus documentos","Agentes e ferramentas","Avaliação e custos"}', 'em_breve', 2),
   ('squad-sdd', 'dev', 'Desenvolvimento com Squad de Agentes',
-   'Engenharia orientada a especificação com a Brimajor Squad SDD: da ideia ao deploy com qualidade verificada.',
+   'Aprenda a dividir um projeto entre agentes de IA, definir suas responsabilidades e revisar as entregas com a equipe.',
    'avancado', null, '{online,in_company}',
-   '{"Especificação antes de código","Gates, evidência e quality gate","Guardiões de segurança e UX","Decisão humana e liberação"}', 'em_breve', 3),
+   '{"Papéis e responsabilidades","Divisão de tarefas entre agentes","Critérios de revisão","Aprovação pela equipe"}', 'em_breve', 3),
 
   ('microcontroladores-para-ia', 'embarcada', 'Eletrônica e Microcontroladores para IA',
    'Sensores, ESP32 e coleta de dados do mundo físico.',

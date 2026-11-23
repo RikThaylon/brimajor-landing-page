@@ -80,15 +80,17 @@ export function Letreiro({ itens, className }: { itens: string[]; className?: st
       const mm = gsap.matchMedia();
       mm.add(COM_MOVIMENTO, () => {
         const trilho = el.querySelector("[data-trilho]");
-        const anim = gsap.to(trilho, { xPercent: -50, duration: 28, ease: "none", repeat: -1 });
+        const anim = gsap.to(trilho, { xPercent: -50, duration: 28, ease: "none", repeat: -1, paused: true });
+        const ajustarVelocidade = gsap.quickTo(anim, "timeScale", { duration: 0.3 });
         const st = ScrollTrigger.create({
           trigger: el,
           start: "top bottom",
           end: "bottom top",
+          onToggle: (self) => { anim.paused(!self.isActive); },
           onUpdate(self) {
             const v = self.getVelocity();
             const sentido = self.direction === 1 ? 1 : -1;
-            gsap.to(anim, { timeScale: sentido * (1 + Math.min(4, Math.abs(v) / 600)), duration: 0.3, overwrite: true });
+            ajustarVelocidade(sentido * (1 + Math.min(4, Math.abs(v) / 600)));
           },
         });
         return () => st.kill();

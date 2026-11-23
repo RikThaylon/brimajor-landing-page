@@ -51,7 +51,6 @@ export function Rodape() {
 
       <div className="container-site flex flex-col gap-2 border-t border-linha py-6 text-xs text-apagado sm:flex-row sm:items-center sm:justify-between">
         <p>© {new Date().getFullYear()} {empresa.razao} · CNPJ {empresa.cnpj}</p>
-        <p>Especificado e verificado com a Brimajor Squad SDD.</p>
       </div>
 
       <p aria-hidden="true" className="pointer-events-none select-none px-2 pb-2 text-center font-sans text-[22vw] font-extrabold italic leading-[0.75] tracking-tighter text-transparent [-webkit-text-stroke:1px_rgba(51,170,255,0.18)]">

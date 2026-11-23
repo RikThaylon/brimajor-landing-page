@@ -28,10 +28,9 @@ export function Hero() {
       />
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(2,5,12,0.35)_0%,transparent_18%,rgba(2,5,12,0.55)_42%,rgba(2,5,12,0.92)_60%,#02050c_100%)] lg:bg-[linear-gradient(90deg,rgba(2,5,12,0.92)_0%,rgba(2,5,12,0.55)_45%,transparent_70%)]" />
       <div
-        data-iris
+        data-saida
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-20"
-        style={{ "--iris": "160%", background: "radial-gradient(circle at 50% 55%, transparent var(--iris), #02050c calc(var(--iris) + 1%))" } as React.CSSProperties}
+        className="pointer-events-none absolute inset-0 z-20 bg-fundo opacity-0"
       />
 
       <div className="container-site relative z-10 flex h-full flex-col justify-end pb-20 lg:justify-center lg:pb-0 lg:pt-16">
@@ -79,7 +78,7 @@ export function Hero() {
   );
 }
 
-/** Prende o hero enquanto a câmera mergulha no chip (scrub), apaga o texto e fecha a "íris" para a próxima cena. */
+/** Acompanha o mergulho no chip e escurece a cena ao chegar à próxima seção. */
 function useMergulho(secao: RefObject<HTMLElement | null>, progresso: RefObject<number>) {
   useGSAP(
     () => {
@@ -97,9 +96,9 @@ function useMergulho(secao: RefObject<HTMLElement | null>, progresso: RefObject<
             },
           },
         });
-        tl.to("[data-hero-texto]", { yPercent: -18, autoAlpha: 0, filter: "blur(10px)", ease: "power1.in", duration: 0.45 }, 0)
+        tl.to("[data-hero-texto]", { yPercent: -18, autoAlpha: 0, ease: "power1.in", duration: 0.45 }, 0)
           .to("[data-hero-pista]", { autoAlpha: 0, duration: 0.15 }, 0)
-          .fromTo("[data-iris]", { "--iris": "160%" }, { "--iris": "0%", ease: "power2.in", duration: 0.3 }, 0.7);
+          .to("[data-saida]", { opacity: 1, ease: "power2.in", duration: 0.3 }, 0.7);
       });
       return () => mm.revert();
     },

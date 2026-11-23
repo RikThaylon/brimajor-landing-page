@@ -31,9 +31,14 @@ export function MapaCursos({ catalogo }: { catalogo: Catalogo }) {
   // link direto: /cursos#engenharia-de-prompt abre o painel
   useEffect(() => {
     const abrirPeloHash = () => {
-      const id = decodeURIComponent(window.location.hash.slice(1));
-      const curso = cursos.find((c) => c.id === id);
-      if (curso) setSelecionado(curso);
+      let id: string;
+      try {
+        id = decodeURIComponent(window.location.hash.slice(1));
+      } catch {
+        setSelecionado(null);
+        return;
+      }
+      setSelecionado(cursos.find((c) => c.id === id) ?? null);
     };
     const quadro = requestAnimationFrame(abrirPeloHash);
     window.addEventListener("hashchange", abrirPeloHash);
