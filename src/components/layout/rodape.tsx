@@ -3,7 +3,7 @@ import { ArrowUpRight, MapPin } from "lucide-react";
 import { IconeInstagram, IconeWhatsApp } from "@/components/ui/icone";
 import { empresa, navegacao } from "@/lib/conteudo";
 import { linkWhatsApp, WHATSAPP_EXIBICAO } from "@/lib/whatsapp";
-import { LinkTransicao } from "./link-transicao";
+import Link from "next/link";
 
 export function Rodape() {
   return (
@@ -23,7 +23,7 @@ export function Rodape() {
           <ul className="space-y-3 text-sm">
             {navegacao.map((item) => (
               <li key={item.href}>
-                <LinkTransicao href={item.href} className="text-suave transition-colors hover:text-white">{item.rotulo}</LinkTransicao>
+                <Link href={item.href} className="text-suave transition-colors hover:text-white">{item.rotulo}</Link>
               </li>
             ))}
           </ul>

@@ -4,7 +4,7 @@ import { Revelar } from "@/components/animacao/revelar";
 import { TituloRevelado } from "@/components/animacao/titulo-revelado";
 import { Foto } from "@/components/foto";
 import { FormularioContato } from "@/components/formulario-contato";
-import { LinkTransicao } from "@/components/layout/link-transicao";
+import Link from "next/link";
 import { IconeWhatsApp } from "@/components/ui/icone";
 import { iniciacoes } from "@/lib/conteudo";
 import { linkWhatsApp } from "@/lib/whatsapp";
@@ -57,9 +57,9 @@ function DestaqueKanban() {
             <h2 className="mt-4 font-display text-2xl font-semibold">Kanban de Estoque Inteligente</h2>
             <p className="mt-2 max-w-xl text-sm text-suave">Nosso produto mais maduro: Kanban dinâmico, RBAC, auditoria imutável e previsão de consumo para plantas industriais.</p>
           </div>
-          <LinkTransicao href="/estoque" className="inline-flex flex-none items-center gap-2 rounded-full bg-primaria px-6 py-3 text-sm font-semibold text-white">
+          <Link href="/estoque" className="inline-flex flex-none items-center gap-2 rounded-full bg-primaria px-6 py-3 text-sm font-semibold text-white">
             Ver página do produto <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </LinkTransicao>
+          </Link>
         </div>
       </div>
     </section>

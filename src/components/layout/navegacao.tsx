@@ -7,7 +7,7 @@ import { IconeInstagram, IconeWhatsApp } from "@/components/ui/icone";
 import { Logotipo } from "@/components/ui/marca";
 import { empresa, navegacao } from "@/lib/conteudo";
 import { linkWhatsApp, WHATSAPP_EXIBICAO } from "@/lib/whatsapp";
-import { LinkTransicao } from "./link-transicao";
+import Link from "next/link";
 
 const MENSAGEM = "Olá, Brimajor! Vim pelo site e quero conversar.";
 const ativo = (rota: string, href: string) => (href === "/" ? rota === "/" : rota.startsWith(href));
@@ -23,17 +23,17 @@ export function Navegacao() {
   return (
     <header className={`fixed inset-x-0 top-0 z-50 border-b transition-colors duration-200 ${rolou ? "border-linha/80 bg-fundo/95" : "border-transparent"}`}>
       <div className="container-site flex h-16 items-center justify-between gap-4 md:h-20 xl:gap-6">
-        <LinkTransicao href="/" aria-label="Brimajor — página inicial" className="shrink-0 rounded-lg">
+        <Link href="/" aria-label="Brimajor — página inicial" className="shrink-0 rounded-lg">
           <Logotipo />
-        </LinkTransicao>
+        </Link>
         <nav aria-label="Principal" className="hidden lg:block">
           <ul className="flex items-center gap-1">
             {navegacao.map((item) => (
               <li key={item.href}>
-                <LinkTransicao href={item.href} aria-current={ativo(rota, item.href) ? "page" : undefined} className="group relative block whitespace-nowrap rounded-full px-3 py-2 text-sm text-suave transition-colors hover:text-white aria-[current=page]:text-white xl:px-4">
+                <Link href={item.href} aria-current={ativo(rota, item.href) ? "page" : undefined} className="group relative block whitespace-nowrap rounded-full px-3 py-2 text-sm text-suave transition-colors hover:text-white aria-[current=page]:text-white xl:px-4">
                   {item.rotulo}
                   <span className="absolute inset-x-4 -bottom-0.5 h-px origin-left scale-x-0 bg-neon transition-transform duration-500 ease-[var(--ease-saida)] group-hover:scale-x-100 group-aria-[current=page]:scale-x-100" />
-                </LinkTransicao>
+                </Link>
               </li>
             ))}
           </ul>
@@ -112,10 +112,10 @@ function MenuCelular({ rota, aoFechar }: { rota: string; aoFechar: () => void })
         <ul className="space-y-2">
           {navegacao.map((item, i) => (
             <li key={item.href} className="overflow-clip">
-              <LinkTransicao href={item.href} onClick={aoFechar} aria-current={ativo(rota, item.href) ? "page" : undefined} className="flex items-baseline gap-4 py-2 font-display text-4xl font-semibold tracking-tight text-texto aria-[current=page]:text-neon">
+              <Link href={item.href} onClick={aoFechar} aria-current={ativo(rota, item.href) ? "page" : undefined} className="flex items-baseline gap-4 py-2 font-display text-4xl font-semibold tracking-tight text-texto aria-[current=page]:text-neon">
                 <span className="font-mono text-xs text-apagado">0{i + 1}</span>
                 {item.rotulo}
-              </LinkTransicao>
+              </Link>
             </li>
           ))}
         </ul>

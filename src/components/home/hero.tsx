@@ -4,7 +4,7 @@ import { ArrowDown, ArrowRight } from "lucide-react";
 import { useRef, type RefObject } from "react";
 import { Revelar } from "@/components/animacao/revelar";
 import { TituloRevelado } from "@/components/animacao/titulo-revelado";
-import { LinkTransicao } from "@/components/layout/link-transicao";
+import Link from "next/link";
 import { Cena3D } from "@/components/tres/cena-3d";
 import { IconeWhatsApp } from "@/components/ui/icone";
 import { hero } from "@/lib/conteudo";
@@ -43,7 +43,7 @@ export function Hero() {
             <p>{hero.subtitulo}</p>
           </Revelar>
           <Revelar emSequencia atraso={0.75} className="mt-9 flex flex-wrap gap-3">
-            <LinkTransicao
+            <Link
               data-item
               href="/cursos"
               className="group relative inline-flex items-center gap-2 overflow-clip rounded-full bg-primaria px-6 py-3.5 text-sm font-semibold text-white shadow-[0_0_40px_-8px_rgba(0,102,255,0.9)] transition-transform hover:-translate-y-0.5"
@@ -51,7 +51,7 @@ export function Hero() {
               <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
               Ver mapa de cursos
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
-            </LinkTransicao>
+            </Link>
             <a
               data-item
               href={linkWhatsApp("Olá, Brimajor! Quero conversar sobre um projeto.")}

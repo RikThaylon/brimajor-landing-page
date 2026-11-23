@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ArrowLeft, FileLock2 } from "lucide-react";
-import { LinkTransicao } from "@/components/layout/link-transicao";
+import Link from "next/link";
 import { IconeWhatsApp } from "@/components/ui/icone";
 import { linkWhatsApp } from "@/lib/whatsapp";
 
@@ -28,9 +28,9 @@ export default function DossieTecnico() {
             <IconeWhatsApp className="h-5 w-5" /> Solicitar pelo WhatsApp
           </a>
           <div className="mt-8">
-            <LinkTransicao href="/estoque" className="inline-flex items-center gap-2 text-sm text-neon hover:text-white">
+            <Link href="/estoque" className="inline-flex items-center gap-2 text-sm text-neon hover:text-white">
               <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Voltar para o Kanban Estoque
-            </LinkTransicao>
+            </Link>
           </div>
         </div>
       </div>

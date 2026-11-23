@@ -1,5 +1,5 @@
 import { ArrowLeft } from "lucide-react";
-import { LinkTransicao } from "@/components/layout/link-transicao";
+import Link from "next/link";
 
 export default function NaoEncontrada() {
   return (
@@ -10,9 +10,9 @@ export default function NaoEncontrada() {
           Esta trilha não leva a nenhuma estação.
         </h1>
         <p className="mt-6 max-w-lg text-suave">A página que você procurou não existe ou mudou de lugar.</p>
-        <LinkTransicao href="/" className="mt-10 inline-flex items-center gap-2 rounded-full bg-primaria px-6 py-3.5 text-sm font-semibold text-white">
+        <Link href="/" className="mt-10 inline-flex items-center gap-2 rounded-full bg-primaria px-6 py-3.5 text-sm font-semibold text-white">
           <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Voltar para o início
-        </LinkTransicao>
+        </Link>
       </div>
     </section>
   );

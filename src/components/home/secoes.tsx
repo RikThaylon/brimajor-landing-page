@@ -3,7 +3,7 @@ import { Contador, Letreiro, TextoAceso } from "@/components/animacao/efeitos";
 import { Revelar } from "@/components/animacao/revelar";
 import { TituloRevelado } from "@/components/animacao/titulo-revelado";
 import { Foto } from "@/components/foto";
-import { LinkTransicao } from "@/components/layout/link-transicao";
+import Link from "next/link";
 import { Cena3D } from "@/components/tres/cena-3d";
 import { CartaoHolofote } from "@/components/ui/cartao-holofote";
 import { iniciacoes, manifesto } from "@/lib/conteudo";
@@ -71,9 +71,9 @@ export function Solucoes() {
                   <li key={t} className="rounded-xl border border-linha bg-fundo/50 px-2 py-4 text-sm font-medium">{t}</li>
                 ))}
               </ul>
-              <LinkTransicao href="/estoque" className="mt-10 inline-flex w-fit items-center gap-2 text-sm font-semibold text-neon hover:text-white">
+              <Link href="/estoque" className="mt-10 inline-flex w-fit items-center gap-2 text-sm font-semibold text-neon hover:text-white">
                 Conhecer o Kanban Estoque <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              </LinkTransicao>
+              </Link>
             </div>
           </CartaoHolofote>
           <CartaoHolofote className="p-8 md:p-10">
@@ -81,9 +81,9 @@ export function Solucoes() {
               <span className="w-fit rounded-full border border-ciano/40 bg-ciano/10 px-3 py-1 font-mono text-[0.7rem] uppercase tracking-[0.15em] text-ciano">Serviço sob medida</span>
               <h3 className="mt-6 font-display text-3xl font-semibold tracking-tight md:text-4xl">Squads de agentes de IA</h3>
               <p className="mt-4 max-w-md leading-relaxed text-suave">Montamos squads para outras equipes. Você traz um fluxo de trabalho e desenhamos juntos os papéis dos agentes, as ferramentas e os momentos de revisão humana.</p>
-              <LinkTransicao href="/squad" className="mt-10 inline-flex w-fit items-center gap-2 text-sm font-semibold text-neon hover:text-white">
+              <Link href="/squad" className="mt-10 inline-flex w-fit items-center gap-2 text-sm font-semibold text-neon hover:text-white">
                 Ver como montamos a sua squad <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              </LinkTransicao>
+              </Link>
             </div>
           </CartaoHolofote>
         </Revelar>
@@ -117,10 +117,10 @@ export function Iniciacoes() {
               </article>
             </CartaoHolofote>
           ))}
-          <LinkTransicao data-item href="/iniciacoes" className="group flex items-center justify-between rounded-[1.25rem] border border-dashed border-linha-forte p-7 text-suave transition-colors hover:border-neon hover:text-white sm:col-span-2">
+          <Link data-item href="/iniciacoes" className="group flex items-center justify-between rounded-[1.25rem] border border-dashed border-linha-forte p-7 text-suave transition-colors hover:border-neon hover:text-white sm:col-span-2">
             Ver todas as iniciações e solicitar um conceito
             <ArrowUpRight className="h-5 w-5 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" aria-hidden="true" />
-          </LinkTransicao>
+          </Link>
         </Revelar>
       </div>
     </section>
@@ -158,10 +158,10 @@ export function ChamadaCursos({ catalogo }: { catalogo: Catalogo }) {
               );
             })}
           </Revelar>
-          <LinkTransicao href="/cursos" className="group mt-12 inline-flex items-center gap-2 rounded-full bg-primaria px-6 py-3.5 text-sm font-semibold text-white shadow-[0_0_40px_-8px_rgba(0,102,255,0.9)] transition-transform hover:-translate-y-0.5">
+          <Link href="/cursos" className="group mt-12 inline-flex items-center gap-2 rounded-full bg-primaria px-6 py-3.5 text-sm font-semibold text-white shadow-[0_0_40px_-8px_rgba(0,102,255,0.9)] transition-transform hover:-translate-y-0.5">
             Abrir o mapa de cursos
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
-          </LinkTransicao>
+          </Link>
         </div>
       </div>
     </section>

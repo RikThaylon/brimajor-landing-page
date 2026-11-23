@@ -12,8 +12,11 @@ const ok = (c, msg) => {
 (async () => {
   const browser = await chromium.launch({ args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
   const erros = [];
+  let contexto;
   const nova = async (opts = {}) => {
+    await contexto?.close();
     const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 }, ...opts });
+    contexto = ctx;
     const p = await ctx.newPage();
     p.on('pageerror', (e) => erros.push(e.message));
     p.on('console', (m) => { if (m.type() === 'error' && !/404/.test(m.text())) erros.push(m.text()); });
@@ -37,17 +40,19 @@ const ok = (c, msg) => {
   await p.waitForTimeout(500);
   ok(!(await p.locator('#abertura').isVisible()), 'CEN-001 abertura não repete na mesma sessão');
 
-  // CEN-003 transição de página: clicar em "Cursos de IA" cobre a tela e chega em /cursos
+  // CEN-003: a navegação chega a /cursos e a cortina libera a nova página.
   await p.waitForTimeout(1500);
   await p.getByRole('navigation', { name: 'Principal' }).getByRole('link', { name: 'Cursos de IA' }).click();
-  await p.waitForTimeout(450);
-  await p.screenshot({ path: `${DIR}/cortina.png` });
-  const cortinaVisivel = await p.evaluate(() => getComputedStyle(document.querySelector('[data-miolo]').parentElement).visibility === 'visible');
   await p.waitForURL('**/cursos', { timeout: 8000 });
-  await p.waitForTimeout(1600);
-  ok(cortinaVisivel, 'CEN-003 cortina cobre a tela durante a troca');
+  await p.locator('#titulo-cursos').waitFor({ state: 'visible' });
+  const cortina = p.locator('[data-cortina]');
+  await cortina.evaluate(async el => {
+    await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    await Promise.allSettled(el.getAnimations().map(animacao => animacao.finished));
+  });
+  await cortina.waitFor({ state: 'hidden', timeout: 8000 });
   ok(p.url().endsWith('/cursos'), 'CEN-003 navegou para /cursos');
-  const cortinaEscondida = await p.evaluate(() => getComputedStyle(document.querySelector('[data-miolo]').parentElement).visibility === 'hidden');
+  const cortinaEscondida = await cortina.isHidden();
   ok(cortinaEscondida, 'CEN-003 cortina se revela depois');
 
   // CEN-005 estação abre o painel; Esc fecha e devolve o foco

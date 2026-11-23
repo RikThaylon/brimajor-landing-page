@@ -4,7 +4,7 @@ import { Revelar } from "@/components/animacao/revelar";
 import { TituloRevelado } from "@/components/animacao/titulo-revelado";
 import { FormularioContato } from "@/components/formulario-contato";
 import { KanbanPreview } from "@/components/kanban-preview";
-import { LinkTransicao } from "@/components/layout/link-transicao";
+import Link from "next/link";
 import { CartaoHolofote } from "@/components/ui/cartao-holofote";
 import { Icone } from "@/components/ui/icone";
 import { estoqueModulos } from "@/lib/conteudo";
@@ -109,9 +109,9 @@ function SecaoJornada() {
             </li>
           ))}
         </Revelar>
-        <LinkTransicao href="/estoque/dossie-tecnico" className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-neon hover:text-white">
+        <Link href="/estoque/dossie-tecnico" className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-neon hover:text-white">
           <FileLock2 className="h-4 w-4" aria-hidden="true" /> Solicitar o dossiê técnico
-        </LinkTransicao>
+        </Link>
       </div>
     </section>
   );
