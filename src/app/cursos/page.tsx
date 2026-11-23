@@ -14,8 +14,8 @@ import { linkWhatsApp } from "@/lib/whatsapp";
 export const revalidate = 300;
 
 export const metadata: Metadata = {
-  title: "Mapa de Cursos e Treinamentos de IA",
-  description: "Trilhas de cursos de inteligência artificial da Brimajor: fundamentos, negócios e dados, desenvolvimento com LLMs e agentes, e IA embarcada & IoT. Turmas em Manaus, online e in-company.",
+  title: "Capacitação Empresarial em IA",
+  description: "Trilhas práticas de IA para empresas: primeiros usos, engenharia de contexto, melhoria de processos, agentes e squads. Sem exigir programação.",
 };
 
 const passos = [
@@ -47,7 +47,7 @@ function HeroCursos({ catalogo }: { catalogo: Catalogo }) {
             Mapa de cursos e treinamentos de <span className="text-neon">IA.</span>
           </TituloRevelado>
           <Revelar efeito="desfoque" atraso={0.4} className="mt-7 max-w-xl text-lg leading-relaxed text-suave">
-            <p>Quatro trilhas, do primeiro contato com inteligência artificial até modelos rodando dentro de um microcontrolador. Comece na estação &ldquo;Comece aqui&rdquo; e siga a linha da sua cor.</p>
+            <p>Quatro trilhas por nível de maturidade: do primeiro uso seguro à engenharia de contexto, à melhoria de processos e aos agentes. Programação não é pré-requisito.</p>
           </Revelar>
           <Revelar emSequencia atraso={0.6} className="mt-8 flex flex-wrap gap-x-6 gap-y-3">
             {catalogo.trilhas.map((t) => (

@@ -28,7 +28,7 @@ export function MapaCursos({ catalogo }: { catalogo: Catalogo }) {
     history.replaceState(null, "", window.location.pathname + window.location.search);
   }, []);
 
-  // link direto: /cursos#engenharia-de-prompt abre o painel
+  // link direto: /cursos#engenharia-contexto abre o painel
   useEffect(() => {
     const abrirPeloHash = () => {
       let id: string;

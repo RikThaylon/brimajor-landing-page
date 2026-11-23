@@ -2,14 +2,14 @@ import { describe, expect, it } from "vitest";
 import { catalogoLocal } from "@/lib/cursos/catalogo-local";
 import { LIMITE_MENSAGEM, linkWhatsApp, mensagemCurso, rotuloAcaoCurso, WHATSAPP_NUMERO } from "@/lib/whatsapp";
 
-const prompt = catalogoLocal.cursos.find((c) => c.id === "engenharia-de-prompt")!;
-const fundamentos = catalogoLocal.trilhas.find((t) => t.id === "fundamentos")!;
+const contexto = catalogoLocal.cursos.find((c) => c.id === "engenharia-contexto")!;
+const trilhaContexto = catalogoLocal.trilhas.find((t) => t.id === "negocios")!;
 
 describe("link do WhatsApp", () => {
   it("mensagem do curso leva título, trilha e nível — covers: CEN-007", () => {
-    const msg = mensagemCurso(prompt, fundamentos);
-    expect(msg).toContain('"Engenharia de Prompt na Prática"');
-    expect(msg).toContain("Fundamentos de IA");
+    const msg = mensagemCurso(contexto, trilhaContexto);
+    expect(msg).toContain('"Engenharia de Contexto na Prática"');
+    expect(msg).toContain("Engenharia de Contexto");
     expect(msg).toContain("nível iniciante");
     expect(msg).toContain("avisado");
     const url = new URL(linkWhatsApp(msg));
@@ -18,10 +18,10 @@ describe("link do WhatsApp", () => {
   });
 
   it("curso com inscrições abertas pede inscrição, não aviso", () => {
-    const aberto = { ...prompt, status: "inscricoes_abertas" as const };
-    expect(mensagemCurso(aberto, fundamentos)).toContain("Quero me inscrever");
+    const aberto = { ...contexto, status: "inscricoes_abertas" as const };
+    expect(mensagemCurso(aberto, trilhaContexto)).toContain("Quero me inscrever");
     expect(rotuloAcaoCurso(aberto)).toBe("Quero me inscrever");
-    expect(rotuloAcaoCurso(prompt)).toBe("Quero ser avisado");
+    expect(rotuloAcaoCurso(contexto)).toBe("Quero ser avisado");
   });
 
   it("codifica texto malicioso e corta em 1000 — covers: CEN-015", () => {

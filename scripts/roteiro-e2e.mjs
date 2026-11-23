@@ -60,39 +60,39 @@ const ok = (c, msg) => {
   await mapa.scrollIntoViewIfNeeded();
   await p.waitForTimeout(3200);
   await p.screenshot({ path: `${DIR}/mapa.png` });
-  const estacao = p.getByRole('button', { name: /^Engenharia de Prompt na Prática — Iniciante/ }).first();
+  const estacao = p.getByRole('button', { name: /^Engenharia de Contexto na Prática — Iniciante/ }).first();
   await estacao.focus();
   await p.keyboard.press('Enter');
   await p.waitForTimeout(900);
-  const dialogo = p.getByRole('dialog', { name: 'Engenharia de Prompt na Prática' });
+  const dialogo = p.getByRole('dialog', { name: 'Engenharia de Contexto na Prática' });
   ok(await dialogo.isVisible(), 'CEN-005 Enter na estação abre o painel do curso');
   await p.screenshot({ path: `${DIR}/painel.png` });
-  ok(p.url().endsWith('#engenharia-de-prompt'), 'painel atualiza o endereço com #curso');
+  ok(p.url().endsWith('#engenharia-contexto'), 'painel atualiza o endereço com #curso');
   // CEN-007 link do WhatsApp do curso
   const href = await dialogo.getByRole('link', { name: /Quero ser avisado/ }).getAttribute('href');
   const texto = new URL(href).searchParams.get('text');
-  ok(href.startsWith('https://wa.me/5592985224523') && texto.includes('Engenharia de Prompt na Prática') && texto.includes('Fundamentos de IA'), 'CEN-007 WhatsApp com título e trilha do curso');
+  ok(href.startsWith('https://wa.me/5592985224523') && texto.includes('Engenharia de Contexto na Prática') && texto.includes('Engenharia de Contexto'), 'CEN-007 WhatsApp com título e trilha do curso');
   await p.keyboard.press('Escape');
   await p.waitForTimeout(500);
   ok(!(await dialogo.isVisible().catch(() => false)), 'CEN-005 Esc fecha o painel');
-  const focoVoltou = await p.evaluate(() => document.activeElement?.getAttribute('aria-label')?.startsWith('Engenharia de Prompt'));
+  const focoVoltou = await p.evaluate(() => document.activeElement?.getAttribute('aria-label')?.startsWith('Engenharia de Contexto'));
   ok(focoVoltou, 'CEN-005 foco volta para a estação');
 
   // CEN-006 filtros
-  await p.getByRole('group', { name: 'Filtrar por trilha' }).getByRole('button', { name: 'IA Embarcada & IoT' }).click();
+  await p.getByRole('group', { name: 'Filtrar por trilha' }).getByRole('button', { name: 'Agentes e Squads' }).click();
   await p.getByRole('group', { name: 'Filtrar por nível' }).getByRole('button', { name: 'Avançado' }).click();
   const titulos = await p.locator('#titulo-lista').locator('xpath=ancestor::section[1]').locator('li h3').allTextContents();
-  ok(JSON.stringify(titulos) === JSON.stringify(['Visão Computacional Embarcada', 'IoT Industrial com IA']), `CEN-006 filtro trilha+nível → ${titulos.join(', ')}`);
-  await p.getByRole('group', { name: 'Filtrar por trilha' }).getByRole('button', { name: 'Fundamentos de IA' }).click();
+  ok(JSON.stringify(titulos) === JSON.stringify(['Agentes de IA com Supervisão', 'Squads de Agentes para Equipes']), `CEN-006 filtro trilha+nível → ${titulos.join(', ')}`);
+  await p.getByRole('group', { name: 'Filtrar por trilha' }).getByRole('button', { name: 'Começar com IA' }).click();
   ok(await p.getByText('Nenhum curso com esses filtros.').isVisible(), 'CEN-006 filtro sem resultado mostra mensagem');
   await p.getByRole('button', { name: 'Limpar filtros' }).click();
-  ok((await p.locator('#titulo-lista').locator('xpath=ancestor::section[1]').locator('li h3').count()) === 14, 'CEN-006 Limpar filtros volta aos 14 cursos');
+  ok((await p.locator('#titulo-lista').locator('xpath=ancestor::section[1]').locator('li h3').count()) === 9, 'CEN-006 Limpar filtros volta aos 9 cursos');
 
-  // link direto /cursos#tinyml abre o painel
+  // link direto /cursos#agentes-supervisionados abre o painel
   p = await nova();
-  await p.goto(B + '/cursos?sem-abertura#tinyml', { waitUntil: 'load' });
+  await p.goto(B + '/cursos?sem-abertura#agentes-supervisionados', { waitUntil: 'load' });
   await p.waitForTimeout(1500);
-  ok(await p.getByRole('dialog', { name: 'Edge AI com TinyML' }).isVisible(), 'link direto #curso abre o painel');
+  ok(await p.getByRole('dialog', { name: 'Agentes de IA com Supervisão' }).isVisible(), 'link direto #curso abre o painel');
 
   // CEN-008 formulário sem nome não envia
   await p.goto(B + '/?sem-abertura#contato', { waitUntil: 'load' });

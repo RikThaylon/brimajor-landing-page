@@ -141,10 +141,10 @@ export function ChamadaCursos({ catalogo }: { catalogo: Catalogo }) {
         <div>
           <h2 className="rotulo-secao"><span className="pad" />06 — Cursos e treinamentos</h2>
           <TituloRevelado id="titulo-chamada-cursos" className="mt-6 font-display text-[clamp(2.2rem,5vw,4.2rem)] font-semibold leading-[1] tracking-tight">
-            Aprenda IA com quem constrói IA.
+            IA que entra na rotina da equipe.
           </TituloRevelado>
           <p className="mt-6 max-w-lg leading-relaxed text-suave">
-            Um mapa de cursos em trilhas — do primeiro contato com IA até modelos rodando dentro de microcontroladores. Turmas abertas em Manaus, online ao vivo ou in-company.
+            Trilhas para empresas iniciantes e intermediárias, sem exigir programação. Para equipes mais maduras, avançamos em agentes supervisionados e squads de agentes sob medida.
           </p>
           <Revelar emSequencia className="mt-10 space-y-3">
             {catalogo.trilhas.map((t) => {

@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { catalogoLocal } from "@/lib/cursos/catalogo-local";
 import { carregarCatalogo, mensagemSegura, type FonteCatalogo } from "@/lib/cursos/repositorio";
 
-const trilhasDb = [{ id: "fundamentos", nome: "Fundamentos de IA", descricao: "d", cor: "#33AAFF", ordem: 1 }];
+const trilhasDb = [{ id: "fundamentos", nome: "Começar com IA", descricao: "d", cor: "#33AAFF", ordem: 1 }];
 const cursosDb = [
   { id: "a", trilha_id: "fundamentos", titulo: "A", resumo: "", nivel: "iniciante", carga_horaria: null, modalidades: ["online"], topicos: [], status: "inscricoes_abertas", ordem: 1 },
   { id: "b", trilha_id: "fundamentos", titulo: "B", resumo: "", nivel: "avancado", carga_horaria: 8, modalidades: [], topicos: [], status: "encerrado", ordem: 2 },

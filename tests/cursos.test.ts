@@ -61,7 +61,7 @@ describe("catálogo", () => {
 
   it("filtra por trilha e nível — covers: CEN-006", () => {
     const r = filtrarCursos(catalogoLocal.cursos, { trilha: "embarcada", nivel: "avancado" });
-    expect(r.map((c) => c.id)).toEqual(["visao-embarcada", "iot-industrial-ia"]);
+    expect(r.map((c) => c.id)).toEqual(["agentes-supervisionados", "squads-agentes-equipes"]);
     expect(filtrarCursos(catalogoLocal.cursos, {})).toHaveLength(catalogoLocal.cursos.length);
   });
 

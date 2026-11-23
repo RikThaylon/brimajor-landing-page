@@ -42,21 +42,27 @@ O [Blueprint](render.yaml) fica na raiz do repositório.
 
 > No plano gratuito a Render "dorme" sem acesso e a primeira visita pode levar 30–60 s.
 
-## Cursos: como editar na Neon
+## Cursos e materiais de capacitação
 
-Projeto **`brimajor-site`** na Neon, tabelas `trilhas` e `cursos` ([`db/schema.sql`](db/schema.sql)). Os 14 cursos atuais são **de exemplo** ([`db/seed.sql`](db/seed.sql)), todos com status `em_breve`. Para trocar pelos reais, use o **SQL Editor** da Neon:
+O catálogo tem **9 capacitações empresariais em 4 trilhas de maturidade**: Começar com IA, Engenharia de Contexto, IA nos Processos e Agentes e Squads. O foco é aplicação prática sem exigir programação; os cursos avançados tratam de agentes supervisionados e montagem de squads para equipes.
+
+- Apostila curta: [`materiais/capacitacao-ia-empresas/apostila-ia-na-pratica.pdf`](materiais/capacitacao-ia-empresas/apostila-ia-na-pratica.pdf)
+- Apresentação: [`materiais/capacitacao-ia-empresas/apresentacao-ia-na-pratica.pptx`](materiais/capacitacao-ia-empresas/apresentacao-ia-na-pratica.pptx)
+- Fontes e instruções de regeneração: [`materiais/capacitacao-ia-empresas/README.md`](materiais/capacitacao-ia-empresas/README.md)
+
+O catálogo publicado vem do projeto **`brimajor-site`** na Neon, tabelas `trilhas` e `cursos` ([`db/schema.sql`](db/schema.sql)). O conteúdo inicial está em [`db/seed.sql`](db/seed.sql), com status `em_breve`. Para administrar as turmas, use o **SQL Editor** da Neon:
 
 ```sql
 -- abrir inscrições de um curso e definir a carga horária
-update cursos set status = 'inscricoes_abertas', carga_horaria = 16 where id = 'engenharia-de-prompt';
+update cursos set status = 'inscricoes_abertas', carga_horaria = 4 where id = 'engenharia-contexto';
 
 -- novo curso
 insert into cursos (id, trilha_id, titulo, resumo, nivel, modalidades, topicos, status, ordem)
-values ('chatgpt-para-vendas', 'negocios', 'ChatGPT para Vendas', 'Prospecção e atendimento com IA.',
-        'iniciante', '{online,in_company}', '{"Prompts de vendas","Roteiros","Follow-up"}', 'em_breve', 5);
+values ('ia-para-vendas', 'dev', 'IA para Vendas', 'Aplicação supervisionada de IA no processo comercial.',
+        'intermediario', '{online,in_company}', '{"Contexto comercial","Roteiros","Revisão humana"}', 'em_breve', 4);
 
 -- tirar do site
-update cursos set status = 'encerrado' where id = 'ia-do-zero';
+update cursos set status = 'encerrado' where id = 'uso-seguro-ia';
 ```
 
 - `nivel`: `iniciante`, `intermediario` ou `avancado` · `status`: `em_breve` (botão "Quero ser avisado"), `inscricoes_abertas` ("Quero me inscrever") ou `encerrado` (some do site) · `modalidades`: `presencial`, `online`, `in_company`.
