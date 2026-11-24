@@ -1,4 +1,5 @@
 // Conteúdo institucional do site. Textos do site anterior (brimajor-landing-page) revisados e ampliados.
+import { ACADEMY_URL } from "./cursos/academy";
 
 export const empresa = {
   nome: "Brimajor",
@@ -6,7 +7,7 @@ export const empresa = {
   cnpj: "67.072.659/0001-24",
   cidade: "Manaus — Amazonas",
   instagram: { usuario: "@brimajor_ia", url: "https://instagram.com/brimajor_ia" },
-  academy: { rotulo: "Área do aluno", url: "https://brimajor-academy.onrender.com/auth/sign-in" },
+  academy: { rotulo: "Área do aluno", url: new URL("auth/sign-in", ACADEMY_URL).href },
   url: "https://brimajor.onrender.com",
   descricao:
     "Prototipagem ágil, sistemas embarcados e inteligência artificial em Manaus/AM. Protótipos que provam viabilidade antes do grande investimento — e cursos de IA para pessoas e equipes.",
@@ -14,7 +15,7 @@ export const empresa = {
 
 export const navegacao = [
   { href: "/", rotulo: "Início" },
-  { href: "/cursos", rotulo: "Cursos de IA" },
+  { href: ACADEMY_URL, rotulo: "Cursos de IA" },
   { href: "/squad", rotulo: "Squads sob medida" },
   { href: "/estoque", rotulo: "Kanban Estoque" },
   { href: "/iniciacoes", rotulo: "Iniciações" },

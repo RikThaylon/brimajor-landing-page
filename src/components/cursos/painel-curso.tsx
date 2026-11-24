@@ -78,7 +78,7 @@ export function PainelCurso({ curso, trilha, aoFechar }: { curso: Curso; trilha?
                   <GraduationCap className="h-5 w-5" /> Conhecer na Academy
                 </a>
                 <p className="text-center text-xs leading-relaxed text-apagado">
-                  R$ 297,90 por pessoa. Inclui apostila, apresentação, acesso permanente e três meses de mentoria.
+                  Inclui apostila, apresentação, acesso permanente e três meses de mentoria.
                 </p>
               </>
             ) : (

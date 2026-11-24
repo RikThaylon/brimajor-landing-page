@@ -1,4 +1,4 @@
-export const ACADEMY_URL = "https://brimajor-academy.onrender.com";
+export const ACADEMY_URL = "https://brimajor-academy.onrender.com/";
 
 const PRODUTO_POR_CURSO: Readonly<Record<string, string>> = {
   "ia-na-pratica-empresas": "MOD-01",
@@ -9,10 +9,10 @@ const PRODUTO_POR_CURSO: Readonly<Record<string, string>> = {
 };
 
 export function codigoProdutoAcademy(cursoId: string): string | null {
-  return PRODUTO_POR_CURSO[cursoId] ?? null;
+  return Object.hasOwn(PRODUTO_POR_CURSO, cursoId) ? PRODUTO_POR_CURSO[cursoId] : null;
 }
 
 export function linkCompraAcademy(cursoId: string): string | null {
   const codigo = codigoProdutoAcademy(cursoId);
-  return codigo ? `${ACADEMY_URL}/comprar/${codigo}` : null;
+  return codigo ? new URL(`comprar/${codigo}`, ACADEMY_URL).href : null;
 }

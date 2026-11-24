@@ -18,3 +18,6 @@ npm-debug.log*
 # estado assinado da Squad (a chave HMAC é por máquina)
 /docs/checkpoints/
 /docs/evidence/quality/
+
+# Material de aula legado. A distribuição dos módulos pertence à Academy privada.
+/materiais/capacitacao-ia-empresas/

@@ -7,6 +7,7 @@ import Link from "next/link";
 import { Cena3D } from "@/components/tres/cena-3d";
 import { CartaoHolofote } from "@/components/ui/cartao-holofote";
 import { iniciacoes, manifesto } from "@/lib/conteudo";
+import { ACADEMY_URL } from "@/lib/cursos/academy";
 import type { Catalogo } from "@/lib/cursos/tipos";
 
 export function Manifesto({ totalCursos }: { totalCursos: number }) {
@@ -158,10 +159,14 @@ export function ChamadaCursos({ catalogo }: { catalogo: Catalogo }) {
               );
             })}
           </Revelar>
-          <Link href="/cursos" className="group mt-12 inline-flex items-center gap-2 rounded-full bg-primaria px-6 py-3.5 text-sm font-semibold text-white shadow-[0_0_40px_-8px_rgba(0,102,255,0.9)] transition-transform hover:-translate-y-0.5">
-            Abrir o mapa de cursos
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
-          </Link>
+          <div className="mt-12 flex flex-wrap items-center gap-4">
+            <a href={ACADEMY_URL} className="inline-flex items-center rounded-full bg-primaria px-6 py-3.5 text-sm font-semibold text-white shadow-[0_0_40px_-8px_rgba(0,102,255,0.9)] transition-transform hover:-translate-y-0.5">
+              Ver cursos na Academy
+            </a>
+            <Link href="/cursos" className="rounded-full px-3 py-3 text-sm font-medium text-neon hover:underline">
+              Mapa das trilhas
+            </Link>
+          </div>
         </div>
       </div>
     </section>

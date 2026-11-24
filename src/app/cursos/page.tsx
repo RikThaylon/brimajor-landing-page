@@ -6,7 +6,7 @@ import { MapaCursos } from "@/components/cursos/mapa-cursos";
 import { Foto } from "@/components/foto";
 import { Cena3D } from "@/components/tres/cena-3d";
 import { Icone, IconeWhatsApp } from "@/components/ui/icone";
-import { formatosTreinamento } from "@/lib/conteudo";
+import { empresa, formatosTreinamento } from "@/lib/conteudo";
 import { ACADEMY_URL } from "@/lib/cursos/academy";
 import type { Catalogo } from "@/lib/cursos/tipos";
 import { getCatalogo } from "@/lib/cursos/repositorio";
@@ -78,10 +78,10 @@ function SecaoMapa({ catalogo }: { catalogo: Catalogo }) {
           <div className="flex items-start gap-3">
             <Info className="mt-0.5 h-5 w-5 flex-none text-neon" aria-hidden="true" />
             <p>
-              <strong className="font-semibold text-texto">Cinco módulos disponíveis.</strong> Cada compra inclui apostila em PDF, apresentação em PPTX, acesso permanente e três meses de mentoria. Preço de lançamento: <strong className="font-semibold text-texto">R$ 297,90 por pessoa, por módulo</strong>.
+              <strong className="font-semibold text-texto">Cinco módulos disponíveis.</strong> Cada módulo inclui apostila em PDF, apresentação em PPTX, acesso permanente e três meses de mentoria. Confira os valores na <a href={ACADEMY_URL} className="font-semibold text-neon underline underline-offset-2">Brimajor Academy</a>.
             </p>
           </div>
-          <a href={`${ACADEMY_URL}/auth/sign-in`} className="inline-flex flex-none items-center justify-center gap-2 rounded-full bg-neon px-5 py-3 font-semibold text-black transition-transform hover:-translate-y-0.5">
+          <a href={empresa.academy.url} className="inline-flex flex-none items-center justify-center gap-2 rounded-full bg-neon px-5 py-3 font-semibold text-black transition-transform hover:-translate-y-0.5">
             <GraduationCap className="h-5 w-5" aria-hidden="true" /> Área do aluno
           </a>
         </div>

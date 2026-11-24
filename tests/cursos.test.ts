@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { empresa, navegacao } from "@/lib/conteudo";
 import { codigoProdutoAcademy, linkCompraAcademy } from "@/lib/cursos/academy";
 import { catalogoLocal } from "@/lib/cursos/catalogo-local";
 import { filtrarCursos } from "@/lib/cursos/filtro";
@@ -74,6 +75,14 @@ describe("catálogo", () => {
       "https://brimajor-academy.onrender.com/comprar/MOD-05",
     );
     expect(linkCompraAcademy("curso-inexistente")).toBeNull();
+    expect(linkCompraAcademy("constructor")).toBeNull();
+  });
+
+  it("o menu abre o catálogo público e a área do aluno leva ao login", () => {
+    expect(navegacao.find((item) => item.rotulo === "Cursos de IA")?.href).toBe(
+      "https://brimajor-academy.onrender.com/",
+    );
+    expect(empresa.academy.url).toBe("https://brimajor-academy.onrender.com/auth/sign-in");
   });
 
   it("filtro sem resultado devolve lista vazia — covers: CEN-006", () => {
