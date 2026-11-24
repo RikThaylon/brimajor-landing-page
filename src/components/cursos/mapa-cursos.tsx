@@ -277,13 +277,10 @@ function ListaCursos({ catalogo, porTrilha, abrir }: { catalogo: Catalogo; porTr
                     <span className="rounded-full bg-neon/10 px-3 py-1 text-neon">{ROTULO_STATUS[curso.status]}</span>
                   </p>
                   <div className="mt-6 flex flex-wrap items-center gap-3">
-                    <button type="button" onClick={() => abrir(curso)} className="inline-flex items-center gap-1.5 rounded-full border border-linha-forte px-4 py-2.5 text-sm hover:border-neon">
-                      Ver detalhes
-                    </button>
                     {academyHref ? (
-                      <a href={academyHref} className="inline-flex items-center gap-1.5 rounded-full px-2 py-2.5 text-sm font-medium text-neon hover:underline">
-                        <GraduationCap className="h-4 w-4" /> Conhecer módulo
-                        <span className="sr-only"> — {curso.titulo}</span>
+                      <a href={academyHref} className="inline-flex min-h-11 items-center gap-1.5 rounded-full bg-neon px-4 py-2.5 text-sm font-semibold text-black hover:bg-neon/90">
+                        <GraduationCap className="h-4 w-4" aria-hidden="true" /> Ver matrícula na Academy
+                        <span className="sr-only"> de {curso.titulo}</span>
                       </a>
                     ) : (
                       <a href={linkWhatsApp(mensagemCurso(curso, t))} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 rounded-full px-2 py-2.5 text-sm font-medium text-whatsapp hover:underline">
@@ -291,6 +288,9 @@ function ListaCursos({ catalogo, porTrilha, abrir }: { catalogo: Catalogo; porTr
                         <span className="sr-only"> — {curso.titulo}</span>
                       </a>
                     )}
+                    <button type="button" onClick={() => abrir(curso)} className="inline-flex min-h-11 items-center rounded-full px-2 py-2.5 text-sm font-medium text-suave underline underline-offset-4 hover:text-white">
+                      Ver detalhes<span className="sr-only"> de {curso.titulo}</span>
+                    </button>
                   </div>
                 </div>
               </li>

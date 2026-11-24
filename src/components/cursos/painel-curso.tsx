@@ -75,7 +75,8 @@ export function PainelCurso({ curso, trilha, aoFechar }: { curso: Curso; trilha?
             {academyHref ? (
               <>
                 <a href={academyHref} className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-neon px-6 py-4 font-semibold text-black transition-transform hover:-translate-y-0.5">
-                  <GraduationCap className="h-5 w-5" /> Conhecer na Academy
+                  <GraduationCap className="h-5 w-5" aria-hidden="true" /> Ver matrícula na Academy
+                  <span className="sr-only"> de {curso.titulo}</span>
                 </a>
                 <p className="text-center text-xs leading-relaxed text-apagado">
                   Inclui apostila, apresentação, acesso permanente e três meses de mentoria.

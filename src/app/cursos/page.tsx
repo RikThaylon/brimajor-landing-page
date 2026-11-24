@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { GraduationCap, Info } from "lucide-react";
+import { Info } from "lucide-react";
 import { Revelar } from "@/components/animacao/revelar";
 import { TituloRevelado } from "@/components/animacao/titulo-revelado";
 import { MapaCursos } from "@/components/cursos/mapa-cursos";
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 
 const passos = [
   { n: "01", titulo: "Escolha o módulo", texto: "Compare nível, carga horária, conteúdo e a entrega prática de cada um dos cinco módulos." },
-  { n: "02", titulo: "Acesse a Academy", texto: "Entre com Google usando o mesmo e-mail da compra para manter o acesso individual protegido." },
+  { n: "02", titulo: "Confira a matrícula", texto: "Na Academy, confira o valor e a disponibilidade do módulo. Quando o pagamento estiver aberto, entre com Google e pague no Mercado Pago." },
   { n: "03", titulo: "Receba o material", texto: "Após a confirmação do pagamento, a apostila e a apresentação aparecem na sua área do aluno." },
 ];
 
@@ -50,6 +50,14 @@ function HeroCursos({ catalogo }: { catalogo: Catalogo }) {
           <Revelar efeito="desfoque" atraso={0.4} className="mt-7 max-w-xl text-lg leading-relaxed text-suave">
             <p>Quatro trilhas por nível de maturidade: do primeiro uso seguro à engenharia de contexto, à melhoria de processos e aos agentes. Programação não é pré-requisito.</p>
           </Revelar>
+          <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-2">
+            <a href={`${ACADEMY_URL}#formacao`} className="inline-flex min-h-11 items-center justify-center rounded-full bg-neon px-6 py-3 font-semibold text-black transition-transform hover:-translate-y-0.5">
+              Escolher módulo na Academy
+            </a>
+            <a href={empresa.academy.url} className="inline-flex min-h-11 items-center text-sm font-semibold text-suave underline underline-offset-4 hover:text-white">
+              Já sou aluno
+            </a>
+          </div>
           <Revelar emSequencia atraso={0.6} className="mt-8 flex flex-wrap gap-x-6 gap-y-3">
             {catalogo.trilhas.map((t) => (
               <span data-item key={t.id} className="inline-flex items-center gap-2 text-sm">
@@ -74,16 +82,11 @@ function SecaoMapa({ catalogo }: { catalogo: Catalogo }) {
   return (
     <section aria-labelledby="titulo-mapa" className="py-16 md:py-24">
       <div className="container-site">
-        <div className="mb-10 flex flex-col gap-5 rounded-2xl border border-neon/25 bg-neon/5 p-5 text-sm leading-relaxed text-suave md:flex-row md:items-center md:justify-between">
-          <div className="flex items-start gap-3">
-            <Info className="mt-0.5 h-5 w-5 flex-none text-neon" aria-hidden="true" />
-            <p>
-              <strong className="font-semibold text-texto">Cinco módulos disponíveis.</strong> Cada módulo inclui apostila em PDF, apresentação em PPTX, acesso permanente e três meses de mentoria. Confira os valores na <a href={ACADEMY_URL} className="font-semibold text-neon underline underline-offset-2">Brimajor Academy</a>.
-            </p>
-          </div>
-          <a href={empresa.academy.url} className="inline-flex flex-none items-center justify-center gap-2 rounded-full bg-neon px-5 py-3 font-semibold text-black transition-transform hover:-translate-y-0.5">
-            <GraduationCap className="h-5 w-5" aria-hidden="true" /> Área do aluno
-          </a>
+        <div className="mb-10 flex items-start gap-3 rounded-2xl border border-neon/25 bg-neon/5 p-5 leading-relaxed text-suave">
+          <Info className="mt-0.5 h-5 w-5 flex-none text-neon" aria-hidden="true" />
+          <p>
+            <strong className="font-semibold text-texto">Explore os cinco módulos no mapa.</strong> Cada matrícula inclui apostila em PDF, apresentação em PPTX e três meses de mentoria. Selecione um módulo para ver seu conteúdo, valor e condições de matrícula na Academy.
+          </p>
         </div>
         <h2 id="titulo-mapa" className="sr-only">Mapa das trilhas</h2>
         <MapaCursos catalogo={catalogo} />
@@ -129,7 +132,7 @@ function SecaoInscricao() {
       <div className="container-site">
         <p className="rotulo-secao"><span className="pad" />Como se inscrever</p>
         <TituloRevelado id="titulo-inscricao" className="mt-6 max-w-3xl font-display text-[clamp(2rem,4.4vw,3.4rem)] font-semibold leading-[1.02] tracking-tight">
-          Três passos e você está na turma.
+          Da escolha do módulo ao primeiro acesso.
         </TituloRevelado>
         <Revelar como="ol" emSequencia className="mt-12 grid gap-5 md:grid-cols-3">
           {passos.map((p) => (
