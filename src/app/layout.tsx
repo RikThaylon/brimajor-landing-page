@@ -31,7 +31,7 @@ export const viewport: Viewport = { themeColor: "#02050c", colorScheme: "dark" }
 
 // Roda antes da primeira pintura: decide se há movimento e se a abertura aparece (uma vez por sessão).
 // Se o JavaScript do site não hidratar em 6 s, libera todo o conteúdo escondido para animação.
-const scriptInicial = `(function(){try{var d=document.documentElement;var r=window.matchMedia('(prefers-reduced-motion: reduce)').matches;d.dataset.movimento=r?'reduzido':'ok';var v=null;try{v=sessionStorage.getItem('brimajor-abertura')}catch(e){}if(!r&&!v&&!/[?&]sem-abertura/.test(location.search)){d.dataset.abertura='mostrar'}setTimeout(function(){if(!window.__brimajorPronto){d.dataset.movimento='falhou';d.dataset.abertura=''}},6000)}catch(e){}})();`;
+const scriptInicial = `(function(){try{var d=document.documentElement;var r=window.matchMedia('(prefers-reduced-motion: reduce)').matches;d.dataset.movimento=r?'reduzido':'ok';var v=null;try{v=sessionStorage.getItem('brimajor-abertura')}catch(e){}if(!r&&!v&&!location.hash&&!/[?&]sem-abertura/.test(location.search)){d.dataset.abertura='mostrar'}setTimeout(function(){if(!window.__brimajorPronto){d.dataset.movimento='falhou';d.dataset.abertura=''}},6000)}catch(e){}})();`;
 
 export default function LayoutRaiz({ children }: { children: React.ReactNode }) {
   return (

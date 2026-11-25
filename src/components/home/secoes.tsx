@@ -3,6 +3,7 @@ import { Contador, Letreiro, TextoAceso } from "@/components/animacao/efeitos";
 import { Revelar } from "@/components/animacao/revelar";
 import { TituloRevelado } from "@/components/animacao/titulo-revelado";
 import { Foto } from "@/components/foto";
+import { VideoImobiliario } from "@/components/home/video-imobiliario";
 import Link from "next/link";
 import { Cena3D } from "@/components/tres/cena-3d";
 import { CartaoHolofote } from "@/components/ui/cartao-holofote";
@@ -88,57 +89,41 @@ export function Solucoes() {
               </Link>
             </div>
           </CartaoHolofote>
-          <CartaoHolofote className="p-8 md:p-10 lg:col-span-2">
-            <article id="visualizacao-imobiliaria" data-item aria-labelledby="titulo-visualizacao-imobiliaria" className="relative grid scroll-mt-28 gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
-              <div>
-                <p className="font-mono text-xs uppercase tracking-[0.15em] text-ciano">Visualização imobiliária · Sob orçamento</p>
-                <h3 id="titulo-visualizacao-imobiliaria" className="mt-5 font-display text-3xl font-semibold tracking-tight md:text-4xl">Da planta à apresentação do imóvel em 3D.</h3>
-                <p className="mt-5 max-w-xl leading-relaxed text-suave">
-                  Criamos visualizações e vídeos de apresentação a partir da planta do imóvel para ajudar imobiliárias, corretores e construtoras a mostrar ambientes aos seus clientes.
-                </p>
-                <p className="mt-4 max-w-xl leading-relaxed text-suave">
-                  Podemos conversar sobre um tour interativo, os ambientes, a mobília e a iluminação desejados. O formato e o orçamento são definidos conforme o projeto.
-                </p>
-                <a href={linkWhatsApp("Olá, Brimajor! Gostaria de solicitar um orçamento para uma visualização 3D ou vídeo de apresentação de imóvel a partir de uma planta.")} target="_blank" rel="noopener noreferrer" className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-primaria px-6 py-3 font-semibold text-white transition-colors hover:bg-neon">
-                  Solicitar orçamento
-                </a>
-                <p className="mt-3 text-sm text-apagado">A conversa continua pelo WhatsApp.</p>
-              </div>
-              <div className="rounded-2xl border border-linha-forte bg-fundo/60 p-6 md:p-7">
-                <h4 className="font-display text-xl font-semibold">Como podemos apresentar seu projeto</h4>
-                <ul className="mt-6 space-y-5">
-                  <li className="flex gap-4">
-                    <FileImage className="mt-1 h-5 w-5 shrink-0 text-ciano" aria-hidden="true" />
-                    <div><strong className="font-medium text-texto">Planta e referências</strong><p className="mt-1 text-sm leading-relaxed text-suave">Compartilhe a planta, as medidas disponíveis e o estilo desejado.</p></div>
-                  </li>
-                  <li className="flex gap-4">
-                    <Box className="mt-1 h-5 w-5 shrink-0 text-ciano" aria-hidden="true" />
-                    <div><strong className="font-medium text-texto">Ambientes em 3D</strong><p className="mt-1 text-sm leading-relaxed text-suave">Planejamos a visualização dos espaços com materiais e iluminação adequados ao projeto.</p></div>
-                  </li>
-                  <li className="flex gap-4">
-                    <Clapperboard className="mt-1 h-5 w-5 shrink-0 text-ciano" aria-hidden="true" />
-                    <div><strong className="font-medium text-texto">Vídeo ou tour</strong><p className="mt-1 text-sm leading-relaxed text-suave">Definimos a apresentação que você poderá compartilhar com seus clientes.</p></div>
-                  </li>
-                </ul>
-              </div>
-              <figure className="min-w-0 lg:col-span-2">
-                <figcaption className="mb-4">
-                  <h4 className="font-display text-xl font-semibold">Conheça a visualização imobiliária</h4>
-                  <p className="mt-2 text-sm leading-relaxed text-suave">Uma apresentação breve do serviço da Brimajor. Imagens ilustrativas.</p>
-                </figcaption>
-                <video className="aspect-video w-full rounded-2xl border border-linha-forte bg-fundo object-contain" controls preload="none" playsInline poster="/videos/visualizacao-imobiliaria-capa.webp" aria-label="Vídeo de apresentação da visualização imobiliária">
-                  <source src="/videos/visualizacao-imobiliaria.mp4" type="video/mp4" />
-                  <track kind="captions" src="/videos/visualizacao-imobiliaria.vtt" srcLang="pt-BR" label="Português" default />
-                  Seu navegador não suporta a reprodução de vídeo.
-                </video>
-                <details className="mt-4 text-sm leading-relaxed text-suave">
-                  <summary className="w-fit cursor-pointer py-2 font-medium text-neon">Ler a transcrição do vídeo</summary>
-                  <p className="mt-2 max-w-3xl">Já imaginou apresentar um imóvel antes mesmo de ele ficar pronto? A Brimajor transforma sua planta em uma visualização em três dimensões, ajudando seu cliente a entender cada ambiente. Para imobiliárias, corretores e construtoras. Envie sua planta e peça um orçamento.</p>
-                </details>
-              </figure>
-            </article>
-          </CartaoHolofote>
         </Revelar>
+        <article id="visualizacao-imobiliaria" aria-labelledby="titulo-visualizacao-imobiliaria" className="cartao mt-6 grid scroll-mt-28 gap-8 p-5 sm:p-8 lg:grid-cols-[0.85fr_1.25fr] lg:gap-12 lg:p-10">
+          <div>
+            <p className="font-mono text-xs uppercase tracking-[0.15em] text-ciano">Visualização imobiliária · Sob orçamento</p>
+            <h3 id="titulo-visualizacao-imobiliaria" className="mt-5 font-display text-3xl font-semibold tracking-tight md:text-4xl">Da planta à apresentação do imóvel em 3D.</h3>
+            <p className="mt-5 max-w-xl leading-relaxed text-suave">
+              Criamos visualizações e vídeos de apresentação a partir da planta do imóvel para ajudar imobiliárias, corretores e construtoras a mostrar ambientes aos seus clientes.
+            </p>
+            <p className="mt-4 max-w-xl leading-relaxed text-suave">
+              Podemos conversar sobre um tour interativo, os ambientes, a mobília e a iluminação desejados. O formato e o orçamento são definidos conforme o projeto.
+            </p>
+            <a href={linkWhatsApp("Olá, Brimajor! Gostaria de solicitar um orçamento para uma visualização 3D ou vídeo de apresentação de imóvel a partir de uma planta.")} target="_blank" rel="noopener noreferrer" className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-primaria px-6 py-3 font-semibold text-white transition-colors hover:bg-neon">
+              Solicitar orçamento
+            </a>
+            <p className="mt-3 text-sm text-apagado">A conversa continua pelo WhatsApp.</p>
+          </div>
+          <VideoImobiliario />
+          <div className="border-t border-linha-forte pt-6 lg:col-span-2">
+            <h4 className="font-display text-xl font-semibold">Como podemos apresentar seu projeto</h4>
+            <ul className="mt-6 grid gap-5 md:grid-cols-3 md:gap-8">
+              <li className="flex gap-4">
+                <FileImage className="mt-1 h-5 w-5 shrink-0 text-ciano" aria-hidden="true" />
+                <div><strong className="font-medium text-texto">Planta e referências</strong><p className="mt-1 text-sm leading-relaxed text-suave">Compartilhe a planta, as medidas disponíveis e o estilo desejado.</p></div>
+              </li>
+              <li className="flex gap-4">
+                <Box className="mt-1 h-5 w-5 shrink-0 text-ciano" aria-hidden="true" />
+                <div><strong className="font-medium text-texto">Ambientes em 3D</strong><p className="mt-1 text-sm leading-relaxed text-suave">Planejamos a visualização dos espaços com materiais e iluminação adequados ao projeto.</p></div>
+              </li>
+              <li className="flex gap-4">
+                <Clapperboard className="mt-1 h-5 w-5 shrink-0 text-ciano" aria-hidden="true" />
+                <div><strong className="font-medium text-texto">Vídeo ou tour</strong><p className="mt-1 text-sm leading-relaxed text-suave">Definimos a apresentação que você poderá compartilhar com seus clientes.</p></div>
+              </li>
+            </ul>
+          </div>
+        </article>
       </div>
     </section>
   );
