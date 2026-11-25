@@ -1,4 +1,4 @@
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Box, Clapperboard, FileImage } from "lucide-react";
 import { Contador, Letreiro, TextoAceso } from "@/components/animacao/efeitos";
 import { Revelar } from "@/components/animacao/revelar";
 import { TituloRevelado } from "@/components/animacao/titulo-revelado";
@@ -9,6 +9,7 @@ import { CartaoHolofote } from "@/components/ui/cartao-holofote";
 import { iniciacoes, manifesto } from "@/lib/conteudo";
 import { ACADEMY_URL } from "@/lib/cursos/academy";
 import type { Catalogo } from "@/lib/cursos/tipos";
+import { linkWhatsApp } from "@/lib/whatsapp";
 
 export function Manifesto({ totalCursos }: { totalCursos: number }) {
   const numeros = [
@@ -57,7 +58,7 @@ export function Solucoes() {
       <div className="container-site">
         <h2 className="rotulo-secao"><span className="pad" />03 — Produtos e serviços</h2>
         <TituloRevelado id="titulo-solucoes" className="mt-6 max-w-3xl font-display text-[clamp(2rem,4.6vw,3.8rem)] font-semibold leading-[1.02] tracking-tight">
-          Software para a operação e squads para a sua equipe.
+          Tecnologia para sua operação e para apresentar suas ideias.
         </TituloRevelado>
         <Revelar emSequencia className="mt-14 grid gap-6 lg:grid-cols-2">
           <CartaoHolofote className="p-8 md:p-10" >
@@ -86,6 +87,41 @@ export function Solucoes() {
                 Ver como montamos a sua squad <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Link>
             </div>
+          </CartaoHolofote>
+          <CartaoHolofote className="p-8 md:p-10 lg:col-span-2">
+            <article id="visualizacao-imobiliaria" data-item aria-labelledby="titulo-visualizacao-imobiliaria" className="relative grid scroll-mt-28 gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
+              <div>
+                <p className="font-mono text-xs uppercase tracking-[0.15em] text-ciano">Visualização imobiliária · Sob orçamento</p>
+                <h3 id="titulo-visualizacao-imobiliaria" className="mt-5 font-display text-3xl font-semibold tracking-tight md:text-4xl">Da planta à apresentação do imóvel em 3D.</h3>
+                <p className="mt-5 max-w-xl leading-relaxed text-suave">
+                  Criamos visualizações e vídeos de apresentação a partir da planta do imóvel para ajudar imobiliárias, corretores e construtoras a mostrar ambientes aos seus clientes.
+                </p>
+                <p className="mt-4 max-w-xl leading-relaxed text-suave">
+                  Podemos conversar sobre um tour interativo, os ambientes, a mobília e a iluminação desejados. O formato e o orçamento são definidos conforme o projeto.
+                </p>
+                <a href={linkWhatsApp("Olá, Brimajor! Gostaria de solicitar um orçamento para uma visualização 3D ou vídeo de apresentação de imóvel a partir de uma planta.")} target="_blank" rel="noopener noreferrer" className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-primaria px-6 py-3 font-semibold text-white transition-colors hover:bg-neon">
+                  Solicitar orçamento
+                </a>
+                <p className="mt-3 text-sm text-apagado">A conversa continua pelo WhatsApp.</p>
+              </div>
+              <div className="rounded-2xl border border-linha-forte bg-fundo/60 p-6 md:p-7">
+                <h4 className="font-display text-xl font-semibold">Como podemos apresentar seu projeto</h4>
+                <ul className="mt-6 space-y-5">
+                  <li className="flex gap-4">
+                    <FileImage className="mt-1 h-5 w-5 shrink-0 text-ciano" aria-hidden="true" />
+                    <div><strong className="font-medium text-texto">Planta e referências</strong><p className="mt-1 text-sm leading-relaxed text-suave">Compartilhe a planta, as medidas disponíveis e o estilo desejado.</p></div>
+                  </li>
+                  <li className="flex gap-4">
+                    <Box className="mt-1 h-5 w-5 shrink-0 text-ciano" aria-hidden="true" />
+                    <div><strong className="font-medium text-texto">Ambientes em 3D</strong><p className="mt-1 text-sm leading-relaxed text-suave">Planejamos a visualização dos espaços com materiais e iluminação adequados ao projeto.</p></div>
+                  </li>
+                  <li className="flex gap-4">
+                    <Clapperboard className="mt-1 h-5 w-5 shrink-0 text-ciano" aria-hidden="true" />
+                    <div><strong className="font-medium text-texto">Vídeo ou tour</strong><p className="mt-1 text-sm leading-relaxed text-suave">Definimos a apresentação que você poderá compartilhar com seus clientes.</p></div>
+                  </li>
+                </ul>
+              </div>
+            </article>
           </CartaoHolofote>
         </Revelar>
       </div>

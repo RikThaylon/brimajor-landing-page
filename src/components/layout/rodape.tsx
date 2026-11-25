@@ -26,6 +26,9 @@ export function Rodape() {
                 <Link href={item.href} className="text-suave transition-colors hover:text-white">{item.rotulo}</Link>
               </li>
             ))}
+            <li>
+              <Link href="/#visualizacao-imobiliaria" className="text-suave transition-colors hover:text-white">Visualização 3D de imóveis</Link>
+            </li>
           </ul>
         </nav>
 

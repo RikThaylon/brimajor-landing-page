@@ -31,6 +31,7 @@ export const ASSUNTOS_CONTATO = [
   "Treinamento in-company",
   "Kanban Estoque",
   "Montagem de squad de IA",
+  "Visualização 3D de imóvel",
   "Outro assunto",
 ] as const;
 
