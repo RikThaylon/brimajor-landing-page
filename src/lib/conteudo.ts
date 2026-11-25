@@ -3,7 +3,7 @@ import { ACADEMY_URL } from "./cursos/academy";
 
 export const empresa = {
   nome: "Brimajor",
-  razao: "Brimajor Sistemas Embarcados e IA",
+  razao: "Brimajor Inova Simples (I.S.)",
   cnpj: "67.072.659/0001-24",
   cidade: "Manaus — Amazonas",
   instagram: { usuario: "@brimajor_ia", url: "https://instagram.com/brimajor_ia" },
