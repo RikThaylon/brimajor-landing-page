@@ -121,6 +121,21 @@ export function Solucoes() {
                   </li>
                 </ul>
               </div>
+              <figure className="min-w-0 lg:col-span-2">
+                <figcaption className="mb-4">
+                  <h4 className="font-display text-xl font-semibold">Conheça a visualização imobiliária</h4>
+                  <p className="mt-2 text-sm leading-relaxed text-suave">Uma apresentação breve do serviço da Brimajor. Imagens ilustrativas.</p>
+                </figcaption>
+                <video className="aspect-video w-full rounded-2xl border border-linha-forte bg-fundo object-contain" controls preload="none" playsInline poster="/videos/visualizacao-imobiliaria-capa.webp" aria-label="Vídeo de apresentação da visualização imobiliária">
+                  <source src="/videos/visualizacao-imobiliaria.mp4" type="video/mp4" />
+                  <track kind="captions" src="/videos/visualizacao-imobiliaria.vtt" srcLang="pt-BR" label="Português" default />
+                  Seu navegador não suporta a reprodução de vídeo.
+                </video>
+                <details className="mt-4 text-sm leading-relaxed text-suave">
+                  <summary className="w-fit cursor-pointer py-2 font-medium text-neon">Ler a transcrição do vídeo</summary>
+                  <p className="mt-2 max-w-3xl">Já imaginou apresentar um imóvel antes mesmo de ele ficar pronto? A Brimajor transforma sua planta em uma visualização em três dimensões, ajudando seu cliente a entender cada ambiente. Para imobiliárias, corretores e construtoras. Envie sua planta e peça um orçamento.</p>
+                </details>
+              </figure>
             </article>
           </CartaoHolofote>
         </Revelar>
